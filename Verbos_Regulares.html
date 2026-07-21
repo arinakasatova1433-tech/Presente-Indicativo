@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Испанский: интерактивное повторение</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #f5f3ef;
+      padding: 2rem 1rem;
+      color: #1e2b3c;
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: #0b2b40;
+      border-left: 6px solid #c78a4b;
+      padding-left: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .sub {
+      color: #3e5a6b;
+      margin-bottom: 2.5rem;
+      padding-left: 1.8rem;
+      border-bottom: 1px solid #d9d0c0;
+      padding-bottom: 0.7rem;
+      font-size: 1.1rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 28px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04), 0 2px 6px rgba(0,20,30,0.06);
+      padding: 1.8rem 2rem;
+      margin-bottom: 2.5rem;
+      transition: box-shadow 0.2s;
+    }
+    .card:hover { box-shadow: 0 14px 32px rgba(0,0,0,0.07); }
+    .card h2 {
+      font-weight: 600;
+      font-size: 1.6rem;
+      color: #1a3a4a;
+      margin-bottom: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .card h2 small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #5e7a8a;
+    }
+    .desc {
+      color: #3d5b6b;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px dashed #d6cdbb;
+      padding-bottom: 0.7rem;
+      font-size: 1rem;
+    }
+    .question {
+      background: #f4f1ea;
+      padding: 0.9rem 1.4rem;
+      border-radius: 20px;
+      margin-bottom: 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem 1rem;
+      transition: background 0.2s;
+    }
+    .question span.q {
+      font-weight: 500;
+      color: #0d2f3f;
+      min-width: 130px;
+    }
+    .question input[type="text"] {
+      border: 2px solid #d1caba;
+      border-radius: 40px;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      background: white;
+      width: 200px;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+    .question input[type="text"]:focus {
+      border-color: #b48b5a;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(183,139,76,0.2);
+    }
+    .question input[type="text"].short {
+      width: 160px;
+    }
+    .question select {
+      border: 2px solid #d1caba;
+      border-radius: 40px;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      background: white;
+      min-width: 160px;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .options-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.2rem;
+      align-items: center;
+    }
+    .options-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: white;
+      padding: 0.2rem 0.8rem 0.2rem 0.4rem;
+      border-radius: 40px;
+      border: 1px solid #d8cfbe;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .options-group label:hover { background: #efe9de; }
+    .options-group input[type="radio"] {
+      accent-color: #b48b5a;
+      width: 17px;
+      height: 17px;
+      margin-right: 4px;
+    }
+    .btn-check {
+      background: #1e3b4b;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.7rem 2rem;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      margin: 0.5rem 0 0.2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .btn-check:hover { background: #14303e; transform: scale(0.97); }
+    .feedback {
+      margin-top: 1rem;
+      padding: 0.8rem 1.4rem;
+      border-radius: 60px;
+      background: #f0f0ed;
+      font-weight: 500;
+      border-left: 6px solid #b48b5a;
+      display: inline-block;
+    }
+    .feedback.correct { background: #dff0d8; border-left-color: #3c763d; }
+    .feedback.wrong { background: #f8e1e1; border-left-color: #a94442; }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+    .small-note { color: #5b6f7c; font-size: 0.9rem; margin-top: 0.3rem; }
+
+    .match-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem 2rem;
+    }
+    .match-item {
+      background: #f4f1ea;
+      padding: 0.6rem 1.2rem;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      transition: background 0.2s;
+    }
+    .match-item .word {
+      font-weight: 500;
+      color: #0d2f3f;
+      min-width: 80px;
+    }
+    .match-item select {
+      border: 2px solid #d1caba;
+      border-radius: 40px;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.95rem;
+      background: white;
+      min-width: 130px;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    @media (max-width: 700px) { .match-grid { grid-template-columns: 1fr; } }
+
+    .error-sentence {
+      font-style: italic;
+      color: #1a3a4a;
+      background: #faf8f5;
+      padding: 0.2rem 0.8rem;
+      border-radius: 12px;
+      border-left: 3px solid #c78a4b;
+    }
+    .translation-hint {
+      font-size: 0.85rem;
+      color: #5e7a8a;
+      margin-left: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>📘 Repaso interactivo · Español</h1>
+  <div class="sub">Темы: правильные / отклоняющиеся глаголы, лексика, артикли, ser/estar, haber, tener, gustar, указательные</div>
+
+  <!-- ===== БЛОК 1: ПРАВИЛЬНЫЕ ГЛАГОЛЫ ===== -->
+  <div class="card">
+    <h2>📌 Правильные глаголы <small>Presente de Indicativo</small></h2>
+    <div class="desc">Спряжение глаголов: hablar, comer, vivir</div>
+    <div class="two-col">
+      <div>
+        <div class="question"><span class="q">Yo (hablar) _____</span> <input type="text" id="reg1" placeholder=""></div>
+        <div class="question"><span class="q">Tú (hablar) _____</span> <input type="text" id="reg2" placeholder=""></div>
+        <div class="question"><span class="q">Él/Ella (hablar) _____</span> <input type="text" id="reg3" placeholder=""></div>
+        <div class="question"><span class="q">Nosotros (hablar) _____</span> <input type="text" id="reg4" placeholder=""></div>
+        <div class="question"><span class="q">Vosotros (hablar) _____</span> <input type="text" id="reg5" placeholder=""></div>
+        <div class="question"><span class="q">Ellos (hablar) _____</span> <input type="text" id="reg6" placeholder=""></div>
+      </div>
+      <div>
+        <div class="question"><span class="q">Yo (comer) _____</span> <input type="text" id="reg7" placeholder=""></div>
+        <div class="question"><span class="q">Tú (comer) _____</span> <input type="text" id="reg8" placeholder=""></div>
+        <div class="question"><span class="q">Él/Ella (comer) _____</span> <input type="text" id="reg9" placeholder=""></div>
+        <div class="question"><span class="q">Nosotros (comer) _____</span> <input type="text" id="reg10" placeholder=""></div>
+        <div class="question"><span class="q">Vosotros (comer) _____</span> <input type="text" id="reg11" placeholder=""></div>
+        <div class="question"><span class="q">Ellos (comer) _____</span> <input type="text" id="reg12" placeholder=""></div>
+      </div>
+    </div>
+    <button class="btn-check" onclick="checkRegular()">Проверить правильные</button>
+    <div id="feedbackReg" class="feedback"></div>
+  </div>
+
+  <!-- ===== БЛОК 2: ОТКЛОНЯЮЩИЕСЯ ГЛАГОЛЫ ===== -->
+  <div class="card">
+    <h2>🔄 Отклоняющиеся глаголы <small>e→ie, o→ue, u→ue</small></h2>
+    <div class="desc">Pensar, Poder, Dormir, Jugar (u→ue)</div>
+    <div class="two-col">
+      <div>
+        <div class="question"><span class="q">Yo (pensar) _____</span> <input type="text" id="irr1" placeholder=""></div>
+        <div class="question"><span class="q">Tú (pensar) _____</span> <input type="text" id="irr2" placeholder=""></div>
+        <div class="question"><span class="q">Él/Ella (pensar) _____</span> <input type="text" id="irr3" placeholder=""></div>
+        <div class="question"><span class="q">Nosotros (pensar) _____</span> <input type="text" id="irr4" placeholder=""></div>
+        <div class="question"><span class="q">Vosotros (pensar) _____</span> <input type="text" id="irr5" placeholder=""></div>
+        <div class="question"><span class="q">Ellos (pensar) _____</span> <input type="text" id="irr6" placeholder=""></div>
+      </div>
+      <div>
+        <div class="question"><span class="q">Yo (poder) _____</span> <input type="text" id="irr7" placeholder=""></div>
+        <div class="question"><span class="q">Tú (poder) _____</span> <input type="text" id="irr8" placeholder=""></div>
+        <div class="question"><span class="q">Él/Ella (poder) _____</span> <input type="text" id="irr9" placeholder=""></div>
+        <div class="question"><span class="q">Nosotros (poder) _____</span> <input type="text" id="irr10" placeholder=""></div>
+        <div class="question"><span class="q">Vosotros (poder) _____</span> <input type="text" id="irr11" placeholder=""></div>
+        <div class="question"><span class="q">Ellos (poder) _____</span> <input type="text" id="irr12" placeholder=""></div>
+      </div>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:1rem; margin-top:0.5rem;">
+      <div class="question"><span class="q">Yo (dormir) _____</span> <input type="text" id="irr13" placeholder=""></div>
+      <div class="question"><span class="q">Nosotros (dormir) _____</span> <input type="text" id="irr14" placeholder=""></div>
+      <div class="question"><span class="q">Ellos (dormir) _____</span> <input type="text" id="irr15" placeholder=""></div>
+      <div class="question"><span class="q">Yo (jugar) _____</span> <input type="text" id="irr16" placeholder=""></div>
+      <div class="question"><span class="q">Tú (jugar) _____</span> <input type="text" id="irr17" placeholder=""></div>
+      <div class="question"><span class="q">Nosotros (jugar) _____</span> <input type="text" id="irr18" placeholder=""></div>
+    </div>
+    <button class="btn-check" onclick="checkIrregular()">Проверить отклоняющиеся</button>
+    <div id="feedbackIrr" class="feedback"></div>
+  </div>
+
+  <!-- ===== БЛОК 3: СОПОСТАВЛЕНИЕ (лексика) ===== -->
+  <div class="card">
+    <h2>🔀 Испанское слово → перевод <small>сопоставление</small></h2>
+    <div class="desc">Выберите правильный перевод для каждого испанского слова</div>
+    <div class="match-grid" id="vocabMatch"></div>
+    <button class="btn-check" onclick="checkVocabMatch()">Проверить сопоставление</button>
+    <div id="feedbackVoc" class="feedback"></div>
+  </div>
+
+  <!-- ===== БЛОК 4: ВЫБОР (артикли, ser/estar, haber, tener, gustar) ===== -->
+  <div class="card">
+    <h2>🧩 Выбери правильный вариант</h2>
+    <div class="desc">Артикли, ser/estar, haber, tener, gustar, también/tampoco</div>
+    <div id="quiz1">
+      <div class="question"><span class="q">1. _____ casa es grande.</span>
+        <div class="options-group" data-correct="la">
+          <label><input type="radio" name="q1" value="el"> El</label>
+          <label><input type="radio" name="q1" value="la"> La</label>
+          <label><input type="radio" name="q1" value="los"> Los</label>
+          <label><input type="radio" name="q1" value="las"> Las</label>
+        </div>
+      </div>
+      <div class="question"><span class="q">2. Marta _____ muy simpática.</span>
+        <div class="options-group" data-correct="es">
+          <label><input type="radio" name="q2" value="es"> es</label>
+          <label><input type="radio" name="q2" value="está"> está</label>
+          <label><input type="radio" name="q2" value="hay"> hay</label>
+        </div>
+      </div>
+      <div class="question"><span class="q">3. ¿_____ un banco cerca?</span>
+        <div class="options-group" data-correct="hay">
+          <label><input type="radio" name="q3" value="hay"> Hay</label>
+          <label><input type="radio" name="q3" value="está"> Está</label>
+          <label><input type="radio" name="q3" value="tiene"> Tiene</label>
+        </div>
+      </div>
+      <div class="question"><span class="q">4. Yo _____ 20 años.</span>
+        <div class="options-group" data-correct="tengo">
+          <label><input type="radio" name="q4" value="soy"> soy</label>
+          <label><input type="radio" name="q4" value="tengo"> tengo</label>
+          <label><input type="radio" name="q4" value="estoy"> estoy</label>
+        </div>
+      </div>
+      <div class="question"><span class="q">5. A mí me _____ el café.</span>
+        <div class="options-group" data-correct="gusta">
+          <label><input type="radio" name="q5" value="gusta"> gusta</label>
+          <label><input type="radio" name="q5" value="gustan"> gustan</label>
+          <label><input type="radio" name="q5" value="gusto"> gusto</label>
+        </div>
+      </div>
+      <button class="btn-check" onclick="checkQuiz1()">Проверить</button>
+      <div id="feedback1" class="feedback"></div>
+    </div>
+  </div>
+
+  <!-- ===== БЛОК 5: СООТНЕСЕНИЕ (muy/mucho, también/tampoco, указательные) ===== -->
+  <div class="card">
+    <h2>🔗 Соотнеси / выбери</h2>
+    <div class="desc">Muy / Mucho / Poco · También / Tampoco · указательные местоимения</div>
+    <div>
+      <div class="question"><span class="q">📌 Este libro es _____ interesante.</span>
+        <select id="match1"><option value="">—</option><option value="muy">muy</option><option value="mucho">mucho</option><option value="poco">poco</option></select>
+      </div>
+      <div class="question"><span class="q">📌 Tengo _____ amigos en España.</span>
+        <select id="match2"><option value="">—</option><option value="muy">muy</option><option value="muchos">muchos</option><option value="pocos">pocos</option></select>
+      </div>
+      <div class="question"><span class="q">📌 — No me gusta el té. — A mí _____ .</span>
+        <select id="match3"><option value="">—</option><option value="también">también</option><option value="tampoco">tampoco</option></select>
+      </div>
+      <div class="question"><span class="q">📌 _____ chico de ahí es mi hermano.</span>
+        <select id="match4"><option value="">—</option><option value="Este">Este</option><option value="Ese">Ese</option><option value="Aquel">Aquel</option></select>
+      </div>
+      <button class="btn-check" onclick="checkMatch()">Проверить</button>
+      <div id="feedback3" class="feedback"></div>
+    </div>
+  </div>
+
+  <!-- ===== НОВЫЙ БЛОК 6: НАЙДИ ОШИБКУ ===== -->
+  <div class="card">
+    <h2>🔍 Найди ошибку в предложении</h2>
+    <div class="desc">В каждом предложении есть одна ошибка. Напишите правильный вариант.</div>
+    <div id="errorQuiz">
+      <div class="question">
+        <span class="q">1. <span class="error-sentence">El casa es muy grande.</span></span>
+        <input type="text" id="err1" class="short" placeholder="правильный вариант">
+      </div>
+      <div class="question">
+        <span class="q">2. <span class="error-sentence">Yo soy en el parque.</span></span>
+        <input type="text" id="err2" class="short" placeholder="правильный вариант">
+      </div>
+      <div class="question">
+        <span class="q">3. <span class="error-sentence">¿Tiene un banco aquí?</span> (в значении «есть»)</span>
+        <input type="text" id="err3" class="short" placeholder="правильный вариант">
+      </div>
+      <div class="question">
+        <span class="q">4. <span class="error-sentence">Yo tengo 20 años y soy alto.</span> (согласование)</span>
+        <input type="text" id="err4" class="short" placeholder="правильный вариант">
+      </div>
+      <div class="question">
+        <span class="q">5. <span class="error-sentence">A mí me gustan el café.</span></span>
+        <input type="text" id="err5" class="short" placeholder="правильный вариант">
+      </div>
+      <div class="question">
+        <span class="q">6. <span class="error-sentence">Este libro es mucho interesante.</span></span>
+        <input type="text" id="err6" class="short" placeholder="правильный вариант">
+      </div>
+      <div class="question">
+        <span class="q">7. <span class="error-sentence">— No tengo dinero. — Yo también.</span> (согласие с отрицанием)</span>
+        <input type="text" id="err7" class="short" placeholder="правильный вариант">
+      </div>
+      <div class="question">
+        <span class="q">8. <span class="error-sentence">Aquí chico es mi hermano.</span> (указательное)</span>
+        <input type="text" id="err8" class="short" placeholder="правильный вариант">
+      </div>
+      <div class="question">
+        <span class="q">9. <span class="error-sentence">Ellos viven en Madrid y estudian español.</span> (всё верно? найдите ошибку)</span>
+        <input type="text" id="err9" class="short" placeholder="правильный вариант (если есть)">
+      </div>
+      <div class="question">
+        <span class="q">10. <span class="error-sentence">¿A qué hora tú empiezas a trabajar?</span> (порядок слов)</span>
+        <input type="text" id="err10" class="short" placeholder="правильный вариант">
+      </div>
+      <button class="btn-check" onclick="checkErrors()">Проверить ошибки</button>
+      <div id="feedbackErr" class="feedback"></div>
+    </div>
+  </div>
+
+  <!-- ===== НОВЫЙ БЛОК 7: ПЕРЕВОД КОРОТКИХ ПРЕДЛОЖЕНИЙ ===== -->
+  <div class="card">
+    <h2>✍️ Перевод на испанский</h2>
+    <div class="desc">Переведите короткие предложения с русского на испанский</div>
+    <div id="translationQuiz">
+      <div class="question">
+        <span class="q">1. Я говорю по-испански.</span>
+        <input type="text" id="trans1" class="short" placeholder="перевод">
+      </div>
+      <div class="question">
+        <span class="q">2. Мы едим паэлью.</span>
+        <input type="text" id="trans2" class="short" placeholder="перевод">
+      </div>
+      <div class="question">
+        <span class="q">3. Они живут в Барселоне.</span>
+        <input type="text" id="trans3" class="short" placeholder="перевод">
+      </div>
+      <div class="question">
+        <span class="q">4. Ты думаешь, что это легко?</span>
+        <input type="text" id="trans4" class="short" placeholder="перевод">
+      </div>
+      <div class="question">
+        <span class="q">5. Я не могу купить хлеб.</span>
+        <input type="text" id="trans5" class="short" placeholder="перевод">
+      </div>
+      <div class="question">
+        <span class="q">6. Дети спят после обеда.</span>
+        <input type="text" id="trans6" class="short" placeholder="перевод">
+      </div>
+      <div class="question">
+        <span class="q">7. У меня есть два брата.</span>
+        <input type="text" id="trans7" class="short" placeholder="перевод">
+      </div>
+      <div class="question">
+        <span class="q">8. Мне нравится этот фильм.</span>
+        <input type="text" id="trans8" class="short" placeholder="перевод">
+      </div>
+      <div class="question">
+        <span class="q">9. Сегодня понедельник.</span>
+        <input type="text" id="trans9" class="short" placeholder="перевод">
+      </div>
+      <div class="question">
+        <span class="q">10. Который час? — 8:30.</span>
+        <input type="text" id="trans10" class="short" placeholder="перевод">
+      </div>
+      <button class="btn-check" onclick="checkTranslations()">Проверить перевод</button>
+      <div id="feedbackTrans" class="feedback"></div>
+    </div>
+  </div>
+
+  <!-- ===== БЛОК 8: ТЕКСТ + ВОПРОСЫ ===== -->
+  <div class="card">
+    <h2>📖 Текст + вопросы</h2>
+    <div class="desc">Чтение, числа, описание внешности, calendario, hora</div>
+    <div style="background:#f4f1ea; padding:1rem 1.6rem; border-radius:28px; margin-bottom:1.5rem;">
+      <p style="font-style:italic; font-size:1.05rem;">«Ana es una chica alta y delgada. Tiene 25 años. Vive en Barcelona con su familia. Todas las mañanas empieza el día a las 7:30, desayuna y va a la universidad. Hoy es miércoles, 14 de julio. Ana estudia arquitectura y le gusta mucho su carrera. También le gusta viajar, pero tiene poco tiempo libre.»</p>
+    </div>
+    <div>
+      <div class="question"><span class="q">1. ¿Cómo es Ana?</span>
+        <div class="options-group" data-correct="alta y delgada">
+          <label><input type="radio" name="t1" value="alta y delgada"> alta y delgada</label>
+          <label><input type="radio" name="t1" value="baja y gorda"> baja y gorda</label>
+          <label><input type="radio" name="t1" value="alta y fuerte"> alta y fuerte</label>
+        </div>
+      </div>
+      <div class="question"><span class="q">2. ¿Cuántos años tiene Ana?</span>
+        <div class="options-group" data-correct="25">
+          <label><input type="radio" name="t2" value="20"> 20</label>
+          <label><input type="radio" name="t2" value="25"> 25</label>
+          <label><input type="radio" name="t2" value="30"> 30</label>
+        </div>
+      </div>
+      <div class="question"><span class="q">3. ¿Qué día es hoy?</span>
+        <div class="options-group" data-correct="miércoles">
+          <label><input type="radio" name="t3" value="lunes"> lunes</label>
+          <label><input type="radio" name="t3" value="miércoles"> miércoles</label>
+          <label><input type="radio" name="t3" value="viernes"> viernes</label>
+        </div>
+      </div>
+      <div class="question"><span class="q">4. ¿A qué hora empieza el día Ana?</span>
+        <div class="options-group" data-correct="7:30">
+          <label><input type="radio" name="t4" value="6:30"> 6:30</label>
+          <label><input type="radio" name="t4" value="7:00"> 7:00</label>
+          <label><input type="radio" name="t4" value="7:30"> 7:30</label>
+        </div>
+      </div>
+      <div class="question"><span class="q">5. ¿Qué le gusta a Ana además de estudiar?</span>
+        <div class="options-group" data-correct="viajar">
+          <label><input type="radio" name="t5" value="cocinar"> cocinar</label>
+          <label><input type="radio" name="t5" value="viajar"> viajar</label>
+          <label><input type="radio" name="t5" value="bailar"> bailar</label>
+        </div>
+      </div>
+      <button class="btn-check" onclick="checkTextQuiz()">Проверить</button>
+      <div id="feedback4" class="feedback"></div>
+    </div>
+  </div>
+
+  <div style="text-align:right; color:#6d7f8b; font-size:0.9rem; margin-top:0.5rem;">✅ Все задания с автопроверкой · ¡Ánimo!</div>
+</div>
+
+<script>
+  // ===== СОПОСТАВЛЕНИЕ: лексика =====
+  const vocabData = [
+    { es: 'hablar', ru: 'говорить' },
+    { es: 'comer', ru: 'кушать' },
+    { es: 'vivir', ru: 'жить' },
+    { es: 'trabajar', ru: 'работать' },
+    { es: 'escribir', ru: 'писать' },
+    { es: 'beber', ru: 'пить' },
+    { es: 'leer', ru: 'читать' },
+    { es: 'estudiar', ru: 'учиться' },
+    { es: 'viajar', ru: 'путешествовать' },
+    { es: 'escuchar', ru: 'слушать' },
+    { es: 'comprar', ru: 'покупать' },
+    { es: 'cantar', ru: 'петь' }
+  ];
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function renderVocabMatch() {
+    const container = document.getElementById('vocabMatch');
+    const shuffled = shuffleArray([...vocabData]);
+    const allTranslations = shuffleArray(vocabData.map(item => item.ru));
+    
+    container.innerHTML = '';
+    shuffled.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = 'match-item';
+      div.id = `vocab-item-${index}`;
+      
+      const wordSpan = document.createElement('span');
+      wordSpan.className = 'word';
+      wordSpan.textContent = item.es;
+      
+      const select = document.createElement('select');
+      select.id = `vocab-select-${index}`;
+      select.dataset.correct = item.ru;
+      
+      const emptyOpt = document.createElement('option');
+      emptyOpt.value = '';
+      emptyOpt.textContent = '— выбери —';
+      select.appendChild(emptyOpt);
+      
+      allTranslations.forEach(trans => {
+        const opt = document.createElement('option');
+        opt.value = trans;
+        opt.textContent = trans;
+        select.appendChild(opt);
+      });
+      
+      div.appendChild(wordSpan);
+      div.appendChild(select);
+      container.appendChild(div);
+    });
+  }
+
+  function checkVocabMatch() {
+    const selects = document.querySelectorAll('#vocabMatch .match-item select');
+    let correct = 0;
+    let total = selects.length;
+    
+    selects.forEach(sel => {
+      const parent = sel.closest('.match-item');
+      if (sel.value === sel.dataset.correct) {
+        correct++;
+        parent.style.background = '#dff0d8';
+      } else {
+        parent.style.background = '#f8e1e1';
+      }
+    });
+    
+    const fb = document.getElementById('feedbackVoc');
+    fb.className = 'feedback ' + (correct === total ? 'correct' : 'wrong');
+    fb.textContent = `Правильно: ${correct} из ${total}` + (correct === total ? ' 🎉 ¡Excelente!' : '');
+  }
+
+  // ===== ПРАВИЛЬНЫЕ ГЛАГОЛЫ =====
+  function checkRegular() {
+    const answers = ['hablo','hablas','habla','hablamos','habláis','hablan','como','comes','come','comemos','coméis','comen'];
+    const ids = ['reg1','reg2','reg3','reg4','reg5','reg6','reg7','reg8','reg9','reg10','reg11','reg12'];
+    let correct = 0;
+    ids.forEach((id,i) => {
+      const inp = document.getElementById(id);
+      const parent = inp.closest('.question');
+      if (inp.value.trim().toLowerCase() === answers[i]) { correct++; parent.style.background = '#dff0d8'; }
+      else { parent.style.background = '#f8e1e1'; }
+    });
+    const fb = document.getElementById('feedbackReg');
+    fb.className = 'feedback ' + (correct === ids.length ? 'correct' : 'wrong');
+    fb.textContent = `Правильно: ${correct} из ${ids.length}` + (correct === ids.length ? ' 🎉 ¡Perfecto!' : '');
+  }
+
+  // ===== ОТКЛОНЯЮЩИЕСЯ =====
+  function checkIrregular() {
+    const answers = ['pienso','piensas','piensa','pensamos','pensáis','piensan','puedo','puedes','puede','podemos','podéis','pueden','duermo','dormimos','duermen','juego','juegas','jugamos'];
+    const ids = ['irr1','irr2','irr3','irr4','irr5','irr6','irr7','irr8','irr9','irr10','irr11','irr12','irr13','irr14','irr15','irr16','irr17','irr18'];
+    let correct = 0;
+    ids.forEach((id,i) => {
+      const inp = document.getElementById(id);
+      const parent = inp.closest('.question');
+      if (inp.value.trim().toLowerCase() === answers[i]) { correct++; parent.style.background = '#dff0d8'; }
+      else { parent.style.background = '#f8e1e1'; }
+    });
+    const fb = document.getElementById('feedbackIrr');
+    fb.className = 'feedback ' + (correct === ids.length ? 'correct' : 'wrong');
+    fb.textContent = `Правильно: ${correct} из ${ids.length}` + (correct === ids.length ? ' 🎉 ¡Muy bien!' : '');
+  }
+
+  // ===== ВЫБОР =====
+  function checkQuiz1() {
+    const questions = document.querySelectorAll('#quiz1 .question');
+    let correct = 0, total = questions.length;
+    questions.forEach(q => {
+      const selected = q.querySelector('input[type="radio"]:checked');
+      const correctVal = q.querySelector('.options-group').getAttribute('data-correct');
+      const group = q.querySelector('.options-group');
+      if (selected && selected.value === correctVal) { correct++; group.style.background = '#dff0d8'; }
+      else { group.style.background = '#f8e1e1'; }
+    });
+    const fb = document.getElementById('feedback1');
+    fb.className = 'feedback ' + (correct === total ? 'correct' : 'wrong');
+    fb.textContent = `Результат: ${correct} из ${total}` + (correct === total ? ' 🎉' : '');
+  }
+
+  // ===== СООТНЕСЕНИЕ =====
+  function checkMatch() {
+    const correctMap = { match1:'muy', match2:'muchos', match3:'tampoco', match4:'Ese' };
+    let correct = 0, total = Object.keys(correctMap).length;
+    for (let id in correctMap) {
+      const sel = document.getElementById(id);
+      const parent = sel.closest('.question');
+      if (sel.value === correctMap[id]) { correct++; parent.style.background = '#dff0d8'; }
+      else { parent.style.background = '#f8e1e1'; }
+    }
+    const fb = document.getElementById('feedback3');
+    fb.className = 'feedback ' + (correct === total ? 'correct' : 'wrong');
+    fb.textContent = `Результат: ${correct} из ${total}` + (correct === total ? ' 🎉' : '');
+  }
+
+  // ===== НАЙДИ ОШИБКУ =====
+  function checkErrors() {
+    const answers = [
+      'La casa es muy grande',
+      'Yo estoy en el parque',
+      '¿Hay un banco aquí?',
+      'Yo tengo 20 años y soy alto', // или alta, зависит от пола, но примем оба
+      'A mí me gusta el café',
+      'Este libro es muy interesante',
+      'Yo tampoco',
+      'Ese chico es mi hermano',
+      'Ellos viven en Madrid y estudian español', // здесь ошибки нет
+      '¿A qué hora empiezas a trabajar tú?'
+    ];
+    const ids = ['err1','err2','err3','err4','err5','err6','err7','err8','err9','err10'];
+    let correct = 0;
+    ids.forEach((id,i) => {
+      const inp = document.getElementById(id);
+      const parent = inp.closest('.question');
+      const val = inp.value.trim().toLowerCase().replace(/\s+/g, ' ');
+      const ans = answers[i].toLowerCase().replace(/\s+/g, ' ');
+      // Для err4 принимаем также "alta"
+      if (i === 3) {
+        const altAns = 'yo tengo 20 años y soy alta'.toLowerCase().replace(/\s+/g, ' ');
+        if (val === ans || val === altAns) { correct++; parent.style.background = '#dff0d8'; }
+        else { parent.style.background = '#f8e1e1'; }
+      } else if (val === ans) { correct++; parent.style.background = '#dff0d8'; }
+      else { parent.style.background = '#f8e1e1'; }
+    });
+    const fb = document.getElementById('feedbackErr');
+    fb.className = 'feedback ' + (correct === ids.length ? 'correct' : 'wrong');
+    fb.textContent = `Правильно: ${correct} из ${ids.length}` + (correct === ids.length ? ' 🎉 ¡Excelente!' : '');
+  }
+
+  // ===== ПЕРЕВОД =====
+  function checkTranslations() {
+    const answers = [
+      'yo hablo español',
+      'nosotros comemos paella',
+      'ellos viven en barcelona',
+      '¿tú piensas que esto es fácil?',
+      'yo no puedo comprar pan',
+      'los niños duermen después de comer',
+      'yo tengo dos hermanos',
+      'a mí me gusta esta película',
+      'hoy es lunes',
+      '¿qué hora es? son las ocho y media'
+    ];
+    const ids = ['trans1','trans2','trans3','trans4','trans5','trans6','trans7','trans8','trans9','trans10'];
+    let correct = 0;
+    ids.forEach((id,i) => {
+      const inp = document.getElementById(id);
+      const parent = inp.closest('.question');
+      const val = inp.value.trim().toLowerCase().replace(/\s+/g, ' ');
+      const ans = answers[i].toLowerCase().replace(/\s+/g, ' ');
+      // Допускаем варианты с "yo" и без
+      const valNoYo = val.replace(/^yo\s+/, '');
+      const ansNoYo = ans.replace(/^yo\s+/, '');
+      if (val === ans || valNoYo === ansNoYo || val === ansNoYo) { correct++; parent.style.background = '#dff0d8'; }
+      else { parent.style.background = '#f8e1e1'; }
+    });
+    const fb = document.getElementById('feedbackTrans');
+    fb.className = 'feedback ' + (correct === ids.length ? 'correct' : 'wrong');
+    fb.textContent = `Правильно: ${correct} из ${ids.length}` + (correct === ids.length ? ' 🎉 ¡Genial!' : '');
+  }
+
+  // ===== ТЕКСТ =====
+  function checkTextQuiz() {
+    const corrects = ['alta y delgada','25','miércoles','7:30','viajar'];
+    const names = ['t1','t2','t3','t4','t5'];
+    let correct = 0;
+    names.forEach((name, idx) => {
+      const group = document.querySelector(`input[name="${name}"]:checked`);
+      const parent = group ? group.closest('.options-group') : null;
+      if (parent) {
+        const labels = parent.querySelectorAll('label');
+        labels.forEach(l => l.style.background = '');
+      }
+      if (group && group.value === corrects[idx]) { correct++; if (parent) parent.style.background = '#dff0d8'; }
+      else if (parent) parent.style.background = '#f8e1e1';
+    });
+    const fb = document.getElementById('feedback4');
+    fb.className = 'feedback ' + (correct === names.length ? 'correct' : 'wrong');
+    fb.textContent = `Результат: ${correct} из ${names.length}` + (correct === names.length ? ' 🎉 ¡Genial!' : '');
+  }
+
+  // Инициализация
+  renderVocabMatch();
+</script>
+</body>
+</html>
