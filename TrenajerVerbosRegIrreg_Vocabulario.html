@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇪🇸 Испанский тренажёр — Лексика + Грамматика</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f7f2ed;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .app {
+            max-width: 1200px;
+            width: 100%;
+            background: #fffbf8;
+            border-radius: 48px 48px 32px 32px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 28px 30px 36px;
+            border: 2px solid #efddd0;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #402a1a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+        }
+        h1 small {
+            font-size: 1rem;
+            font-weight: 400;
+            background: #eeded0;
+            padding: 2px 20px;
+            border-radius: 40px;
+            color: #5a3f2b;
+        }
+        .subtitle {
+            color: #6f523b;
+            font-size: 1.05rem;
+            border-left: 6px solid #dbb594;
+            padding-left: 18px;
+            background: #f5ede6;
+            border-radius: 0 30px 30px 0;
+            line-height: 1.5;
+            margin-bottom: 28px;
+            padding: 10px 18px;
+        }
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+            border-bottom: 3px solid #e6d3c0;
+            padding-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: #f0ded0;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4d3422;
+            cursor: pointer;
+            transition: 0.25s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            border: 2px solid transparent;
+        }
+        .tab-btn:hover {
+            background: #e4cebc;
+            transform: translateY(-2px);
+        }
+        .tab-btn.active {
+            background: #dbb594;
+            border-color: #b2855e;
+            color: #2d1a0c;
+            box-shadow: 0 6px 14px rgba(160, 110, 70, 0.2);
+        }
+        .tab-btn .icon {
+            font-size: 1.4rem;
+        }
+        .panel {
+            display: none;
+            animation: fade 0.4s ease;
+        }
+        .panel.active {
+            display: block;
+        }
+        @keyframes fade {
+            0% {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .sub-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .sub-tab {
+            background: #f5ede6;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #4d3422;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 2px solid transparent;
+        }
+        .sub-tab:hover {
+            background: #e8d6c8;
+        }
+        .sub-tab.active {
+            background: #dbb594;
+            border-color: #b2855e;
+            color: #2d1a0c;
+        }
+        .exercise-container {
+            background: #fcf8f4;
+            border-radius: 32px;
+            padding: 24px 28px 28px;
+            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.04);
+            min-height: 380px;
+        }
+        .exercise-title {
+            font-size: 1.5rem;
+            font-weight: 650;
+            color: #3f2a19;
+            margin-bottom: 6px;
+        }
+        .exercise-desc {
+            color: #6f523b;
+            margin-bottom: 18px;
+            font-size: 1rem;
+        }
+        .score-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 18px 28px;
+            background: #efe6dd;
+            padding: 10px 22px;
+            border-radius: 60px;
+            margin-bottom: 22px;
+        }
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            color: #3f2a19;
+        }
+        .score-item span {
+            background: #fcf3ea;
+            padding: 0 14px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            min-width: 32px;
+            text-align: center;
+        }
+        .btn {
+            background: #dbb594;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #2d1a0c;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #b2855e;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            background: #e0c0a4;
+        }
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #b2855e;
+        }
+        .btn:disabled {
+            opacity: 0.4;
+            transform: none;
+            pointer-events: none;
+        }
+        .btn-secondary {
+            background: #e6d3c0;
+            box-shadow: 0 4px 0 #cbb6a4;
+            color: #3f2a19;
+        }
+        .btn-secondary:hover {
+            background: #dac6b6;
+        }
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        .mt-12 {
+            margin-top: 12px;
+        }
+        .mb-12 {
+            margin-bottom: 12px;
+        }
+        .flashcard {
+            perspective: 800px;
+            width: 100%;
+            max-width: 400px;
+            margin: 10px auto;
+            height: 200px;
+            cursor: pointer;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.4s;
+            transform-style: preserve-3d;
+            border-radius: 28px;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: #f7efe8;
+            border: 4px solid #dbb594;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            text-align: center;
+            word-break: break-word;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+            background: #fcf6ee;
+            border-color: #b9987a;
+        }
+        .flashcard .hint {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #7a5a3a;
+            margin-top: 8px;
+        }
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 16px 0;
+        }
+        .quiz-opt {
+            background: #fcf6ee;
+            border: 3px solid #e6cebc;
+            border-radius: 40px;
+            padding: 16px 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d1a0c;
+            cursor: pointer;
+            transition: 0.15s;
+            text-align: center;
+            box-shadow: 0 4px 0 #cbb6a4;
+        }
+        .quiz-opt:hover {
+            transform: translateY(-2px);
+            background: #f7ede3;
+        }
+        .quiz-opt.correct {
+            background: #8bc98b;
+            border-color: #4f8a4f;
+            box-shadow: 0 4px 0 #3a6f3a;
+        }
+        .quiz-opt.wrong {
+            background: #e8a0a0;
+            border-color: #b55a5a;
+            box-shadow: 0 4px 0 #8f4545;
+        }
+        .quiz-opt.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .feedback {
+            font-size: 1.15rem;
+            font-weight: 500;
+            padding: 12px;
+            border-radius: 30px;
+            min-height: 56px;
+            text-align: center;
+        }
+        .write-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            align-items: center;
+            margin: 16px 0;
+        }
+        .write-row input {
+            padding: 14px 22px;
+            font-size: 1.3rem;
+            border-radius: 60px;
+            border: 3px solid #dbb594;
+            background: #fcf6ee;
+            width: 280px;
+            max-width: 80%;
+            outline: none;
+            font-weight: 500;
+            color: #2d1a0c;
+            transition: 0.2s;
+        }
+        .write-row input:focus {
+            border-color: #b2855e;
+            box-shadow: 0 0 0 4px #f0d5b0;
+        }
+        .write-row input:disabled {
+            opacity: 0.5;
+        }
+        .hint-text {
+            color: #7a5a3a;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        .match-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 16px 0;
+        }
+        .match-col {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 140px;
+        }
+        .match-item {
+            background: #f7efe8;
+            border: 3px solid #e6cebc;
+            border-radius: 40px;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d1a0c;
+            cursor: pointer;
+            transition: 0.15s;
+            text-align: center;
+            box-shadow: 0 4px 0 #cbb6a4;
+            user-select: none;
+        }
+        .match-item:hover {
+            transform: translateY(-2px);
+        }
+        .match-item.selected {
+            background: #dbb594;
+            border-color: #b2855e;
+            box-shadow: 0 4px 0 #b2855e;
+        }
+        .match-item.matched {
+            background: #b7d7b0;
+            border-color: #6d9e6d;
+            box-shadow: 0 4px 0 #5a8a5a;
+            cursor: default;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .match-item.matched::after {
+            content: " ✓";
+            color: #2a6b2a;
+        }
+        .rebus-word {
+            font-size: 3.5rem;
+            text-align: center;
+            margin: 12px 0;
+            letter-spacing: 8px;
+        }
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 1rem;
+        }
+        .grammar-table th,
+        .grammar-table td {
+            border: 2px solid #dac6b6;
+            padding: 12px 8px;
+            text-align: center;
+            background: #fcf8f4;
+        }
+        .grammar-table th {
+            background: #efe6dd;
+            font-weight: 600;
+        }
+        .grammar-table td input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #dbb594;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 1rem;
+            background: #fffcf9;
+            outline: none;
+        }
+        .grammar-table td input:focus {
+            border-color: #b2855e;
+            box-shadow: 0 0 0 3px #f0d5b0;
+        }
+        .grammar-table td input.correct {
+            border-color: #4f8a4f;
+            background: #e6f5e6;
+        }
+        .grammar-table td input.wrong {
+            border-color: #b55a5a;
+            background: #fde8e8;
+        }
+        .grammar-table td input:disabled {
+            opacity: 0.7;
+        }
+        .grammar-table .cell-verb {
+            font-weight: 600;
+            color: #3f2a19;
+        }
+        .emoji-big {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .next-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 18px;
+        }
+        @media (max-width: 700px) {
+            .app {
+                padding: 16px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .tab-btn {
+                padding: 8px 16px;
+                font-size: 0.95rem;
+            }
+            .quiz-options {
+                grid-template-columns: 1fr 1fr;
+            }
+            .match-area {
+                flex-direction: column;
+                align-items: center;
+            }
+            .match-col {
+                min-width: 100px;
+            }
+            .flashcard {
+                height: 150px;
+            }
+            .flashcard-front,
+            .flashcard-back {
+                font-size: 1.8rem;
+            }
+        }
+        @media (max-width: 450px) {
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            .score-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
+            }
+            .write-row input {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app">
+        <header>
+            <h1>
+                🇪🇸 Испанский тренажёр
+                <small>A1 · много упражнений</small>
+            </h1>
+            <div class="subtitle">
+                🧠 Два блока: <strong>лексика</strong> + <strong>грамматика</strong> · Запоминай играючи!
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-panel="lex"><span class="icon">📚</span> Лексика</button>
+            <button class="tab-btn" data-panel="gram"><span class="icon">📝</span> Грамматика</button>
+        </div>
+
+        <!-- ЛЕКСИКА -->
+        <div class="panel active" id="panelLex">
+            <div class="sub-tabs" id="lexSubTabs">
+                <button class="sub-tab active" data-ex="flash">🔁 Флеш-карты</button>
+                <button class="sub-tab" data-ex="quiz">🎯 Выбери перевод</button>
+                <button class="sub-tab" data-ex="write">✍️ Напиши слово</button>
+                <button class="sub-tab" data-ex="match">🧩 Соедини пары</button>
+                <button class="sub-tab" data-ex="rebus">🤔 Ребус (эмодзи)</button>
+            </div>
+            <div class="exercise-container" id="lexContainer"></div>
+        </div>
+
+        <!-- ГРАММАТИКА -->
+        <div class="panel" id="panelGram">
+            <div class="sub-tabs" id="gramSubTabs">
+                <button class="sub-tab active" data-ex="conj-reg">📊 Правильные глаголы</button>
+                <button class="sub-tab" data-ex="conj-irr">⚡ Неправильные глаголы</button>
+                <button class="sub-tab" data-ex="fill-choice">🎯 Выбери форму</button>
+                <button class="sub-tab" data-ex="table">📋 Заполни таблицу</button>
+            </div>
+            <div class="exercise-container" id="gramContainer"></div>
+        </div>
+
+        <footer style="margin-top: 32px; text-align: center; color: #8a6e54; border-top: 2px solid #e6d3c0; padding-top: 18px;">
+            🌟 Упражнения генерируются случайно · Учись с удовольствием!
+        </footer>
+    </div>
+
+    <script>
+        // ================================================================
+        // ДАННЫЕ
+        // ================================================================
+
+        // -------- ЛЕКСИКА (исправлены эмодзи) --------
+        const VOCAB = [
+            { ru: 'большой', es: 'grande', emoji: '🐘' },
+            { ru: 'маленький', es: 'pequeño', emoji: '🐭' },
+            { ru: 'красивый', es: 'bonito', emoji: '🌺' },
+            { ru: 'новый', es: 'nuevo', emoji: '🆕' },
+            { ru: 'старый', es: 'viejo', emoji: '🕰️' },
+            { ru: 'хороший', es: 'bueno', emoji: '👍' },
+            { ru: 'плохой', es: 'malo', emoji: '👎' },
+            { ru: 'лёгкий', es: 'fácil', emoji: '🪶' },
+            { ru: 'трудный', es: 'difícil', emoji: '⛰️' },
+            { ru: 'интересный', es: 'interesante', emoji: '🧐' },
+            { ru: 'скучный', es: 'aburrido', emoji: '😴' },
+            { ru: 'дом', es: 'casa', emoji: '🏠' },
+            { ru: 'книга', es: 'libro', emoji: '📖' },
+            { ru: 'стол', es: 'mesa', emoji: '📦' }, // изменено на 📦
+            { ru: 'стул', es: 'silla', emoji: '🪑' },
+            { ru: 'дверь', es: 'puerta', emoji: '🚪' },
+            { ru: 'окно', es: 'ventana', emoji: '🪟' },
+            { ru: 'машина', es: 'coche', emoji: '🚗' },
+            { ru: 'собака', es: 'perro', emoji: '🐕' },
+            { ru: 'кошка', es: 'gato', emoji: '🐈' },
+            { ru: 'имя', es: 'nombre', emoji: '📛' },
+            { ru: 'возраст', es: 'edad', emoji: '🎂' },
+            { ru: 'телефон', es: 'teléfono', emoji: '📞' },
+            { ru: 'адрес', es: 'dirección', emoji: '📍' },
+            { ru: 'высокий', es: 'alto', emoji: '📏' },
+            { ru: 'низкий', es: 'bajo', emoji: '📏' },
+            { ru: 'блондин', es: 'rubio', emoji: '🌾' },
+            { ru: 'брюнет', es: 'moreno', emoji: '🍫' },
+            { ru: 'худой', es: 'delgado', emoji: '🧘' },
+            { ru: 'толстый', es: 'gordo', emoji: '🐻' },
+            { ru: 'понедельник', es: 'lunes', emoji: '🌙' },
+            { ru: 'вторник', es: 'martes', emoji: '🔥' },
+            { ru: 'среда', es: 'miércoles', emoji: '💧' },
+            { ru: 'четверг', es: 'jueves', emoji: '⚡' },
+            { ru: 'пятница', es: 'viernes', emoji: '⭐' },
+            { ru: 'суббота', es: 'sábado', emoji: '🪐' },
+            { ru: 'воскресенье', es: 'domingo', emoji: '☀️' },
+            { ru: 'январь', es: 'enero', emoji: '❄️' },
+            { ru: 'февраль', es: 'febrero', emoji: '❄️' },
+            { ru: 'март', es: 'marzo', emoji: '🌸' },
+            { ru: 'апрель', es: 'abril', emoji: '🌧️' },
+            { ru: 'май', es: 'mayo', emoji: '🌺' },
+            { ru: 'июнь', es: 'junio', emoji: '☀️' },
+            { ru: 'июль', es: 'julio', emoji: '☀️' },
+            { ru: 'август', es: 'agosto', emoji: '🌾' },
+            { ru: 'сентябрь', es: 'septiembre', emoji: '🍂' },
+            { ru: 'октябрь', es: 'octubre', emoji: '🍁' },
+            { ru: 'ноябрь', es: 'noviembre', emoji: '🌨️' },
+            { ru: 'декабрь', es: 'diciembre', emoji: '🎄' },
+            { ru: 'час', es: 'hora', emoji: '⏰' },
+            { ru: 'минута', es: 'minuto', emoji: '⏱️' },
+            { ru: 'секунда', es: 'segundo', emoji: '⏲️' },
+        ];
+
+        // -------- ГРАММАТИКА (расширенный список правильных глаголов) --------
+        const REGULAR_VERBS = [
+            // AR
+            { inf: 'hablar', type: 'ar', endings: { yo: 'o', tú: 'as', él: 'a', nosotros: 'amos', vosotros: 'áis',
+                    ellos: 'an' } },
+            { inf: 'estudiar', type: 'ar', endings: { yo: 'o', tú: 'as', él: 'a', nosotros: 'amos', vosotros: 'áis',
+                    ellos: 'an' } },
+            { inf: 'fumar', type: 'ar', endings: { yo: 'o', tú: 'as', él: 'a', nosotros: 'amos', vosotros: 'áis',
+                    ellos: 'an' } },
+            { inf: 'tomar', type: 'ar', endings: { yo: 'o', tú: 'as', él: 'a', nosotros: 'amos', vosotros: 'áis',
+                    ellos: 'an' } },
+            { inf: 'charlar', type: 'ar', endings: { yo: 'o', tú: 'as', él: 'a', nosotros: 'amos', vosotros: 'áis',
+                    ellos: 'an' } },
+            { inf: 'cantar', type: 'ar', endings: { yo: 'o', tú: 'as', él: 'a', nosotros: 'amos', vosotros: 'áis',
+                    ellos: 'an' } },
+            { inf: 'trabajar', type: 'ar', endings: { yo: 'o', tú: 'as', él: 'a', nosotros: 'amos', vosotros: 'áis',
+                    ellos: 'an' } },
+            // ER
+            { inf: 'comer', type: 'er', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'emos', vosotros: 'éis',
+                    ellos: 'en' } },
+            { inf: 'beber', type: 'er', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'emos', vosotros: 'éis',
+                    ellos: 'en' } },
+            { inf: 'coger', type: 'er', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'emos', vosotros: 'éis',
+                    ellos: 'en' } },
+            { inf: 'vender', type: 'er', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'emos', vosotros: 'éis',
+                    ellos: 'en' } },
+            { inf: 'leer', type: 'er', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'emos', vosotros: 'éis',
+                    ellos: 'en' } },
+            { inf: 'correr', type: 'er', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'emos', vosotros: 'éis',
+                    ellos: 'en' } },
+            { inf: 'vivir', type: 'ir', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'imos', vosotros: 'ís',
+                    ellos: 'en' } },
+            { inf: 'escribir', type: 'ir', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'imos', vosotros: 'ís',
+                    ellos: 'en' } },
+            { inf: 'abrir', type: 'ir', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'imos', vosotros: 'ís',
+                    ellos: 'en' } },
+            { inf: 'recibir', type: 'ir', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'imos', vosotros: 'ís',
+                    ellos: 'en' } },
+            { inf: 'sufrir', type: 'ir', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'imos', vosotros: 'ís',
+                    ellos: 'en' } },
+            { inf: 'cubrir', type: 'ir', endings: { yo: 'o', tú: 'es', él: 'e', nosotros: 'imos', vosotros: 'ís',
+                    ellos: 'en' } },
+        ];
+
+        // Неправильные глаголы (ser уже есть)
+        const IRREGULAR_VERBS = [
+            { inf: 'ser', forms: { yo: 'soy', tú: 'eres', él: 'es', nosotros: 'somos', vosotros: 'sois', ellos: 'son' } },
+            { inf: 'estar', forms: { yo: 'estoy', tú: 'estás', él: 'está', nosotros: 'estamos', vosotros: 'estáis',
+                    ellos: 'están' } },
+            { inf: 'tener', forms: { yo: 'tengo', tú: 'tienes', él: 'tiene', nosotros: 'tenemos', vosotros: 'tenéis',
+                    ellos: 'tienen' } },
+            { inf: 'haber', forms: { yo: 'he', tú: 'has', él: 'ha', nosotros: 'hemos', vosotros: 'habéis', ellos: 'han' } },
+            { inf: 'ir', forms: { yo: 'voy', tú: 'vas', él: 'va', nosotros: 'vamos', vosotros: 'vais', ellos: 'van' } },
+            { inf: 'hacer', forms: { yo: 'hago', tú: 'haces', él: 'hace', nosotros: 'hacemos', vosotros: 'hacéis',
+                    ellos: 'hacen' } },
+            { inf: 'decir', forms: { yo: 'digo', tú: 'dices', él: 'dice', nosotros: 'decimos', vosotros: 'decís',
+                    ellos: 'dicen' } },
+            { inf: 'poder', forms: { yo: 'puedo', tú: 'puedes', él: 'puede', nosotros: 'podemos', vosotros: 'podéis',
+                    ellos: 'pueden' } },
+            { inf: 'poner', forms: { yo: 'pongo', tú: 'pones', él: 'pone', nosotros: 'ponemos', vosotros: 'ponéis',
+                    ellos: 'ponen' } },
+            { inf: 'saber', forms: { yo: 'sé', tú: 'sabes', él: 'sabe', nosotros: 'sabemos', vosotros: 'sabéis',
+                    ellos: 'saben' } },
+            { inf: 'salir', forms: { yo: 'salgo', tú: 'sales', él: 'sale', nosotros: 'salimos', vosotros: 'salís',
+                    ellos: 'salen' } },
+            { inf: 'venir', forms: { yo: 'vengo', tú: 'vienes', él: 'viene', nosotros: 'venimos', vosotros: 'venís',
+                    ellos: 'vienen' } },
+            { inf: 'ver', forms: { yo: 'veo', tú: 'ves', él: 've', nosotros: 'vemos', vosotros: 'veis', ellos: 'ven' } },
+        ];
+
+        const PERSONAS = ['yo', 'tú', 'él', 'nosotros', 'vosotros', 'ellos'];
+        const PERSONAS_LABEL = { yo: 'yo', tú: 'tú', él: 'él/ella/Ud.', nosotros: 'nosotros', vosotros: 'vosotros',
+            ellos: 'ellos/Uds.' };
+
+        // -------- ДЛЯ ЗАДАНИЯ "ВЫБЕРИ ФОРМУ" (расширенные данные) --------
+        // Теперь каждый вопрос содержит subject, verb (инфинитив) и правильную форму.
+        // Генерируем вопросы на основе всех глаголов (правильных и неправильных)
+        function generateFillQuestions() {
+            const allVerbs = [...REGULAR_VERBS, ...IRREGULAR_VERBS];
+            const questions = [];
+            // Для каждого глагола выберем случайное лицо и составим предложение
+            allVerbs.forEach(v => {
+                const isIrregular = v.forms ? true : false;
+                const personas = shuffle([...PERSONAS]);
+                const selectedPersona = personas[0]; // возьмём первое перемешанное
+                let correctForm;
+                if (isIrregular) {
+                    correctForm = v.forms[selectedPersona];
+                } else {
+                    correctForm = getRegularForm(v, selectedPersona);
+                }
+                // Составим текст предложения с подлежащим
+                const subjectLabel = PERSONAS_LABEL[selectedPersona];
+                let subjectWord = selectedPersona;
+                if (selectedPersona === 'él') subjectWord = 'Él';
+                else if (selectedPersona === 'yo') subjectWord = 'Yo';
+                else if (selectedPersona === 'tú') subjectWord = 'Tú';
+                else if (selectedPersona === 'nosotros') subjectWord = 'Nosotros';
+                else if (selectedPersona === 'vosotros') subjectWord = 'Vosotros';
+                else if (selectedPersona === 'ellos') subjectWord = 'Ellos';
+                const text = `${subjectWord} ____ (${v.inf}).`;
+                questions.push({
+                    subject: selectedPersona,
+                    verb: v,
+                    correct: correctForm,
+                    text: text,
+                    isIrregular: isIrregular
+                });
+            });
+            shuffle(questions);
+            return questions;
+        }
+
+        // Функция для получения всех форм глагола (для вариантов)
+        function getAllForms(verb) {
+            if (verb.forms) {
+                // неправильный
+                return Object.values(verb.forms);
+            } else {
+                // правильный
+                return PERSONAS.map(p => getRegularForm(verb, p));
+            }
+        }
+
+        // ================================================================
+        // УТИЛИТЫ
+        // ================================================================
+        function shuffle(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function pickRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function pickN(arr, n) {
+            const copy = [...arr];
+            shuffle(copy);
+            return copy.slice(0, n);
+        }
+
+        function normalize(s) {
+            return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+        }
+
+        function getRegularForm(verb, persona) {
+            const stem = verb.inf.slice(0, -2);
+            return stem + verb.endings[persona];
+        }
+
+        // ================================================================
+        // УПРАВЛЕНИЕ ВКЛАДКАМИ
+        // ================================================================
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const panels = {
+            lex: document.getElementById('panelLex'),
+            gram: document.getElementById('panelGram'),
+        };
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const panel = this.dataset.panel;
+                Object.keys(panels).forEach(key => {
+                    panels[key].classList.toggle('active', key === panel);
+                });
+                if (panel === 'lex') {
+                    const activeSub = document.querySelector('#lexSubTabs .sub-tab.active');
+                    if (activeSub) switchLexExercise(activeSub.dataset.ex);
+                } else {
+                    const activeSub = document.querySelector('#gramSubTabs .sub-tab.active');
+                    if (activeSub) switchGramExercise(activeSub.dataset.ex);
+                }
+            });
+        });
+
+        // ================================================================
+        // ЛЕКСИКА
+        // ================================================================
+        const lexSubTabs = document.querySelectorAll('#lexSubTabs .sub-tab');
+        const lexContainer = document.getElementById('lexContainer');
+
+        lexSubTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                lexSubTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                switchLexExercise(this.dataset.ex);
+            });
+        });
+
+        function switchLexExercise(ex) {
+            switch (ex) {
+                case 'flash':
+                    renderFlashcards();
+                    break;
+                case 'quiz':
+                    renderQuiz();
+                    break;
+                case 'write':
+                    renderWrite();
+                    break;
+                case 'match':
+                    renderMatch();
+                    break;
+                case 'rebus':
+                    renderRebus();
+                    break;
+                default:
+                    lexContainer.innerHTML = '<p>Выберите упражнение</p>';
+            }
+        }
+
+        // ------ 1. Флеш-карты ------
+        let flashCards = [];
+        let flashIndex = 0;
+        let flashFlipped = false;
+
+        function renderFlashcards() {
+            flashCards = shuffle([...VOCAB]);
+            flashIndex = 0;
+            flashFlipped = false;
+            buildFlashCard();
+        }
+
+        function buildFlashCard() {
+            if (flashIndex >= flashCards.length) {
+                lexContainer.innerHTML = `
+                    <div class="exercise-title">🔁 Флеш-карты</div>
+                    <div class="exercise-desc">Вы прошли все слова! 🎉</div>
+                    <div class="flex-center"><button class="btn" onclick="renderFlashcards()">🔄 Начать заново</button></div>
+                `;
+                return;
+            }
+            const word = flashCards[flashIndex];
+            const total = flashCards.length;
+            const progress = `${flashIndex+1} / ${total}`;
+            let html = `
+                <div class="exercise-title">🔁 Флеш-карты</div>
+                <div class="exercise-desc">Смотри на слово, вспоминай перевод. Нажми на карточку, чтобы проверить.</div>
+                <div class="score-row">
+                    <div class="score-item">📌 Слово ${progress}</div>
+                    <div class="score-item">✅ Осталось ${total - flashIndex}</div>
+                    <button class="btn btn-secondary" onclick="renderFlashcards()">🔄 Заново</button>
+                </div>
+                <div class="flashcard ${flashFlipped ? 'flipped' : ''}" onclick="toggleFlash()">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div>
+                                <span class="emoji-big">${word.emoji || '📌'}</span>
+                                <br>${word.ru}
+                            </div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div>
+                                <span style="font-size:1rem;color:#7a5a3a;">🇪🇸</span><br>
+                                ${word.es}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-center">
+                    <button class="btn btn-secondary" onclick="prevFlash()">◀ Назад</button>
+                    <button class="btn" onclick="nextFlash()">Далее ▶</button>
+                </div>
+                <div style="text-align:center;margin-top:10px;color:#7a5a3a;">👆 Нажми на карточку, чтобы перевернуть</div>
+            `;
+            lexContainer.innerHTML = html;
+        }
+
+        window.toggleFlash = function() {
+            flashFlipped = !flashFlipped;
+            buildFlashCard();
+        };
+
+        window.nextFlash = function() {
+            flashIndex++;
+            flashFlipped = false;
+            buildFlashCard();
+        };
+
+        window.prevFlash = function() {
+            if (flashIndex > 0) {
+                flashIndex--;
+                flashFlipped = false;
+                buildFlashCard();
+            }
+        };
+
+        // ------ 2. Quiz ------
+        let quizQuestions = [];
+        let quizIndex = 0;
+        let quizCorrect = 0;
+        let quizWrong = 0;
+        let quizAnswered = false;
+
+        function renderQuiz() {
+            const selected = pickN(VOCAB, 10);
+            quizQuestions = selected.map(item => {
+                let distractors = VOCAB.filter(w => w.es !== item.es);
+                shuffle(distractors);
+                let opts = [item.es];
+                for (let i = 0; i < 3; i++) {
+                    if (distractors[i]) opts.push(distractors[i].es);
+                }
+                shuffle(opts);
+                return { ru: item.ru, correct: item.es, options: opts };
+            });
+            quizIndex = 0;
+            quizCorrect = 0;
+            quizWrong = 0;
+            quizAnswered = false;
+            buildQuiz();
+        }
+
+        function buildQuiz() {
+            if (quizIndex >= quizQuestions.length) {
+                lexContainer.innerHTML = `
+                    <div class="exercise-title">🎯 Выбери перевод</div>
+                    <div class="exercise-desc">Игра завершена!</div>
+                    <div class="feedback">✅ Правильных: ${quizCorrect} · ❌ Ошибок: ${quizWrong}</div>
+                    <div class="flex-center"><button class="btn" onclick="renderQuiz()">🔄 Играть снова</button></div>
+                `;
+                return;
+            }
+            const q = quizQuestions[quizIndex];
+            const total = quizQuestions.length;
+            let html = `
+                <div class="exercise-title">🎯 Выбери перевод</div>
+                <div class="exercise-desc">Как переводится слово <strong>«${q.ru}»</strong> ?</div>
+                <div class="score-row">
+                    <div class="score-item">✅ ${quizCorrect}</div>
+                    <div class="score-item">❌ ${quizWrong}</div>
+                    <div class="score-item">📌 ${quizIndex+1} / ${total}</div>
+                    <button class="btn btn-secondary" onclick="renderQuiz()">🔄 Заново</button>
+                </div>
+                <div class="quiz-options" id="quizOpts">
+            `;
+            q.options.forEach((opt, idx) => {
+                html += `<button class="quiz-opt" data-idx="${idx}" data-value="${opt}" onclick="handleQuizAnswer(this, '${opt}', '${q.correct}')">${opt}</button>`;
+            });
+            html += `</div>
+                <div class="feedback" id="quizFeedback">💡 Выбери вариант.</div>
+                <div class="next-btn-container" id="quizNextContainer"></div>
+            `;
+            lexContainer.innerHTML = html;
+            quizAnswered = false;
+            document.querySelectorAll('#quizOpts .quiz-opt').forEach(b => b.classList.remove('disabled'));
+            document.getElementById('quizNextContainer').innerHTML = '';
+        }
+
+        window.handleQuizAnswer = function(btn, selected, correct) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+            const all = document.querySelectorAll('#quizOpts .quiz-opt');
+            all.forEach(b => b.classList.add('disabled'));
+            if (selected === correct) {
+                btn.classList.add('correct');
+                quizCorrect++;
+                document.getElementById('quizFeedback').textContent = '✅ Верно! Молодец!';
+            } else {
+                btn.classList.add('wrong');
+                quizWrong++;
+                all.forEach(b => {
+                    if (b.dataset.value === correct) b.classList.add('correct');
+                });
+                document.getElementById('quizFeedback').textContent = `❌ Неверно. Правильно: «${correct}»`;
+            }
+            const scoreRow = document.querySelector('.score-row');
+            scoreRow.querySelector('.score-item:nth-child(1)').innerHTML = `✅ ${quizCorrect}`;
+            scoreRow.querySelector('.score-item:nth-child(2)').innerHTML = `❌ ${quizWrong}`;
+            document.getElementById('quizNextContainer').innerHTML = `<button class="btn" onclick="goToNextQuiz()">➡️ Далее</button>`;
+        };
+
+        window.goToNextQuiz = function() {
+            quizIndex++;
+            buildQuiz();
+        };
+
+        // ------ 3. Напиши слово ------
+        let writeWords = [];
+        let writeIndex = 0;
+        let writeCorrect = 0;
+        let writeWrong = 0;
+        let writeAnswered = false;
+
+        function renderWrite() {
+            writeWords = pickN(VOCAB, 10);
+            writeIndex = 0;
+            writeCorrect = 0;
+            writeWrong = 0;
+            writeAnswered = false;
+            buildWrite();
+        }
+
+        function buildWrite() {
+            if (writeIndex >= writeWords.length) {
+                lexContainer.innerHTML = `
+                    <div class="exercise-title">✍️ Напиши слово</div>
+                    <div class="exercise-desc">Вы прошли все слова!</div>
+                    <div class="feedback">✅ Верно: ${writeCorrect} · ❌ Ошибок: ${writeWrong}</div>
+                    <div class="flex-center"><button class="btn" onclick="renderWrite()">🔄 Ещё раз</button></div>
+                `;
+                return;
+            }
+            const w = writeWords[writeIndex];
+            const total = writeWords.length;
+            let html = `
+                <div class="exercise-title">✍️ Напиши перевод</div>
+                <div class="exercise-desc">Напиши по-испански: <strong>«${w.ru}»</strong></div>
+                <div class="score-row">
+                    <div class="score-item">✅ ${writeCorrect}</div>
+                    <div class="score-item">❌ ${writeWrong}</div>
+                    <div class="score-item">📌 ${writeIndex+1} / ${total}</div>
+                    <button class="btn btn-secondary" onclick="renderWrite()">🔄 Заново</button>
+                </div>
+                <div class="write-row">
+                    <input type="text" id="writeInput" placeholder="введи по-испански..." autocomplete="off">
+                    <button class="btn" id="writeCheckBtn" onclick="checkWrite()">✅ Проверить</button>
+                </div>
+                <div class="feedback" id="writeFeedback">✍️ Напиши и нажми Проверить.</div>
+                <div class="hint-text" id="writeHint">💡 Подсказка: первая буква «${w.es[0]}»</div>
+                <div class="next-btn-container" id="writeNextContainer"></div>
+            `;
+            lexContainer.innerHTML = html;
+            document.getElementById('writeInput').focus();
+            writeAnswered = false;
+            document.getElementById('writeInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (!document.getElementById('writeCheckBtn').disabled) {
+                        checkWrite();
+                    }
+                }
+            });
+        }
+
+        window.checkWrite = function() {
+            if (writeAnswered) return;
+            const input = document.getElementById('writeInput');
+            const val = input.value.trim();
+            const w = writeWords[writeIndex];
+            const correct = w.es;
+            const feedback = document.getElementById('writeFeedback');
+            const hint = document.getElementById('writeHint');
+            if (normalize(val) === normalize(correct)) {
+                writeCorrect++;
+                feedback.textContent = '✅ Правильно! Отлично!';
+                hint.textContent = '🎉 Молодец!';
+            } else {
+                writeWrong++;
+                feedback.textContent = `❌ Неверно. Правильно: «${correct}»`;
+                hint.textContent = `📖 Запомни: ${w.ru} — это ${correct}`;
+            }
+            writeAnswered = true;
+            input.disabled = true;
+            document.getElementById('writeCheckBtn').disabled = true;
+            const scoreRow = document.querySelector('.score-row');
+            scoreRow.querySelector('.score-item:nth-child(1)').innerHTML = `✅ ${writeCorrect}`;
+            scoreRow.querySelector('.score-item:nth-child(2)').innerHTML = `❌ ${writeWrong}`;
+            document.getElementById('writeNextContainer').innerHTML = `<button class="btn" onclick="goToNextWrite()">➡️ Далее</button>`;
+        };
+
+        window.goToNextWrite = function() {
+            writeIndex++;
+            buildWrite();
+        };
+
+        // ------ 4. Соедини пары (Match) ------
+        let matchWords = [];
+        let matchSelected = null;
+        let matchPairs = [];
+        let matchMatched = [];
+
+        function renderMatch() {
+            const selected = pickN(VOCAB, 6);
+            matchPairs = selected.map(item => ({ ru: item.ru, es: item.es }));
+            const ruItems = matchPairs.map((p, i) => ({ text: p.ru, pairId: i, type: 'ru' }));
+            const esItems = matchPairs.map((p, i) => ({ text: p.es, pairId: i, type: 'es' }));
+            shuffle(ruItems);
+            shuffle(esItems);
+            matchWords = [...ruItems, ...esItems];
+            matchMatched = new Array(matchPairs.length).fill(false);
+            matchSelected = null;
+            buildMatch();
+        }
+
+        function buildMatch() {
+            const total = matchPairs.length;
+            const matchedCount = matchMatched.filter(m => m).length;
+            let html = `
+                <div class="exercise-title">🧩 Соедини пары</div>
+                <div class="exercise-desc">Кликни на русском слове, затем на его испанском переводе.</div>
+                <div class="score-row">
+                    <div class="score-item">✅ Найдено пар: ${matchedCount} / ${total}</div>
+                    <button class="btn btn-secondary" onclick="renderMatch()">🔄 Заново</button>
+                </div>
+                <div class="match-area" id="matchArea">
+                    <div class="match-col">
+            `;
+            const ruItems = matchWords.filter(w => w.type === 'ru');
+            const esItems = matchWords.filter(w => w.type === 'es');
+            ruItems.forEach((item) => {
+                const matched = matchMatched[item.pairId];
+                const cls = matched ? 'match-item matched' : 'match-item';
+                html += `<div class="${cls}" data-pairid="${item.pairId}" data-type="ru" onclick="handleMatchClick(this, 'ru', ${item.pairId})">${item.text}</div>`;
+            });
+            html += `</div><div class="match-col">`;
+            esItems.forEach((item) => {
+                const matched = matchMatched[item.pairId];
+                const cls = matched ? 'match-item matched' : 'match-item';
+                html += `<div class="${cls}" data-pairid="${item.pairId}" data-type="es" onclick="handleMatchClick(this, 'es', ${item.pairId})">${item.text}</div>`;
+            });
+            html += `</div></div>
+                <div class="feedback" id="matchFeedback">💡 Начни с русского слова.</div>
+            `;
+            lexContainer.innerHTML = html;
+            if (matchSelected) {
+                const prev = document.querySelector(`.match-item.selected`);
+                if (prev) prev.classList.remove('selected');
+                matchSelected = null;
+            }
+        }
+
+        window.handleMatchClick = function(el, type, pairId) {
+            if (matchMatched[pairId]) return;
+            if (!matchSelected) {
+                if (type === 'ru') {
+                    document.querySelectorAll('.match-item.selected').forEach(e => e.classList.remove('selected'));
+                    el.classList.add('selected');
+                    matchSelected = { el, type, pairId };
+                    document.getElementById('matchFeedback').textContent = '👆 Теперь выбери испанский перевод.';
+                } else {
+                    document.getElementById('matchFeedback').textContent = '⚠️ Сначала выбери русское слово.';
+                }
+                return;
+            }
+            if (matchSelected.type === 'ru' && type === 'es') {
+                if (matchSelected.pairId === pairId) {
+                    matchMatched[pairId] = true;
+                    matchSelected.el.classList.remove('selected');
+                    matchSelected.el.classList.add('matched');
+                    el.classList.add('matched');
+                    document.getElementById('matchFeedback').textContent = '✅ Пара найдена! Отлично!';
+                    matchSelected = null;
+                    const matchedCount = matchMatched.filter(m => m).length;
+                    const total = matchPairs.length;
+                    const scoreRow = document.querySelector('.score-row');
+                    scoreRow.querySelector('.score-item').innerHTML = `✅ Найдено пар: ${matchedCount} / ${total}`;
+                    if (matchedCount === total) {
+                        document.getElementById('matchFeedback').textContent = '🎉 Поздравляю! Все пары собраны!';
+                    }
+                } else {
+                    document.getElementById('matchFeedback').textContent = '❌ Не пара, попробуй ещё.';
+                    matchSelected.el.classList.remove('selected');
+                    matchSelected = null;
+                }
+            } else {
+                if (type === 'ru') {
+                    document.querySelectorAll('.match-item.selected').forEach(e => e.classList.remove('selected'));
+                    el.classList.add('selected');
+                    matchSelected = { el, type, pairId };
+                    document.getElementById('matchFeedback').textContent = '👆 Теперь выбери испанский перевод.';
+                } else {
+                    document.getElementById('matchFeedback').textContent = '⚠️ Сначала выбери русское слово.';
+                }
+            }
+        };
+
+        // ------ 5. Ребус ------
+        let rebusWords = [];
+        let rebusIndex = 0;
+        let rebusCorrect = 0;
+        let rebusWrong = 0;
+        let rebusAnswered = false;
+
+        function renderRebus() {
+            rebusWords = pickN(VOCAB, 8);
+            rebusIndex = 0;
+            rebusCorrect = 0;
+            rebusWrong = 0;
+            rebusAnswered = false;
+            buildRebus();
+        }
+
+        function buildRebus() {
+            if (rebusIndex >= rebusWords.length) {
+                lexContainer.innerHTML = `
+                    <div class="exercise-title">🤔 Ребус (эмодзи)</div>
+                    <div class="exercise-desc">Угадай слово по эмодзи!</div>
+                    <div class="feedback">✅ Верно: ${rebusCorrect} · ❌ Ошибок: ${rebusWrong}</div>
+                    <div class="flex-center"><button class="btn" onclick="renderRebus()">🔄 Ещё раз</button></div>
+                `;
+                return;
+            }
+            const w = rebusWords[rebusIndex];
+            const total = rebusWords.length;
+            let html = `
+                <div class="exercise-title">🤔 Угадай слово по эмодзи</div>
+                <div class="exercise-desc">Как это слово звучит по-испански?</div>
+                <div class="score-row">
+                    <div class="score-item">✅ ${rebusCorrect}</div>
+                    <div class="score-item">❌ ${rebusWrong}</div>
+                    <div class="score-item">📌 ${rebusIndex+1} / ${total}</div>
+                    <button class="btn btn-secondary" onclick="renderRebus()">🔄 Заново</button>
+                </div>
+                <div class="rebus-word">${w.emoji || '❓'}</div>
+                <div class="write-row">
+                    <input type="text" id="rebusInput" placeholder="напиши по-испански..." autocomplete="off">
+                    <button class="btn" id="rebusCheckBtn" onclick="checkRebus()">✅ Проверить</button>
+                </div>
+                <div class="feedback" id="rebusFeedback">💬 Введи перевод слова, которое обозначает эмодзи.</div>
+                <div class="hint-text" id="rebusHint">💡 Подсказка: первая буква «${w.es[0]}»</div>
+                <div class="next-btn-container" id="rebusNextContainer"></div>
+            `;
+            lexContainer.innerHTML = html;
+            document.getElementById('rebusInput').focus();
+            rebusAnswered = false;
+            document.getElementById('rebusInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (!document.getElementById('rebusCheckBtn').disabled) {
+                        checkRebus();
+                    }
+                }
+            });
+        }
+
+        window.checkRebus = function() {
+            if (rebusAnswered) return;
+            const input = document.getElementById('rebusInput');
+            const val = input.value.trim();
+            const w = rebusWords[rebusIndex];
+            const correct = w.es;
+            const feedback = document.getElementById('rebusFeedback');
+            const hint = document.getElementById('rebusHint');
+            if (normalize(val) === normalize(correct)) {
+                rebusCorrect++;
+                feedback.textContent = '✅ Правильно! Молодец!';
+                hint.textContent = '🎉 Отлично!';
+            } else {
+                rebusWrong++;
+                feedback.textContent = `❌ Неверно. Правильно: «${correct}»`;
+                hint.textContent = `📖 Запомни: это слово — ${correct}`;
+            }
+            rebusAnswered = true;
+            input.disabled = true;
+            document.getElementById('rebusCheckBtn').disabled = true;
+            const scoreRow = document.querySelector('.score-row');
+            scoreRow.querySelector('.score-item:nth-child(1)').innerHTML = `✅ ${rebusCorrect}`;
+            scoreRow.querySelector('.score-item:nth-child(2)').innerHTML = `❌ ${rebusWrong}`;
+            document.getElementById('rebusNextContainer').innerHTML = `<button class="btn" onclick="goToNextRebus()">➡️ Далее</button>`;
+        };
+
+        window.goToNextRebus = function() {
+            rebusIndex++;
+            buildRebus();
+        };
+
+        // ================================================================
+        // ГРАММАТИКА
+        // ================================================================
+        const gramSubTabs = document.querySelectorAll('#gramSubTabs .sub-tab');
+        const gramContainer = document.getElementById('gramContainer');
+
+        gramSubTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                gramSubTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                switchGramExercise(this.dataset.ex);
+            });
+        });
+
+        function switchGramExercise(ex) {
+            switch (ex) {
+                case 'conj-reg':
+                    renderConjRegular();
+                    break;
+                case 'conj-irr':
+                    renderConjIrregular();
+                    break;
+                case 'fill-choice':
+                    renderFillChoice();
+                    break;
+                case 'table':
+                    renderTable();
+                    break;
+                default:
+                    gramContainer.innerHTML = '<p>Выберите упражнение</p>';
+            }
+        }
+
+        // ------ 1. Правильные глаголы ------
+        let conjRegData = [];
+        let conjRegIndex = 0;
+        let conjRegCorrect = 0;
+        let conjRegWrong = 0;
+        let conjRegAnswered = false;
+
+        function renderConjRegular() {
+            const verbs = shuffle([...REGULAR_VERBS]);
+            conjRegData = [];
+            for (let v of verbs) {
+                for (let p of PERSONAS) {
+                    conjRegData.push({ verb: v, persona: p });
+                }
+            }
+            shuffle(conjRegData);
+            conjRegData = conjRegData.slice(0, 15);
+            conjRegIndex = 0;
+            conjRegCorrect = 0;
+            conjRegWrong = 0;
+            conjRegAnswered = false;
+            buildConjReg();
+        }
+
+        function buildConjReg() {
+            if (conjRegIndex >= conjRegData.length) {
+                gramContainer.innerHTML = `
+                    <div class="exercise-title">📊 Правильные глаголы</div>
+                    <div class="exercise-desc">Все вопросы пройдены!</div>
+                    <div class="feedback">✅ Верно: ${conjRegCorrect} · ❌ Ошибок: ${conjRegWrong}</div>
+                    <div class="flex-center"><button class="btn" onclick="renderConjRegular()">🔄 Ещё раз</button></div>
+                `;
+                return;
+            }
+            const item = conjRegData[conjRegIndex];
+            const v = item.verb;
+            const p = item.persona;
+            const total = conjRegData.length;
+            const correctForm = getRegularForm(v, p);
+            let html = `
+                <div class="exercise-title">📊 Правильные глаголы (${v.type})</div>
+                <div class="exercise-desc">Напиши форму глагола <strong>${v.inf}</strong> для лица <strong>${PERSONAS_LABEL[p]}</strong></div>
+                <div class="score-row">
+                    <div class="score-item">✅ ${conjRegCorrect}</div>
+                    <div class="score-item">❌ ${conjRegWrong}</div>
+                    <div class="score-item">📌 ${conjRegIndex+1} / ${total}</div>
+                    <button class="btn btn-secondary" onclick="renderConjRegular()">🔄 Заново</button>
+                </div>
+                <div class="write-row">
+                    <input type="text" id="conjRegInput" placeholder="введи форму..." autocomplete="off">
+                    <button class="btn" id="conjRegCheckBtn" onclick="checkConjReg()">✅ Проверить</button>
+                </div>
+                <div class="feedback" id="conjRegFeedback">💬 Введи спряжённую форму.</div>
+                <div class="hint-text" id="conjRegHint">💡 Основа: ${v.inf.slice(0, -2)} + окончание</div>
+                <div class="next-btn-container" id="conjRegNextContainer"></div>
+            `;
+            gramContainer.innerHTML = html;
+            document.getElementById('conjRegInput').focus();
+            conjRegAnswered = false;
+            document.getElementById('conjRegInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (!document.getElementById('conjRegCheckBtn').disabled) {
+                        checkConjReg();
+                    }
+                }
+            });
+        }
+
+        window.checkConjReg = function() {
+            if (conjRegAnswered) return;
+            const input = document.getElementById('conjRegInput');
+            const val = input.value.trim();
+            const item = conjRegData[conjRegIndex];
+            const correct = getRegularForm(item.verb, item.persona);
+            const feedback = document.getElementById('conjRegFeedback');
+            const hint = document.getElementById('conjRegHint');
+            if (normalize(val) === normalize(correct)) {
+                conjRegCorrect++;
+                feedback.textContent = '✅ Правильно!';
+                hint.textContent = '🎉 Отлично!';
+            } else {
+                conjRegWrong++;
+                feedback.textContent = `❌ Неверно. Правильно: «${correct}»`;
+                hint.textContent = `📖 Запомни: ${item.verb.inf} (${item.persona}) → ${correct}`;
+            }
+            conjRegAnswered = true;
+            input.disabled = true;
+            document.getElementById('conjRegCheckBtn').disabled = true;
+            const scoreRow = document.querySelector('.score-row');
+            scoreRow.querySelector('.score-item:nth-child(1)').innerHTML = `✅ ${conjRegCorrect}`;
+            scoreRow.querySelector('.score-item:nth-child(2)').innerHTML = `❌ ${conjRegWrong}`;
+            document.getElementById('conjRegNextContainer').innerHTML = `<button class="btn" onclick="goToNextConjReg()">➡️ Далее</button>`;
+        };
+
+        window.goToNextConjReg = function() {
+            conjRegIndex++;
+            buildConjReg();
+        };
+
+        // ------ 2. Неправильные глаголы ------
+        let conjIrrData = [];
+        let conjIrrIndex = 0;
+        let conjIrrCorrect = 0;
+        let conjIrrWrong = 0;
+        let conjIrrAnswered = false;
+
+        function renderConjIrregular() {
+            const verbs = shuffle([...IRREGULAR_VERBS]);
+            conjIrrData = [];
+            for (let v of verbs) {
+                for (let p of PERSONAS) {
+                    conjIrrData.push({ verb: v, persona: p });
+                }
+            }
+            shuffle(conjIrrData);
+            conjIrrData = conjIrrData.slice(0, 15);
+            conjIrrIndex = 0;
+            conjIrrCorrect = 0;
+            conjIrrWrong = 0;
+            conjIrrAnswered = false;
+            buildConjIrr();
+        }
+
+        function buildConjIrr() {
+            if (conjIrrIndex >= conjIrrData.length) {
+                gramContainer.innerHTML = `
+                    <div class="exercise-title">⚡ Неправильные глаголы</div>
+                    <div class="exercise-desc">Все вопросы пройдены!</div>
+                    <div class="feedback">✅ Верно: ${conjIrrCorrect} · ❌ Ошибок: ${conjIrrWrong}</div>
+                    <div class="flex-center"><button class="btn" onclick="renderConjIrregular()">🔄 Ещё раз</button></div>
+                `;
+                return;
+            }
+            const item = conjIrrData[conjIrrIndex];
+            const v = item.verb;
+            const p = item.persona;
+            const total = conjIrrData.length;
+            const correctForm = v.forms[p];
+            let html = `
+                <div class="exercise-title">⚡ Неправильные глаголы</div>
+                <div class="exercise-desc">Напиши форму глагола <strong>${v.inf}</strong> для лица <strong>${PERSONAS_LABEL[p]}</strong></div>
+                <div class="score-row">
+                    <div class="score-item">✅ ${conjIrrCorrect}</div>
+                    <div class="score-item">❌ ${conjIrrWrong}</div>
+                    <div class="score-item">📌 ${conjIrrIndex+1} / ${total}</div>
+                    <button class="btn btn-secondary" onclick="renderConjIrregular()">🔄 Заново</button>
+                </div>
+                <div class="write-row">
+                    <input type="text" id="conjIrrInput" placeholder="введи форму..." autocomplete="off">
+                    <button class="btn" id="conjIrrCheckBtn" onclick="checkConjIrr()">✅ Проверить</button>
+                </div>
+                <div class="feedback" id="conjIrrFeedback">💬 Введи спряжённую форму.</div>
+                <div class="hint-text" id="conjIrrHint">💡 Запомни неправильную форму!</div>
+                <div class="next-btn-container" id="conjIrrNextContainer"></div>
+            `;
+            gramContainer.innerHTML = html;
+            document.getElementById('conjIrrInput').focus();
+            conjIrrAnswered = false;
+            document.getElementById('conjIrrInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (!document.getElementById('conjIrrCheckBtn').disabled) {
+                        checkConjIrr();
+                    }
+                }
+            });
+        }
+
+        window.checkConjIrr = function() {
+            if (conjIrrAnswered) return;
+            const input = document.getElementById('conjIrrInput');
+            const val = input.value.trim();
+            const item = conjIrrData[conjIrrIndex];
+            const correct = item.verb.forms[item.persona];
+            const feedback = document.getElementById('conjIrrFeedback');
+            const hint = document.getElementById('conjIrrHint');
+            if (normalize(val) === normalize(correct)) {
+                conjIrrCorrect++;
+                feedback.textContent = '✅ Правильно!';
+                hint.textContent = '🎉 Отлично!';
+            } else {
+                conjIrrWrong++;
+                feedback.textContent = `❌ Неверно. Правильно: «${correct}»`;
+                hint.textContent = `📖 Запомни: ${item.verb.inf} (${item.persona}) → ${correct}`;
+            }
+            conjIrrAnswered = true;
+            input.disabled = true;
+            document.getElementById('conjIrrCheckBtn').disabled = true;
+            const scoreRow = document.querySelector('.score-row');
+            scoreRow.querySelector('.score-item:nth-child(1)').innerHTML = `✅ ${conjIrrCorrect}`;
+            scoreRow.querySelector('.score-item:nth-child(2)').innerHTML = `❌ ${conjIrrWrong}`;
+            document.getElementById('conjIrrNextContainer').innerHTML = `<button class="btn" onclick="goToNextConjIrr()">➡️ Далее</button>`;
+        };
+
+        window.goToNextConjIrr = function() {
+            conjIrrIndex++;
+            buildConjIrr();
+        };
+
+        // ------ 3. Выбери форму (переработанный) ------
+        let fillQuestions = [];
+        let fillIndex = 0;
+        let fillCorrect = 0;
+        let fillWrong = 0;
+        let fillAnswered = false;
+
+        function renderFillChoice() {
+            // Генерируем вопросы на основе всех глаголов
+            const allQuestions = generateFillQuestions();
+            fillQuestions = shuffle(allQuestions).slice(0, 10); // берём 10
+            fillIndex = 0;
+            fillCorrect = 0;
+            fillWrong = 0;
+            fillAnswered = false;
+            buildFillChoice();
+        }
+
+        function buildFillChoice() {
+            if (fillIndex >= fillQuestions.length) {
+                gramContainer.innerHTML = `
+                    <div class="exercise-title">🎯 Выбери форму</div>
+                    <div class="exercise-desc">Все вопросы пройдены!</div>
+                    <div class="feedback">✅ Верно: ${fillCorrect} · ❌ Ошибок: ${fillWrong}</div>
+                    <div class="flex-center"><button class="btn" onclick="renderFillChoice()">🔄 Ещё раз</button></div>
+                `;
+                return;
+            }
+            const q = fillQuestions[fillIndex];
+            const total = fillQuestions.length;
+            // Получаем все формы этого глагола
+            const allForms = getAllForms(q.verb);
+            // Выбираем 4 разных формы, включая правильную
+            let options = [q.correct];
+            const otherForms = allForms.filter(f => f !== q.correct);
+            shuffle(otherForms);
+            for (let i = 0; i < 3; i++) {
+                if (otherForms[i]) options.push(otherForms[i]);
+            }
+            shuffle(options);
+            let html = `
+                <div class="exercise-title">🎯 Выбери форму</div>
+                <div class="exercise-desc">Вставь правильную форму глагола в предложении.</div>
+                <div class="score-row">
+                    <div class="score-item">✅ ${fillCorrect}</div>
+                    <div class="score-item">❌ ${fillWrong}</div>
+                    <div class="score-item">📌 ${fillIndex+1} / ${total}</div>
+                    <button class="btn btn-secondary" onclick="renderFillChoice()">🔄 Заново</button>
+                </div>
+                <div style="font-size:1.5rem; font-weight:600; text-align:center; padding:12px; background:#f7efe8; border-radius:30px; margin:12px 0;">
+                    ${q.text.replace('____', '_____')}
+                </div>
+                <div class="quiz-options" id="fillOpts">
+            `;
+            options.forEach((opt, idx) => {
+                html += `<button class="quiz-opt" data-value="${opt}" onclick="handleFillAnswer(this, '${opt}', '${q.correct}')">${opt}</button>`;
+            });
+            html += `</div>
+                <div class="feedback" id="fillFeedback">💡 Выбери вариант.</div>
+                <div class="next-btn-container" id="fillNextContainer"></div>
+            `;
+            gramContainer.innerHTML = html;
+            fillAnswered = false;
+            document.querySelectorAll('#fillOpts .quiz-opt').forEach(b => b.classList.remove('disabled'));
+            document.getElementById('fillNextContainer').innerHTML = '';
+        }
+
+        window.handleFillAnswer = function(btn, selected, correct) {
+            if (fillAnswered) return;
+            fillAnswered = true;
+            const all = document.querySelectorAll('#fillOpts .quiz-opt');
+            all.forEach(b => b.classList.add('disabled'));
+            const feedback = document.getElementById('fillFeedback');
+            if (selected === correct) {
+                btn.classList.add('correct');
+                fillCorrect++;
+                feedback.textContent = '✅ Верно!';
+            } else {
+                btn.classList.add('wrong');
+                fillWrong++;
+                all.forEach(b => {
+                    if (b.dataset.value === correct) b.classList.add('correct');
+                });
+                feedback.textContent = `❌ Неверно. Правильно: «${correct}»`;
+            }
+            // Показываем спряжение глагола
+            const verb = fillQuestions[fillIndex].verb;
+            const allForms = getAllForms(verb);
+            const conjStr = PERSONAS.map((p, i) => `${p}: ${allForms[i]}`).join(', ');
+            feedback.textContent += ` Спряжение глагола ${verb.inf}: ${conjStr}.`;
+            const scoreRow = document.querySelector('.score-row');
+            scoreRow.querySelector('.score-item:nth-child(1)').innerHTML = `✅ ${fillCorrect}`;
+            scoreRow.querySelector('.score-item:nth-child(2)').innerHTML = `❌ ${fillWrong}`;
+            document.getElementById('fillNextContainer').innerHTML = `<button class="btn" onclick="goToNextFill()">➡️ Далее</button>`;
+        };
+
+        window.goToNextFill = function() {
+            fillIndex++;
+            buildFillChoice();
+        };
+
+        // ------ 4. Заполни таблицу ------
+        let tableVerbs = [];
+        let tableIndex = 0;
+        let tableCorrect = 0;
+        let tableWrong = 0;
+        let tableAnswered = false;
+
+        function renderTable() {
+            const reg = shuffle([...REGULAR_VERBS]).slice(0, 2);
+            const irr = shuffle([...IRREGULAR_VERBS]).slice(0, 2);
+            const all = [...reg, ...irr];
+            shuffle(all);
+            tableVerbs = all.slice(0, 4);
+            tableIndex = 0;
+            tableCorrect = 0;
+            tableWrong = 0;
+            tableAnswered = false;
+            buildTable();
+        }
+
+        function buildTable() {
+            if (tableIndex >= tableVerbs.length) {
+                gramContainer.innerHTML = `
+                    <div class="exercise-title">📋 Заполни таблицу</div>
+                    <div class="exercise-desc">Все глаголы пройдены!</div>
+                    <div class="feedback">✅ Верно: ${tableCorrect} · ❌ Ошибок: ${tableWrong}</div>
+                    <div class="flex-center"><button class="btn" onclick="renderTable()">🔄 Ещё раз</button></div>
+                `;
+                return;
+            }
+            const verb = tableVerbs[tableIndex];
+            const isIrregular = verb.forms ? true : false;
+            const forms = {};
+            PERSONAS.forEach(p => {
+                if (isIrregular) {
+                    forms[p] = verb.forms[p];
+                } else {
+                    forms[p] = getRegularForm(verb, p);
+                }
+            });
+            let html = `
+                <div class="exercise-title">📋 Заполни таблицу</div>
+                <div class="exercise-desc">Введи формы глагола <strong>${verb.inf}</strong> для каждого лица.</div>
+                <div class="score-row">
+                    <div class="score-item">✅ ${tableCorrect}</div>
+                    <div class="score-item">❌ ${tableWrong}</div>
+                    <div class="score-item">📌 ${tableIndex+1} / ${tableVerbs.length}</div>
+                    <button class="btn btn-secondary" onclick="renderTable()">🔄 Заново</button>
+                </div>
+                <table class="grammar-table">
+                    <thead><tr><th>Лицо</th><th>Форма</th></tr></thead>
+                    <tbody>
+            `;
+            let rowData = [];
+            PERSONAS.forEach(p => {
+                rowData.push({ persona: p, correct: forms[p], value: '' });
+                html += `<tr><td>${PERSONAS_LABEL[p]}</td><td><input type="text" class="table-input" data-persona="${p}" placeholder="введи"></td></tr>`;
+            });
+            html += `</tbody></table>
+                <div class="flex-center"><button class="btn" onclick="checkTable()">✅ Проверить все</button></div>
+                <div class="feedback" id="tableFeedback">💬 Заполни все поля и нажми Проверить.</div>
+                <div class="next-btn-container" id="tableNextContainer"></div>
+            `;
+            gramContainer.innerHTML = html;
+            tableAnswered = false;
+            window._tableRowData = rowData;
+            window._tableVerb = verb;
+            document.querySelector('.table-input')?.focus();
+            document.getElementById('tableNextContainer').innerHTML = '';
+        }
+
+        window.checkTable = function() {
+            if (tableAnswered) return;
+            const inputs = document.querySelectorAll('.table-input');
+            let allCorrect = true;
+            let wrongCount = 0;
+            const verb = window._tableVerb;
+            const isIrregular = verb.forms ? true : false;
+            const forms = {};
+            PERSONAS.forEach(p => {
+                if (isIrregular) {
+                    forms[p] = verb.forms[p];
+                } else {
+                    forms[p] = getRegularForm(verb, p);
+                }
+            });
+            inputs.forEach(input => {
+                const val = input.value.trim();
+                const persona = input.dataset.persona;
+                const correct = forms[persona];
+                if (normalize(val) === normalize(correct)) {
+                    input.classList.add('correct');
+                    input.classList.remove('wrong');
+                } else {
+                    input.classList.add('wrong');
+                    input.classList.remove('correct');
+                    allCorrect = false;
+                    wrongCount++;
+                }
+                input.disabled = true;
+            });
+            if (allCorrect) {
+                tableCorrect++;
+                document.getElementById('tableFeedback').textContent = '✅ Всё верно! Отлично!';
+            } else {
+                tableWrong += wrongCount;
+                document.getElementById('tableFeedback').textContent = `❌ Есть ошибки (${wrongCount}). Правильные ответы выделены зелёным.`;
+            }
+            tableAnswered = true;
+            const scoreRow = document.querySelector('.score-row');
+            scoreRow.querySelector('.score-item:nth-child(1)').innerHTML = `✅ ${tableCorrect}`;
+            scoreRow.querySelector('.score-item:nth-child(2)').innerHTML = `❌ ${tableWrong}`;
+            document.getElementById('tableNextContainer').innerHTML = `<button class="btn" onclick="goToNextTable()">➡️ Следующий глагол</button>`;
+            const checkBtn = document.querySelector('.flex-center .btn');
+            if (checkBtn) checkBtn.disabled = true;
+        };
+
+        window.goToNextTable = function() {
+            tableIndex++;
+            buildTable();
+        };
+
+        // ================================================================
+        // ИНИЦИАЛИЗАЦИЯ
+        // ================================================================
+        renderFlashcards();
+        renderConjRegular();
+
+        // При переключении вкладок — перезапуск
+        document.querySelector('[data-panel="gram"]').addEventListener('click', function() {
+            setTimeout(() => {
+                const activeSub = document.querySelector('#gramSubTabs .sub-tab.active');
+                if (activeSub) switchGramExercise(activeSub.dataset.ex);
+            }, 100);
+        });
+        document.querySelector('[data-panel="lex"]').addEventListener('click', function() {
+            setTimeout(() => {
+                const activeSub = document.querySelector('#lexSubTabs .sub-tab.active');
+                if (activeSub) switchLexExercise(activeSub.dataset.ex);
+            }, 100);
+        });
+
+        console.log('🇪🇸 Тренажёр обновлён — все исправления применены!');
+    </script>
+</body>
+</html>
