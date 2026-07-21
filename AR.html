@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios interactivos · Español A0-A1</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #f5f3f0;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 30px 20px;
+            color: #1e2b3c;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            padding: 30px 30px 40px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
+        h1 {
+            font-weight: 600;
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+            border-left: 6px solid #2a7f6e;
+            padding-left: 16px;
+            margin-bottom: 28px;
+        }
+        .card {
+            background: #faf9f7;
+            border-radius: 24px;
+            padding: 22px 25px;
+            margin-bottom: 32px;
+            border: 1px solid #eae7e2;
+        }
+        .card h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1e3b4a;
+            flex-wrap: wrap;
+        }
+        .card h2 small {
+            font-weight: 400;
+            font-size: 0.8rem;
+            color: #5b6f7e;
+            background: #e8e5df;
+            padding: 2px 14px;
+            border-radius: 30px;
+        }
+        .pregunta {
+            margin-bottom: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px 12px;
+            background: #ffffff;
+            padding: 10px 16px;
+            border-radius: 18px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+        }
+        .pregunta label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        input[type="text"] {
+            border: 1px solid #d4cec6;
+            border-radius: 40px;
+            padding: 8px 16px;
+            font-size: 0.95rem;
+            background: white;
+            transition: 0.15s;
+            min-width: 110px;
+            font-family: inherit;
+            flex: 1 1 120px;
+        }
+        input:focus {
+            outline: 2px solid #2a7f6e;
+            border-color: transparent;
+        }
+        button {
+            background: #2a7f6e;
+            border: none;
+            color: white;
+            font-weight: 500;
+            padding: 10px 28px;
+            border-radius: 60px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.15s;
+            margin-top: 8px;
+            box-shadow: 0 2px 6px rgba(42,127,110,0.2);
+            border: 1px solid #1e6b5b;
+        }
+        button:hover {
+            background: #1e6b5b;
+            transform: scale(0.98);
+        }
+        .check-btn {
+            background: #4b6a7a;
+            border-color: #34505e;
+        }
+        .check-btn:hover { background: #34505e; }
+        .result {
+            margin-top: 12px;
+            padding: 10px 18px;
+            border-radius: 40px;
+            background: #f0eee9;
+            display: block;
+            font-weight: 500;
+            white-space: pre-wrap;
+        }
+        .result.ok { background: #d3ebe4; color: #145a4a; }
+        .result.fail { background: #fce4e1; color: #a33a2e; }
+        .result.info { background: #e3eaf0; color: #1e3b4a; }
+        hr { margin: 22px 0 14px; border: 0; border-top: 1px solid #e2ddd6; }
+        .texto-ejemplo {
+            background: #eef4f2;
+            padding: 18px 22px;
+            border-radius: 20px;
+            margin: 12px 0 22px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            border-left: 4px solid #2a7f6e;
+        }
+        .foto-placeholder {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            background: #eae7e1;
+            padding: 16px 24px;
+            border-radius: 60px;
+            margin: 15px 0 5px;
+            flex-wrap: wrap;
+        }
+        .foto-placeholder span {
+            background: #b3ada3;
+            color: white;
+            font-weight: 500;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+        }
+        .foto-placeholder i {
+            font-style: normal;
+            background: #d9d4cb;
+            padding: 8px 18px;
+            border-radius: 60px;
+        }
+        .badge {
+            background: #d3cbc0;
+            border-radius: 40px;
+            padding: 2px 14px;
+            font-size: 0.75rem;
+            color: #2c3e4e;
+        }
+        .conj-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px 30px;
+            background: #f7f5f2;
+            padding: 20px 20px 12px;
+            border-radius: 28px;
+            margin-bottom: 10px;
+        }
+        .conj-col {
+            background: white;
+            border-radius: 20px;
+            padding: 16px 14px 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e8e4de;
+        }
+        .conj-col h3 {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #1e3b4a;
+            text-align: center;
+            border-bottom: 2px solid #d4cec6;
+            padding-bottom: 8px;
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+        }
+        .conj-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 0;
+            gap: 6px;
+            border-bottom: 1px dashed #eeeae4;
+        }
+        .conj-row label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #2f4050;
+            min-width: 60px;
+        }
+        .conj-row input {
+            flex: 1;
+            min-width: 70px;
+            padding: 6px 10px;
+            border: 1px solid #d4cec6;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            background: white;
+        }
+        .conj-row input:focus {
+            outline: 2px solid #2a7f6e;
+            border-color: transparent;
+        }
+        .respuesta-modelo {
+            background: #eef4f2;
+            padding: 12px 18px;
+            border-radius: 16px;
+            margin-top: 6px;
+            font-size: 0.95rem;
+            border-left: 3px solid #2a7f6e;
+        }
+        @media (max-width: 700px) {
+            .conj-grid { grid-template-columns: 1fr; gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📘 Ejercicios · Español A0-A1</h1>
+
+    <!-- 1. TRES COLUMNAS: trabajar, estudiar, cantar (sin placeholders) -->
+    <div class="card">
+        <h2>1. Conjuga los verbos <small>presente de indicativo</small></h2>
+        <div class="conj-grid">
+            <div class="conj-col">
+                <h3>TRABAJAR</h3>
+                <div class="conj-row"><label>yo</label><input type="text" id="tr1"></div>
+                <div class="conj-row"><label>tú</label><input type="text" id="tr2"></div>
+                <div class="conj-row"><label>él/ella</label><input type="text" id="tr3"></div>
+                <div class="conj-row"><label>nosotros</label><input type="text" id="tr4"></div>
+                <div class="conj-row"><label>vosotros</label><input type="text" id="tr5"></div>
+                <div class="conj-row"><label>ellos</label><input type="text" id="tr6"></div>
+            </div>
+            <div class="conj-col">
+                <h3>ESTUDIAR</h3>
+                <div class="conj-row"><label>yo</label><input type="text" id="es1"></div>
+                <div class="conj-row"><label>tú</label><input type="text" id="es2"></div>
+                <div class="conj-row"><label>él/ella</label><input type="text" id="es3"></div>
+                <div class="conj-row"><label>nosotros</label><input type="text" id="es4"></div>
+                <div class="conj-row"><label>vosotros</label><input type="text" id="es5"></div>
+                <div class="conj-row"><label>ellos</label><input type="text" id="es6"></div>
+            </div>
+            <div class="conj-col">
+                <h3>CANTAR</h3>
+                <div class="conj-row"><label>yo</label><input type="text" id="ca1"></div>
+                <div class="conj-row"><label>tú</label><input type="text" id="ca2"></div>
+                <div class="conj-row"><label>él/ella</label><input type="text" id="ca3"></div>
+                <div class="conj-row"><label>nosotros</label><input type="text" id="ca4"></div>
+                <div class="conj-row"><label>vosotros</label><input type="text" id="ca5"></div>
+                <div class="conj-row"><label>ellos</label><input type="text" id="ca6"></div>
+            </div>
+        </div>
+        <button onclick="checkConjColumnas()">Comprobar</button>
+        <div id="resultConjCol" class="result"></div>
+    </div>
+
+    <!-- 2. Los 10 ejercicios del screenshot (sin placeholders) -->
+    <div class="card">
+        <h2>2. Completa con la forma correcta <small>(10 oraciones)</small></h2>
+        <div class="pregunta"><label>1. María <input type="text" id="s1"> español muy bien.</label></div>
+        <div class="pregunta"><label>2. Nosotros <input type="text" id="s2"> al cine los viernes.</label></div>
+        <div class="pregunta"><label>3. Tú <input type="text" id="s3"> muy inteligente.</label></div>
+        <div class="pregunta"><label>4. Ellos <input type="text" id="s4"> en la biblioteca.</label></div>
+        <div class="pregunta"><label>5. Yo <input type="text" id="s5"> tres hermanos.</label></div>
+        <div class="pregunta"><label>6. Pedro y Ana <input type="text" id="s6"> en un restaurante.</label></div>
+        <div class="pregunta"><label>7. Yo <input type="text" id="s7"> cansado hoy.</label></div>
+        <div class="pregunta"><label>8. Vosotros <input type="text" id="s8"> muy bonito.</label></div>
+        <div class="pregunta"><label>9. Mi hermana <input type="text" id="s9"> a la universidad.</label></div>
+        <div class="pregunta"><label>10. Nosotros <input type="text" id="s10"> mucha tarea.</label></div>
+        <button onclick="checkScreenshot()">Comprobar</button>
+        <div id="resultScreenshot" class="result"></div>
+    </div>
+
+    <!-- 3. Texto + preguntas ABIERTAS (sin pistas, con respuestas modelo tras verificar) -->
+    <div class="card">
+        <h2>3. Texto: Carlos Ruiz <small>responde con tus palabras</small></h2>
+        <div class="texto-ejemplo">
+            <strong>Carlos Ruiz</strong><br>
+            Me llamo Carlos Ruiz y tengo 22 años. Soy mexicano y soy estudiante de medicina. Estudio en la Universidad de Guadalajara. Voy a la biblioteca todos los días. Hablo español y estudio inglés.
+        </div>
+        <div class="pregunta"><label>1. ¿De dónde es él? <input type="text" id="t1"></label></div>
+        <div class="pregunta"><label>2. ¿Cuántos años tiene? <input type="text" id="t2"></label></div>
+        <div class="pregunta"><label>3. ¿Trabaja o estudia? <input type="text" id="t3"></label></div>
+        <div class="pregunta"><label>4. ¿Dónde estudia? <input type="text" id="t4"></label></div>
+        <div class="pregunta"><label>5. ¿Dónde va todos los días? <input type="text" id="t5"></label></div>
+        <div class="pregunta"><label>6. ¿Qué idiomas habla? <input type="text" id="t6"></label></div>
+        <div class="pregunta"><label>7. (V/F) Carlos tiene 22 años. <input type="text" id="t7"></label></div>
+        <div class="pregunta"><label>8. (V/F) Carlos trabaja en un hospital. <input type="text" id="t8"></label></div>
+        <button onclick="checkTextoAbierto()" class="check-btn">Verificar</button>
+        <div id="resultTextoAbierto" class="result"></div>
+    </div>
+
+    <!-- 4. Describir a Javier (hombre) -->
+    <div class="card">
+        <h2>4. Describe a Javier <small>usa verbos -AR</small></h2>
+        <div class="foto-placeholder">
+            <span>👨‍💼</span> <i>Javier, 30 años, argentino, profesor</i>
+            <span class="badge">foto referencia</span>
+        </div>
+        <div class="pregunta"><label>Escribe 3 oraciones sobre Javier (usa verbos -AR): 
+            <input type="text" id="descJavier" style="width:100%;"></label>
+        </div>
+        <button onclick="checkDescJavier()">Comprobar sugerencia</button>
+        <div id="resultDescJavier" class="result"></div>
+    </div>
+
+    <!-- 5. También / Tampoco (6) -->
+    <div class="card">
+        <h2>5. También / Tampoco <small>6 ejercicios</small></h2>
+        <div class="pregunta"><label>1. Yo soy estudiante. → María ______ es estudiante. <input type="text" id="ta1"></label></div>
+        <div class="pregunta"><label>2. Yo no estudio inglés. → Él ______ estudia inglés. <input type="text" id="ta2"></label></div>
+        <div class="pregunta"><label>3. A ella le gusta el café. → A mí ______ me gusta. <input type="text" id="ta3"></label></div>
+        <div class="pregunta"><label>4. Ellos no van al cine. → Nosotros ______ vamos. <input type="text" id="ta4"></label></div>
+        <div class="pregunta"><label>5. Mi hermana trabaja los sábados. → Yo ______ trabajo. <input type="text" id="ta5"></label></div>
+        <div class="pregunta"><label>6. Pedro no habla francés. → Ana ______ habla francés. <input type="text" id="ta6"></label></div>
+        <button onclick="checkTambTampoco()">Comprobar</button>
+        <div id="resultTambTampoco" class="result"></div>
+    </div>
+
+    <!-- 6. Gustar: 4 gusta/gustan + 4 pronombres -->
+    <div class="card">
+        <h2>6. Gustar <small>gusta/gustan (4) y pronombres (4)</small></h2>
+        <div><strong>Elige gusta / gustan</strong></div>
+        <div class="pregunta"><label>1. A mí ______ los libros. <input type="text" id="g1"></label></div>
+        <div class="pregunta"><label>2. A ti ______ cantar. <input type="text" id="g2"></label></div>
+        <div class="pregunta"><label>3. A ella ______ las películas. <input type="text" id="g3"></label></div>
+        <div class="pregunta"><label>4. A nosotros ______ el deporte. <input type="text" id="g4"></label></div>
+        <hr>
+        <div><strong>Escribe el pronombre (me, te, le, nos, os, les)</strong></div>
+        <div class="pregunta"><label>5. ______ gusta el cine. (a mí) <input type="text" id="gp1"></label></div>
+        <div class="pregunta"><label>6. ______ gustan las frutas. (a ellos) <input type="text" id="gp2"></label></div>
+        <div class="pregunta"><label>7. ______ gusta viajar. (a nosotros) <input type="text" id="gp3"></label></div>
+        <div class="pregunta"><label>8. ______ gusta la música. (a ti) <input type="text" id="gp4"></label></div>
+        <button onclick="checkGustarCompleto()">Comprobar</button>
+        <div id="resultGustarCompleto" class="result"></div>
+    </div>
+
+    <!-- Extra: traducción ruso→español (con variantes) -->
+    <div class="card">
+        <h2>➕ Traducción del ruso <small>6 oraciones</small></h2>
+        <div class="pregunta"><label>🔹 "Я студент." → <input type="text" id="tr1"></label></div>
+        <div class="pregunta"><label>🔹 "Она умная." → <input type="text" id="tr2"></label></div>
+        <div class="pregunta"><label>🔹 "Мы работаем в больнице." → <input type="text" id="tr3"></label></div>
+        <div class="pregunta"><label>🔹 "Ты говоришь по-испански?" → <input type="text" id="tr4"></label></div>
+        <div class="pregunta"><label>🔹 "Они учатся в университете." → <input type="text" id="tr5"></label></div>
+        <div class="pregunta"><label>🔹 "Я люблю музыку." → <input type="text" id="tr6"></label></div>
+        <button onclick="checkTraduccion()">Comprobar</button>
+        <div id="resultTraduccion" class="result"></div>
+    </div>
+</div>
+
+<script>
+    // 1. Conjugación en columnas (sin placeholders)
+    function checkConjColumnas() {
+        const correct = [
+            'trabajo','trabajas','trabaja','trabajamos','trabajáis','trabajan',
+            'estudio','estudias','estudia','estudiamos','estudiáis','estudian',
+            'canto','cantas','canta','cantamos','cantáis','cantan'
+        ];
+        const ids = ['tr1','tr2','tr3','tr4','tr5','tr6','es1','es2','es3','es4','es5','es6','ca1','ca2','ca3','ca4','ca5','ca6'];
+        let ok = true, wrong = [];
+        ids.forEach((id, i) => {
+            const val = document.getElementById(id).value.trim().toLowerCase();
+            if (val !== correct[i]) { ok = false; wrong.push(i+1); }
+        });
+        const el = document.getElementById('resultConjCol');
+        if (ok) {
+            el.className='result ok';
+            el.textContent='✅ ¡Todas las formas correctas!';
+        } else {
+            el.className='result fail';
+            el.textContent='❌ Revisa los campos: '+wrong.join(', ');
+        }
+    }
+
+    // 2. Screenshot 10 oraciones
+    function checkScreenshot() {
+        const answers = ['habla','vamos','eres','estudian','tengo','trabajan','estoy','cantáis','va','tenemos'];
+        let ok = true, wrong = [];
+        for (let i = 1; i <= 10; i++) {
+            const val = document.getElementById('s'+i).value.trim().toLowerCase();
+            if (val !== answers[i-1]) { ok = false; wrong.push(i); }
+        }
+        const el = document.getElementById('resultScreenshot');
+        if (ok) {
+            el.className='result ok';
+            el.textContent='✅ ¡Correcto!';
+        } else {
+            el.className='result fail';
+            el.textContent='❌ Revisa oración(es): '+wrong.join(', ');
+        }
+    }
+
+    // 3. Texto abierto: muestra respuestas modelo después de verificar
+    function checkTextoAbierto() {
+        const ids = ['t1','t2','t3','t4','t5','t6','t7','t8'];
+        const modelos = [
+            'México / De México / Es mexicano',
+            '22 / 22 años / Tiene 22 años',
+            'Estudia / Es estudiante / No trabaja, estudia',
+            'En la Universidad de Guadalajara / En Guadalajara',
+            'A la biblioteca / Va a la biblioteca',
+            'Español e inglés / Habla español e inglés',
+            'Verdadero / V / Cierto',
+            'Falso / F / No, es estudiante'
+        ];
+        let vacios = [];
+        let respuestas = [];
+        ids.forEach((id, i) => {
+            const val = document.getElementById(id).value.trim();
+            respuestas.push(val);
+            if (val === '') vacios.push(i+1);
+        });
+        const el = document.getElementById('resultTextoAbierto');
+        if (vacios.length === 0) {
+            el.className='result info';
+            let html = '✅ ¡Has respondido todas! Aquí tienes respuestas modelo (pueden variar):\n';
+            modelos.forEach((m, i) => {
+                html += `\n${i+1}. ${m}`;
+            });
+            el.textContent = html;
+        } else {
+            el.className='result fail';
+            el.textContent = '❌ Deja vacía(s) la(s) pregunta(s): '+vacios.join(', ')+' — completa todas para ver las respuestas modelo.';
+        }
+    }
+
+    // 4. Descripción Javier
+    function checkDescJavier() {
+        const val = document.getElementById('descJavier').value.trim();
+        const el = document.getElementById('resultDescJavier');
+        if (val.length < 10) {
+            el.className='result fail';
+            el.textContent='✏️ Escribe al menos 3 oraciones (mínimo 10 caracteres).';
+        } else {
+            el.className='result ok';
+            el.textContent='✅ ¡Buena descripción! (usa verbos -AR)';
+        }
+    }
+
+    // 5. También / Tampoco (6)
+    function checkTambTampoco() {
+        const correct = ['también','tampoco','también','tampoco','también','tampoco'];
+        let ok = true, wrong = [];
+        for (let i = 1; i <= 6; i++) {
+            const val = document.getElementById('ta'+i).value.trim().toLowerCase();
+            if (val !== correct[i-1]) { ok=false; wrong.push(i); }
+        }
+        const el = document.getElementById('resultTambTampoco');
+        if (ok) {
+            el.className='result ok';
+            el.textContent='✅ Perfecto con también/tampoco.';
+        } else {
+            el.className='result fail';
+            el.textContent='❌ Revisa ejercicio(s) '+wrong.join(', ');
+        }
+    }
+
+    // 6. Gustar completo (8)
+    function checkGustarCompleto() {
+        const correct = ['gustan','gusta','gustan','gusta','me','les','nos','te'];
+        let ok = true, wrong = [];
+        for (let i = 1; i <= 8; i++) {
+            const id = (i<=4) ? 'g'+i : 'gp'+(i-4);
+            const val = document.getElementById(id).value.trim().toLowerCase();
+            if (val !== correct[i-1]) { ok=false; wrong.push(i); }
+        }
+        const el = document.getElementById('resultGustarCompleto');
+        if (ok) {
+            el.className='result ok';
+            el.textContent='✅ ¡Excelente con gustar!';
+        } else {
+            el.className='result fail';
+            el.textContent='❌ Revisa item(s) '+wrong.join(', ');
+        }
+    }
+
+    // Extra traducción: muestra variantes correctas después de verificar
+    function checkTraduccion() {
+        const variantes = [
+            ['yo soy estudiante', 'soy estudiante', 'estudiante'],
+            ['ella es inteligente', 'es inteligente', 'inteligente'],
+            ['nosotros trabajamos en el hospital', 'trabajamos en el hospital', 'en el hospital trabajamos'],
+            ['¿hablas español?', 'hablas español', '¿tú hablas español?'],
+            ['ellos estudian en la universidad', 'estudian en la universidad', 'en la universidad estudian'],
+            ['me gusta la música', 'la música me gusta', 'gusta la música']
+        ];
+        let ok = true, wrong = [];
+        let resultados = [];
+        for (let i = 1; i <= 6; i++) {
+            const val = document.getElementById('tr'+i).value.trim().toLowerCase();
+            const variantesOk = variantes[i-1];
+            let coincide = false;
+            variantesOk.forEach(v => {
+                if (val.includes(v) || v.includes(val)) coincide = true;
+            });
+            if (!coincide || val === '') {
+                ok = false;
+                wrong.push(i);
+            }
+            resultados.push(variantesOk.join(' / '));
+        }
+        const el = document.getElementById('resultTraduccion');
+        if (ok) {
+            el.className='result ok';
+            el.textContent='✅ ¡Traducciones correctas!';
+        } else {
+            el.className='result info';
+            let msg = '❌ Revisa traducción(es) '+wrong.join(', ')+'. Variantes correctas:\n';
+            resultados.forEach((r, i) => {
+                msg += `\n${i+1}. ${r}`;
+            });
+            el.textContent = msg;
+        }
+    }
+</script>
+
+</body>
+</html>

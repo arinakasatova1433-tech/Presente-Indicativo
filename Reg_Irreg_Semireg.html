@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spanish Verbs – Juegos Interactivos</title>
+    <style>
+        /* ── reset & base ── */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f7f3e9;
+            color: #1e2b3c;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .app {
+            max-width: 960px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 36px 36px 28px 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.10), 0 6px 12px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            padding: 28px 32px 40px;
+            transition: all 0.2s;
+        }
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #b22234;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        h1 small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #4a5b6b;
+            letter-spacing: 0;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #f0e8dc;
+            padding-bottom: 16px;
+            margin-bottom: 28px;
+        }
+        .tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #4a5b6b;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .tab-btn:hover {
+            background: #f0e8dc;
+        }
+        .tab-btn.active {
+            background: #b22234;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(178, 34, 52, 0.25);
+        }
+        .tab-content {
+            display: none;
+            animation: fadeUp 0.35s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── cards & layout ── */
+        .card {
+            background: #fcfaf7;
+            border-radius: 24px;
+            padding: 24px 28px;
+            margin-bottom: 24px;
+            border: 1px solid #ede6db;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+        .card-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            color: #1e2b3c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-title .badge {
+            font-size: 0.7rem;
+            background: #e6ded2;
+            color: #3d4d5e;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-weight: 500;
+        }
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        .flex-center {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        /* ── buttons ── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 22px;
+            border-radius: 60px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #ede6db;
+            color: #1e2b3c;
+        }
+        .btn:hover {
+            transform: scale(1.02);
+            filter: brightness(0.96);
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
+        .btn-primary {
+            background: #b22234;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(178, 34, 52, 0.25);
+        }
+        .btn-primary:hover {
+            background: #9a1d2c;
+        }
+        .btn-success {
+            background: #2b7a4b;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(43, 122, 75, 0.25);
+        }
+        .btn-success:hover {
+            background: #1f633a;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #b22234;
+            color: #b22234;
+        }
+        .btn-outline:hover {
+            background: #b22234;
+            color: #fff;
+        }
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+        }
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            transform: none !important;
+        }
+
+        /* ── verb chips (Activity 1) ── */
+        .verb-chip {
+            background: #fff;
+            border: 2px solid #e6ded2;
+            border-radius: 60px;
+            padding: 8px 20px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: center;
+            transition: 0.2s;
+            cursor: default;
+            display: inline-block;
+        }
+        .verb-chip.correct {
+            border-color: #2b7a4b;
+            background: #e6f5ed;
+        }
+        .verb-chip.wrong {
+            border-color: #b22234;
+            background: #fde8e8;
+        }
+        .verb-chip.dim {
+            opacity: 0.5;
+        }
+
+        .verb-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 6px 0 10px;
+        }
+
+        /* ── conjugation input ── */
+        .conj-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            background: #f8f4ee;
+            padding: 12px 16px;
+            border-radius: 16px;
+            margin-bottom: 10px;
+        }
+        .conj-row .pronoun {
+            font-weight: 700;
+            min-width: 70px;
+            color: #b22234;
+        }
+        .conj-row .infinitive {
+            font-weight: 600;
+            color: #1e2b3c;
+            min-width: 80px;
+        }
+        .conj-row input {
+            flex: 1;
+            min-width: 120px;
+            padding: 8px 14px;
+            border: 2px solid #ddd2c4;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 500;
+            background: #fff;
+            transition: 0.2s;
+        }
+        .conj-row input:focus {
+            outline: none;
+            border-color: #b22234;
+            box-shadow: 0 0 0 3px rgba(178, 34, 52, 0.15);
+        }
+        .conj-row input.correct-input {
+            border-color: #2b7a4b;
+            background: #e6f5ed;
+        }
+        .conj-row input.wrong-input {
+            border-color: #b22234;
+            background: #fde8e8;
+        }
+        .conj-row .feedback {
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-width: 80px;
+        }
+        .conj-row .feedback.ok {
+            color: #2b7a4b;
+        }
+        .conj-row .feedback.fail {
+            color: #b22234;
+        }
+
+        /* ── reading text (Tab 3) ── */
+        .reading-text {
+            font-size: 1.08rem;
+            line-height: 2;
+            background: #fcfaf7;
+            padding: 20px 24px;
+            border-radius: 20px;
+            border: 1px solid #ede6db;
+            margin-bottom: 16px;
+        }
+        .reading-text p {
+            margin-bottom: 0.8rem;
+        }
+        .reading-text strong {
+            color: #b22234;
+        }
+
+        .vocabulary-box {
+            background: #f8f4ee;
+            border-radius: 20px;
+            padding: 18px 24px;
+            margin: 16px 0 20px;
+            border: 1px solid #e6ded2;
+        }
+        .vocabulary-box h4 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #1e2b3c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .vocabulary-box ul {
+            columns: 2;
+            list-style: none;
+            padding: 0;
+            column-gap: 24px;
+        }
+        .vocabulary-box li {
+            padding: 4px 0;
+            font-size: 0.95rem;
+            break-inside: avoid;
+        }
+        .vocabulary-box li strong {
+            color: #b22234;
+        }
+
+        .question-box {
+            background: #f0e8dc;
+            border-radius: 20px;
+            padding: 18px 24px;
+            margin-top: 12px;
+        }
+        .question-box h3 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #1e2b3c;
+        }
+        .question-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .question-box li {
+            padding: 4px 0;
+            font-size: 1rem;
+        }
+        .question-box li::before {
+            content: "❓ ";
+            color: #b22234;
+            font-weight: 700;
+        }
+
+        /* ── score & progress ── */
+        .score-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 32px;
+            align-items: center;
+            padding: 12px 18px;
+            background: #f0e8dc;
+            border-radius: 60px;
+            margin-top: 16px;
+        }
+        .score-box .stat {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .score-box .stat span {
+            font-weight: 700;
+            color: #b22234;
+        }
+        .progress-bar {
+            flex: 1;
+            min-width: 120px;
+            height: 8px;
+            background: #ddd2c4;
+            border-radius: 40px;
+            overflow: hidden;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            width: 0%;
+            background: #b22234;
+            border-radius: 40px;
+            transition: width 0.4s ease;
+        }
+
+        /* ── misc ── */
+        .text-muted {
+            color: #6a7b8b;
+            font-size: 0.9rem;
+        }
+        .mt-12 {
+            margin-top: 12px;
+        }
+        .mt-20 {
+            margin-top: 20px;
+        }
+        .mb-12 {
+            margin-bottom: 12px;
+        }
+        .gap-8 {
+            gap: 8px;
+        }
+        .fw-700 {
+            font-weight: 700;
+        }
+        .text-center {
+            text-align: center;
+        }
+
+        /* ── responsive ── */
+        @media (max-width: 640px) {
+            .app {
+                padding: 16px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .tabs {
+                justify-content: center;
+            }
+            .tab-btn {
+                font-size: 0.75rem;
+                padding: 6px 12px;
+            }
+            .card {
+                padding: 16px;
+            }
+            .conj-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .conj-row .pronoun,
+            .conj-row .infinitive {
+                min-width: unset;
+            }
+            .reading-text {
+                font-size: 0.98rem;
+                padding: 14px;
+            }
+            .vocabulary-box ul {
+                columns: 1;
+            }
+            .score-box {
+                border-radius: 24px;
+                padding: 12px 14px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            .grid-3 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 400px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── celebration ── */
+        .celebration {
+            text-align: center;
+            padding: 20px 0 8px;
+            font-size: 2.6rem;
+            animation: pop 0.5s ease;
+        }
+        @keyframes pop {
+            0% {
+                transform: scale(0.6);
+                opacity: 0;
+            }
+            70% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app" id="app">
+        <!-- header -->
+        <div class="header">
+            <h1>
+                🇪🇸 Verbos
+                <small>juegos interactivos</small>
+            </h1>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="tab1">🔀 Reg / Irr</button>
+                <button class="tab-btn" data-tab="tab2">🔄 AR · ER · e‑ie · o‑ue</button>
+                <button class="tab-btn" data-tab="tab3">📖 Lectura: familia</button>
+                <button class="tab-btn" data-tab="tab4">✍️ IR · e‑i · e‑ie</button>
+            </div>
+        </div>
+
+        <!-- ──────────────────────────────────────────────────────────── -->
+        <!-- TAB 1 – Regular vs Irregular (con verbos mezclados)        -->
+        <!-- ──────────────────────────────────────────────────────────── -->
+        <div class="tab-content active" id="tab1">
+            <div class="card">
+                <div class="card-title">
+                    🎯 ¿Regular o Irregular?
+                    <span class="badge">20 verbos</span>
+                </div>
+                <p class="text-muted mb-12">Clasifica cada verbo. Haz clic en <strong>Regular</strong> o <strong>Irregular</strong>.</p>
+
+                <div id="verbDisplay" class="text-center" style="padding:16px 0;">
+                    <div style="font-size:2rem;font-weight:700;color:#1e2b3c;" id="currentVerb">—</div>
+                    <div style="font-size:0.9rem;color:#6a7b8b;margin-top:4px;" id="verbProgress">1 / 20</div>
+                </div>
+
+                <div class="verb-options">
+                    <button class="btn btn-success" id="btnRegular">✅ Regular</button>
+                    <button class="btn btn-primary" id="btnIrregular">❌ Irregular</button>
+                </div>
+
+                <div id="verbFeedback" style="min-height:28px;font-weight:600;text-align:center;margin:4px 0 12px;"></div>
+
+                <div id="verbList" class="flex-center" style="gap:8px;flex-wrap:wrap;max-height:160px;overflow-y:auto;padding:8px 4px;border-top:1px solid #ede6db;margin-top:8px;">
+                    <!-- dynamically filled -->
+                </div>
+
+                <div class="score-box">
+                    <div class="stat">✅ <span id="correctCount">0</span></div>
+                    <div class="stat">❌ <span id="wrongCount">0</span></div>
+                    <div class="stat">🎯 <span id="accuracy">0</span>%</div>
+                    <div class="progress-bar"><div class="fill" id="progressFill" style="width:0%;"></div></div>
+                    <button class="btn btn-sm btn-outline" id="resetVerbGame">🔄 Reiniciar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ──────────────────────────────────────────────────────────── -->
+        <!-- TAB 2 – AR · ER · e‑ie · o‑ue                            -->
+        <!-- ──────────────────────────────────────────────────────────── -->
+        <div class="tab-content" id="tab2">
+            <div class="card">
+                <div class="card-title">
+                    🔄 Stem‑changing: AR · ER · e‑ie · o‑ue
+                    <span class="badge">conjuga</span>
+                </div>
+                <p class="text-muted mb-12">Escribe la forma correcta del verbo para cada pronombre.</p>
+
+                <div id="conjList2">
+                    <!-- dynamically filled -->
+                </div>
+
+                <div class="score-box">
+                    <div class="stat">✅ <span id="score2">0</span> / <span id="total2">0</span></div>
+                    <div class="progress-bar"><div class="fill" id="progress2" style="width:0%;"></div></div>
+                    <button class="btn btn-sm btn-outline" id="resetConj2">🔄 Reiniciar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ──────────────────────────────────────────────────────────── -->
+        <!-- TAB 3 – Lectura: Mi familia (texto corto + vocabulario)   -->
+        <!-- ──────────────────────────────────────────────────────────── -->
+        <div class="tab-content" id="tab3">
+            <div class="card">
+                <div class="card-title">
+                    📖 Mi familia – lectura y conversación
+                    <span class="badge">nivel A1</span>
+                </div>
+                <p class="text-muted mb-12">
+                    Lee el texto, tradúcelo y después comenta las preguntas con tus compañeros.
+                </p>
+
+                <!-- Texto reducido a 2 párrafos -->
+                <div class="reading-text">
+                    <p><strong>Mi familia</strong></p>
+                    <p>Mi familia es grande. Somos cinco personas: mi padre, mi madre, mis dos hermanos y yo. Mi padre se llama Carlos, trabaja en una oficina y es muy trabajador. Mi madre es profesora de español. Mis hermanos estudian en la universidad y en el instituto. Yo también estudio. En casa, comemos juntos todos los días. Mi madre cocina muy bien. Mi padre pone la mesa, mis hermanos lavan los platos y yo barro el suelo.</p>
+                    <p>Después de cenar, vemos la televisión o jugamos a juegos de mesa. Mi padre quiere ver el fútbol, pero mi madre prefiere las películas. Al final, decidimos ver una película. Los fines de semana, vamos al parque. Mi padre corre mucho, pero yo prefiero caminar. Mi madre y mis hermanos juegan al fútbol. A veces, mis padres nos llevan al cine. Pedimos palomitas y bebidas. Mi hermano Luis pide refresco, pero yo pido agua. Después de la película, volvemos a casa. Mi madre sirve la cena. Mi familia es muy unida y nos queremos mucho.</p>
+                </div>
+
+                <!-- Vocabulario -->
+                <div class="vocabulary-box">
+                    <h4>📚 Vocabulario útil</h4>
+                    <ul>
+                        <li><strong>la familia</strong> – семья</li>
+                        <li><strong>el padre / la madre</strong> – отец / мать</li>
+                        <li><strong>el hermano</strong> – брат</li>
+                        <li><strong>trabajar</strong> – работать</li>
+                        <li><strong>la oficina</strong> – офис</li>
+                        <li><strong>el profesor / la profesora</strong> – учитель / учительница</li>
+                        <li><strong>enseñar</strong> – преподавать</li>
+                        <li><strong>estudiar</strong> – учиться</li>
+                        <li><strong>la universidad</strong> – университет</li>
+                        <li><strong>el instituto</strong> – средняя школа</li>
+                        <li><strong>comer</strong> – есть, кушать</li>
+                        <li><strong>cocinar</strong> – готовить</li>
+                        <li><strong>poner la mesa</strong> – накрывать на стол</li>
+                        <li><strong>lavar los platos</strong> – мыть посуду</li>
+                        <li><strong>barrer el suelo</strong> – подметать пол</li>
+                        <li><strong>ver la televisión</strong> – смотреть телевизор</li>
+                        <li><strong>jugar</strong> – играть</li>
+                        <li><strong>querer</strong> – хотеть</li>
+                        <li><strong>preferir</strong> – предпочитать</li>
+                        <li><strong>decidir</strong> – решать</li>
+                        <li><strong>ir</strong> – идти, ехать</li>
+                        <li><strong>el parque</strong> – парк</li>
+                        <li><strong>correr</strong> – бегать</li>
+                        <li><strong>caminar</strong> – гулять, ходить пешком</li>
+                        <li><strong>llevar al cine</strong> – вести в кино</li>
+                        <li><strong>pedir</strong> – заказывать, просить</li>
+                        <li><strong>las palomitas</strong> – попкорн</li>
+                        <li><strong>la bebida</strong> – напиток</li>
+                        <li><strong>el refresco</strong> – газировка</li>
+                        <li><strong>el agua</strong> – вода</li>
+                        <li><strong>volver</strong> – возвращаться</li>
+                        <li><strong>servir</strong> – подавать (еду)</li>
+                        <li><strong>la cena</strong> – ужин</li>
+                        <li><strong>unido</strong> – дружный, сплочённый</li>
+                        <li><strong>quererse</strong> – любить друг друга</li>
+                    </ul>
+                </div>
+
+                <!-- Preguntas para conversar -->
+                <div class="question-box">
+                    <h3>💬 Preguntas para conversar</h3>
+                    <ul>
+                        <li>¿Cuántas personas hay en la familia de Ana?</li>
+                        <li>¿Cómo se llama el padre de Ana? ¿Qué hace?</li>
+                        <li>¿Qué hace la madre de Ana?</li>
+                        <li>¿Qué hacen después de cenar?</li>
+                        <li>¿Qué prefiere ver la madre, fútbol o películas?</li>
+                        <li>¿Qué hacen los fines de semana?</li>
+                        <li>¿Qué pide Luis en el cine? ¿Y Ana?</li>
+                        <li>¿Cómo es la familia de Ana?</li>
+                        <li>¿Tú tienes una familia grande o pequeña?</li>
+                        <li>¿Qué haces tú con tu familia los fines de semana?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ──────────────────────────────────────────────────────────── -->
+        <!-- TAB 4 – IR · e‑i · e‑ie                                   -->
+        <!-- ──────────────────────────────────────────────────────────── -->
+        <div class="tab-content" id="tab4">
+            <div class="card">
+                <div class="card-title">
+                    ✍️ Verbos IR: e‑i · e‑ie
+                    <span class="badge">conjuga</span>
+                </div>
+                <p class="text-muted mb-12">Escribe la forma correcta del verbo para cada pronombre.</p>
+
+                <div id="conjList4">
+                    <!-- dynamically filled -->
+                </div>
+
+                <div class="score-box">
+                    <div class="stat">✅ <span id="score4">0</span> / <span id="total4">0</span></div>
+                    <div class="progress-bar"><div class="fill" id="progress4" style="width:0%;"></div></div>
+                    <button class="btn btn-sm btn-outline" id="resetConj4">🔄 Reiniciar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  DATA
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        // Activity 1: Regular vs Irregular (se mezclará al inicio y al reset)
+        const VERBS_DATA = [
+            { verb: 'Cocinar', type: 'regular' },
+            { verb: 'Escribir', type: 'regular' },
+            { verb: 'Aprender', type: 'regular' },
+            { verb: 'Hablar', type: 'regular' },
+            { verb: 'Abrir', type: 'regular' },
+            { verb: 'Correr', type: 'regular' },
+            { verb: 'Escuchar', type: 'regular' },
+            { verb: 'Trabajar', type: 'regular' },
+            { verb: 'Comer', type: 'regular' },
+            { verb: 'Vivir', type: 'regular' },
+            { verb: 'Querer', type: 'irregular' },
+            { verb: 'Hacer', type: 'irregular' },
+            { verb: 'Decir', type: 'irregular' },
+            { verb: 'Poner', type: 'irregular' },
+            { verb: 'Jugar', type: 'irregular' },
+            { verb: 'Ser', type: 'irregular' },
+            { verb: 'Estar', type: 'irregular' },
+            { verb: 'Ir', type: 'irregular' },
+            { verb: 'Haber', type: 'irregular' },
+            { verb: 'Dar', type: 'irregular' }
+        ];
+
+        // Activity 2: AR, ER, e-ie, o-ue
+        const CONJ2_DATA = [
+            // AR (regular)
+            { infinitive: 'Hablar', pronoun: 'yo', answer: 'hablo', label: 'AR' },
+            { infinitive: 'Hablar', pronoun: 'tú', answer: 'hablas', label: 'AR' },
+            { infinitive: 'Cocinar', pronoun: 'ella', answer: 'cocina', label: 'AR' },
+            { infinitive: 'Cocinar', pronoun: 'nosotros', answer: 'cocinamos', label: 'AR' },
+            // ER (regular)
+            { infinitive: 'Comer', pronoun: 'yo', answer: 'como', label: 'ER' },
+            { infinitive: 'Comer', pronoun: 'tú', answer: 'comes', label: 'ER' },
+            { infinitive: 'Vivir', pronoun: 'él', answer: 'vive', label: 'ER' },
+            { infinitive: 'Vivir', pronoun: 'nosotros', answer: 'vivimos', label: 'ER' },
+            // e-ie
+            { infinitive: 'Querer', pronoun: 'yo', answer: 'quiero', label: 'e‑ie' },
+            { infinitive: 'Querer', pronoun: 'tú', answer: 'quieres', label: 'e‑ie' },
+            { infinitive: 'Entender', pronoun: 'ella', answer: 'entiende', label: 'e‑ie' },
+            { infinitive: 'Entender', pronoun: 'nosotros', answer: 'entendemos', label: 'e‑ie' },
+            { infinitive: 'Perder', pronoun: 'ellos', answer: 'pierden', label: 'e‑ie' },
+            // o-ue
+            { infinitive: 'Poder', pronoun: 'yo', answer: 'puedo', label: 'o‑ue' },
+            { infinitive: 'Poder', pronoun: 'tú', answer: 'puedes', label: 'o‑ue' },
+            { infinitive: 'Volver', pronoun: 'ella', answer: 'vuelve', label: 'o‑ue' },
+            { infinitive: 'Volver', pronoun: 'nosotros', answer: 'volvemos', label: 'o‑ue' },
+            { infinitive: 'Mover', pronoun: 'ellos', answer: 'mueven', label: 'o‑ue' },
+        ];
+
+        // Activity 4: IR, e-i, e-ie
+        const CONJ4_DATA = [
+            // IR
+            { infinitive: 'Ir', pronoun: 'yo', answer: 'voy', label: 'IR' },
+            { infinitive: 'Ir', pronoun: 'tú', answer: 'vas', label: 'IR' },
+            { infinitive: 'Ir', pronoun: 'ella', answer: 'va', label: 'IR' },
+            { infinitive: 'Ir', pronoun: 'nosotros', answer: 'vamos', label: 'IR' },
+            { infinitive: 'Ir', pronoun: 'ellos', answer: 'van', label: 'IR' },
+            // e-i
+            { infinitive: 'Pedir', pronoun: 'yo', answer: 'pido', label: 'e‑i' },
+            { infinitive: 'Pedir', pronoun: 'tú', answer: 'pides', label: 'e‑i' },
+            { infinitive: 'Servir', pronoun: 'ella', answer: 'sirve', label: 'e‑i' },
+            { infinitive: 'Servir', pronoun: 'nosotros', answer: 'servimos', label: 'e‑i' },
+            { infinitive: 'Repetir', pronoun: 'ellos', answer: 'repiten', label: 'e‑i' },
+            // e-ie
+            { infinitive: 'Preferir', pronoun: 'yo', answer: 'prefiero', label: 'e‑ie' },
+            { infinitive: 'Preferir', pronoun: 'tú', answer: 'prefieres', label: 'e‑ie' },
+            { infinitive: 'Sentir', pronoun: 'ella', answer: 'siente', label: 'e‑ie' },
+            { infinitive: 'Sentir', pronoun: 'nosotros', answer: 'sentimos', label: 'e‑ie' },
+            { infinitive: 'Mentir', pronoun: 'ellos', answer: 'mienten', label: 'e‑ie' },
+        ];
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  UTILITY
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function normalize(s) {
+            return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  TAB SWITCHING
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                document.getElementById(this.dataset.tab).classList.add('active');
+            });
+        });
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  ACTIVITY 1 – Regular / Irregular (con mezcla)
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        let verbIndex = 0;
+        let verbScore = { correct: 0, wrong: 0 };
+        let verbAnswered = [];
+
+        const verbListEl = document.getElementById('verbList');
+        const currentVerbEl = document.getElementById('currentVerb');
+        const verbProgressEl = document.getElementById('verbProgress');
+        const verbFeedback = document.getElementById('verbFeedback');
+        const correctCountEl = document.getElementById('correctCount');
+        const wrongCountEl = document.getElementById('wrongCount');
+        const accuracyEl = document.getElementById('accuracy');
+        const progressFill = document.getElementById('progressFill');
+
+        // Función para mezclar y reiniciar el juego
+        function resetVerbGame() {
+            shuffleArray(VERBS_DATA);             // mezclar
+            verbIndex = 0;
+            verbScore = { correct: 0, wrong: 0 };
+            verbAnswered = [];
+            document.getElementById('btnRegular').disabled = false;
+            document.getElementById('btnIrregular').disabled = false;
+            renderVerbChips();
+            updateVerbScore();
+            showVerb();
+        }
+
+        function renderVerbChips() {
+            verbListEl.innerHTML = '';
+            VERBS_DATA.forEach((v, i) => {
+                const span = document.createElement('span');
+                span.className = 'verb-chip';
+                span.textContent = v.verb;
+                if (verbAnswered[i] === true) span.classList.add('correct');
+                else if (verbAnswered[i] === false) span.classList.add('wrong');
+                else span.classList.add('dim');
+                verbListEl.appendChild(span);
+            });
+        }
+
+        function updateVerbScore() {
+            correctCountEl.textContent = verbScore.correct;
+            wrongCountEl.textContent = verbScore.wrong;
+            const total = verbScore.correct + verbScore.wrong;
+            const pct = total === 0 ? 0 : Math.round((verbScore.correct / total) * 100);
+            accuracyEl.textContent = pct;
+            const done = verbAnswered.filter(v => v !== undefined).length;
+            progressFill.style.width = Math.round((done / VERBS_DATA.length) * 100) + '%';
+        }
+
+        function showVerb() {
+            if (verbIndex >= VERBS_DATA.length) {
+                currentVerbEl.textContent = '🎉 ¡Completado!';
+                verbProgressEl.textContent = `${VERBS_DATA.length} / ${VERBS_DATA.length}`;
+                verbFeedback.innerHTML = '¡Has clasificado todos los verbos! 🎊';
+                document.getElementById('btnRegular').disabled = true;
+                document.getElementById('btnIrregular').disabled = true;
+                renderVerbChips();
+                updateVerbScore();
+                return;
+            }
+            const v = VERBS_DATA[verbIndex];
+            currentVerbEl.textContent = v.verb;
+            verbProgressEl.textContent = `${verbIndex + 1} / ${VERBS_DATA.length}`;
+            verbFeedback.textContent = '';
+            document.getElementById('btnRegular').disabled = false;
+            document.getElementById('btnIrregular').disabled = false;
+            renderVerbChips();
+            updateVerbScore();
+        }
+
+        function handleVerbAnswer(userChoice) {
+            if (verbIndex >= VERBS_DATA.length) return;
+            const v = VERBS_DATA[verbIndex];
+            const correct = (userChoice === v.type);
+            verbAnswered[verbIndex] = correct;
+            if (correct) verbScore.correct++;
+            else verbScore.wrong++;
+            verbFeedback.innerHTML = correct ?
+                `✅ ¡Correcto! <strong>${v.verb}</strong> es <strong>${v.type}</strong>` :
+                `❌ <strong>${v.verb}</strong> es <strong>${v.type}</strong>, no ${userChoice}`;
+            verbFeedback.style.color = correct ? '#2b7a4b' : '#b22234';
+            verbIndex++;
+            renderVerbChips();
+            updateVerbScore();
+            setTimeout(showVerb, 400);
+        }
+
+        document.getElementById('btnRegular').addEventListener('click', () => handleVerbAnswer('regular'));
+        document.getElementById('btnIrregular').addEventListener('click', () => handleVerbAnswer('irregular'));
+
+        document.getElementById('resetVerbGame').addEventListener('click', resetVerbGame);
+
+        // Inicializar mezclando al principio
+        shuffleArray(VERBS_DATA);
+        renderVerbChips();
+        showVerb();
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  ACTIVITY 2 – AR · ER · e‑ie · o‑ue
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        let conj2State = [];
+
+        function initConj2() {
+            conj2State = CONJ2_DATA.map(item => ({
+                ...item,
+                userAnswer: '',
+                checked: false,
+                correct: false,
+            }));
+            conj2State = shuffleArray(conj2State);
+            renderConj2();
+            updateScore2();
+        }
+
+        function renderConj2() {
+            const container = document.getElementById('conjList2');
+            container.innerHTML = '';
+            conj2State.forEach((item, idx) => {
+                const row = document.createElement('div');
+                row.className = 'conj-row';
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'badge';
+                labelSpan.style.cssText =
+                    'font-size:0.65rem;background:#d4c9bb;padding:2px 10px;border-radius:40px;font-weight:600;';
+                labelSpan.textContent = item.label;
+
+                const pronounSpan = document.createElement('span');
+                pronounSpan.className = 'pronoun';
+                pronounSpan.textContent = item.pronoun;
+
+                const infinitiveSpan = document.createElement('span');
+                infinitiveSpan.className = 'infinitive';
+                infinitiveSpan.textContent = item.infinitive;
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = 'escribe...';
+                input.autocomplete = 'off';
+                input.spellcheck = false;
+                if (item.checked) {
+                    input.value = item.userAnswer;
+                    input.disabled = true;
+                    input.className = item.correct ? 'correct-input' : 'wrong-input';
+                } else {
+                    input.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') checkConj2(idx);
+                    });
+                    input.addEventListener('blur', () => checkConj2(idx));
+                }
+
+                const feedbackSpan = document.createElement('span');
+                feedbackSpan.className = 'feedback';
+                if (item.checked) {
+                    feedbackSpan.textContent = item.correct ? '✅' : '❌';
+                    feedbackSpan.className = 'feedback ' + (item.correct ? 'ok' : 'fail');
+                }
+
+                const checkBtn = document.createElement('button');
+                checkBtn.className = 'btn btn-sm btn-primary';
+                checkBtn.textContent = '✓';
+                checkBtn.style.padding = '4px 14px';
+                if (item.checked) {
+                    checkBtn.disabled = true;
+                    checkBtn.textContent = '✓';
+                } else {
+                    checkBtn.addEventListener('click', () => checkConj2(idx));
+                }
+
+                row.append(labelSpan, pronounSpan, infinitiveSpan, input, feedbackSpan, checkBtn);
+                container.appendChild(row);
+
+                item._input = input;
+                item._feedback = feedbackSpan;
+                item._checkBtn = checkBtn;
+                item._row = row;
+            });
+        }
+
+        function checkConj2(idx) {
+            const item = conj2State[idx];
+            if (item.checked) return;
+            const input = item._input;
+            const val = input.value.trim();
+            if (!val) {
+                item._feedback.textContent = '✏️ escribe';
+                item._feedback.className = 'feedback';
+                return;
+            }
+            const isCorrect = normalize(val) === normalize(item.answer);
+            item.userAnswer = val;
+            item.checked = true;
+            item.correct = isCorrect;
+            input.disabled = true;
+            input.className = isCorrect ? 'correct-input' : 'wrong-input';
+            item._feedback.textContent = isCorrect ? '✅' : '❌ → ' + item.answer;
+            item._feedback.className = 'feedback ' + (isCorrect ? 'ok' : 'fail');
+            item._checkBtn.disabled = true;
+            item._checkBtn.textContent = '✓';
+            updateScore2();
+        }
+
+        function updateScore2() {
+            const total = conj2State.length;
+            const done = conj2State.filter(c => c.checked).length;
+            const correct = conj2State.filter(c => c.checked && c.correct).length;
+            document.getElementById('score2').textContent = correct;
+            document.getElementById('total2').textContent = total;
+            const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+            document.getElementById('progress2').style.width = pct + '%';
+            if (done === total && total > 0) {
+                const container = document.getElementById('conjList2');
+                if (!container.querySelector('.celebration')) {
+                    const cel = document.createElement('div');
+                    cel.className = 'celebration';
+                    cel.textContent = '🎉 ¡Excelente!';
+                    container.appendChild(cel);
+                }
+            }
+        }
+
+        document.getElementById('resetConj2').addEventListener('click', () => {
+            initConj2();
+        });
+
+        initConj2();
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //  ACTIVITY 4 – IR · e‑i · e‑ie
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        let conj4State = [];
+
+        function initConj4() {
+            conj4State = CONJ4_DATA.map(item => ({
+                ...item,
+                userAnswer: '',
+                checked: false,
+                correct: false,
+            }));
+            conj4State = shuffleArray(conj4State);
+            renderConj4();
+            updateScore4();
+        }
+
+        function renderConj4() {
+            const container = document.getElementById('conjList4');
+            container.innerHTML = '';
+            conj4State.forEach((item, idx) => {
+                const row = document.createElement('div');
+                row.className = 'conj-row';
+
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'badge';
+                labelSpan.style.cssText =
+                    'font-size:0.65rem;background:#d4c9bb;padding:2px 10px;border-radius:40px;font-weight:600;';
+                labelSpan.textContent = item.label;
+
+                const pronounSpan = document.createElement('span');
+                pronounSpan.className = 'pronoun';
+                pronounSpan.textContent = item.pronoun;
+
+                const infinitiveSpan = document.createElement('span');
+                infinitiveSpan.className = 'infinitive';
+                infinitiveSpan.textContent = item.infinitive;
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = 'escribe...';
+                input.autocomplete = 'off';
+                input.spellcheck = false;
+                if (item.checked) {
+                    input.value = item.userAnswer;
+                    input.disabled = true;
+                    input.className = item.correct ? 'correct-input' : 'wrong-input';
+                } else {
+                    input.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') checkConj4(idx);
+                    });
+                    input.addEventListener('blur', () => checkConj4(idx));
+                }
+
+                const feedbackSpan = document.createElement('span');
+                feedbackSpan.className = 'feedback';
+                if (item.checked) {
+                    feedbackSpan.textContent = item.correct ? '✅' : '❌';
+                    feedbackSpan.className = 'feedback ' + (item.correct ? 'ok' : 'fail');
+                }
+
+                const checkBtn = document.createElement('button');
+                checkBtn.className = 'btn btn-sm btn-primary';
+                checkBtn.textContent = '✓';
+                checkBtn.style.padding = '4px 14px';
+                if (item.checked) {
+                    checkBtn.disabled = true;
+                    checkBtn.textContent = '✓';
+                } else {
+                    checkBtn.addEventListener('click', () => checkConj4(idx));
+                }
+
+                row.append(labelSpan, pronounSpan, infinitiveSpan, input, feedbackSpan, checkBtn);
+                container.appendChild(row);
+
+                item._input = input;
+                item._feedback = feedbackSpan;
+                item._checkBtn = checkBtn;
+                item._row = row;
+            });
+        }
+
+        function checkConj4(idx) {
+            const item = conj4State[idx];
+            if (item.checked) return;
+            const input = item._input;
+            const val = input.value.trim();
+            if (!val) {
+                item._feedback.textContent = '✏️ escribe';
+                item._feedback.className = 'feedback';
+                return;
+            }
+            const isCorrect = normalize(val) === normalize(item.answer);
+            item.userAnswer = val;
+            item.checked = true;
+            item.correct = isCorrect;
+            input.disabled = true;
+            input.className = isCorrect ? 'correct-input' : 'wrong-input';
+            item._feedback.textContent = isCorrect ? '✅' : '❌ → ' + item.answer;
+            item._feedback.className = 'feedback ' + (isCorrect ? 'ok' : 'fail');
+            item._checkBtn.disabled = true;
+            item._checkBtn.textContent = '✓';
+            updateScore4();
+        }
+
+        function updateScore4() {
+            const total = conj4State.length;
+            const done = conj4State.filter(c => c.checked).length;
+            const correct = conj4State.filter(c => c.checked && c.correct).length;
+            document.getElementById('score4').textContent = correct;
+            document.getElementById('total4').textContent = total;
+            const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+            document.getElementById('progress4').style.width = pct + '%';
+            if (done === total && total > 0) {
+                const container = document.getElementById('conjList4');
+                if (!container.querySelector('.celebration')) {
+                    const cel = document.createElement('div');
+                    cel.className = 'celebration';
+                    cel.textContent = '🎉 ¡Perfecto!';
+                    container.appendChild(cel);
+                }
+            }
+        }
+
+        document.getElementById('resetConj4').addEventListener('click', () => {
+            initConj4();
+        });
+
+        initConj4();
+    </script>
+
+</body>
+</html>
