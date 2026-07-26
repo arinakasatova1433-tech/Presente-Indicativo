@@ -1,16 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ejercicios interactivos · Español A0-A1</title>
     <style>
         /* ── reset / base ── */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             background: #f5f3f0;
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
@@ -23,7 +20,7 @@
             background: white;
             border-radius: 32px;
             padding: 30px 30px 40px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
         }
         h1 {
             font-weight: 600;
@@ -67,7 +64,7 @@
             background: #ffffff;
             padding: 10px 16px;
             border-radius: 18px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
         }
         .pregunta label {
             display: flex;
@@ -91,7 +88,6 @@
             outline: 2px solid #2a7f6e;
             border-color: transparent;
         }
-        /* ── estados de validación ── */
         input.correct {
             background: #d3ebe4;
             border-color: #1e8b72;
@@ -102,10 +98,20 @@
             border-color: #c0392b;
             outline: 2px solid #c0392b;
         }
-        input.disabled-fake {
-            opacity: 0.85;
+        .hint {
+            display: none;
+            font-size: 0.85rem;
+            color: #1e6b5b;
+            background: #e0f0e8;
+            padding: 2px 12px;
+            border-radius: 30px;
+            margin-left: 6px;
+            white-space: nowrap;
+            font-weight: 500;
         }
-
+        .hint.show {
+            display: inline-block;
+        }
         button {
             background: #2a7f6e;
             border: none;
@@ -117,28 +123,24 @@
             cursor: pointer;
             transition: 0.15s;
             margin-top: 8px;
-            box-shadow: 0 2px 6px rgba(42, 127, 110, 0.2);
+            box-shadow: 0 2px 6px rgba(42,127,110,0.2);
             border: 1px solid #1e6b5b;
         }
         button:hover {
             background: #1e6b5b;
             transform: scale(0.98);
         }
-        .check-btn {
-            background: #4b6a7a;
-            border-color: #34505e;
-        }
-        .check-btn:hover {
-            background: #34505e;
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px;
         }
         .btn-show-answers {
             background: #7f6a4b;
             border-color: #6b5840;
-            margin-left: 12px;
         }
-        .btn-show-answers:hover {
-            background: #6b5840;
-        }
+        .btn-show-answers:hover { background: #6b5840; }
         .result {
             margin-top: 12px;
             padding: 10px 18px;
@@ -146,67 +148,11 @@
             background: #f0eee9;
             display: block;
             font-weight: 500;
-            white-space: pre-wrap;
         }
-        .result.ok {
-            background: #d3ebe4;
-            color: #145a4a;
-        }
-        .result.fail {
-            background: #fce4e1;
-            color: #a33a2e;
-        }
-        .result.info {
-            background: #e3eaf0;
-            color: #1e3b4a;
-        }
-        hr {
-            margin: 22px 0 14px;
-            border: 0;
-            border-top: 1px solid #e2ddd6;
-        }
-        .texto-ejemplo {
-            background: #eef4f2;
-            padding: 18px 22px;
-            border-radius: 20px;
-            margin: 12px 0 22px;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            border-left: 4px solid #2a7f6e;
-        }
-        .foto-placeholder {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            background: #eae7e1;
-            padding: 16px 24px;
-            border-radius: 60px;
-            margin: 15px 0 5px;
-            flex-wrap: wrap;
-        }
-        .foto-placeholder span {
-            background: #b3ada3;
-            color: white;
-            font-weight: 500;
-            padding: 6px 18px;
-            border-radius: 60px;
-            font-size: 0.9rem;
-        }
-        .foto-placeholder i {
-            font-style: normal;
-            background: #d9d4cb;
-            padding: 8px 18px;
-            border-radius: 60px;
-        }
-        .badge {
-            background: #d3cbc0;
-            border-radius: 40px;
-            padding: 2px 14px;
-            font-size: 0.75rem;
-            color: #2c3e4e;
-        }
+        .result.ok { background: #d3ebe4; color: #145a4a; }
+        .result.fail { background: #fce4e1; color: #a33a2e; }
+        .result.info { background: #e3eaf0; color: #1e3b4a; }
 
-        /* ── columnas de conjugación ── */
         .conj-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -220,7 +166,7 @@
             background: white;
             border-radius: 20px;
             padding: 16px 14px 18px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
             border: 1px solid #e8e4de;
         }
         .conj-col h3 {
@@ -261,27 +207,9 @@
             outline: 2px solid #2a7f6e;
             border-color: transparent;
         }
-        .conj-row input.correct {
-            background: #d3ebe4;
-            border-color: #1e8b72;
-            outline: 2px solid #1e8b72;
-        }
-        .conj-row input.wrong {
-            background: #fce4e1;
-            border-color: #c0392b;
-            outline: 2px solid #c0392b;
-        }
+        .conj-row input.correct { background: #d3ebe4; border-color: #1e8b72; outline: 2px solid #1e8b72; }
+        .conj-row input.wrong { background: #fce4e1; border-color: #c0392b; outline: 2px solid #c0392b; }
 
-        .respuesta-modelo {
-            background: #eef4f2;
-            padding: 12px 18px;
-            border-radius: 16px;
-            margin-top: 6px;
-            font-size: 0.95rem;
-            border-left: 3px solid #2a7f6e;
-        }
-
-        /* ── banco de verbos (ejercicio 2) ── */
         .verb-bank {
             background: #eef4f2;
             border-radius: 20px;
@@ -313,7 +241,7 @@
             color: #1e3b4a;
             cursor: pointer;
             transition: 0.12s;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
             font-family: inherit;
         }
         .verb-chip:hover {
@@ -321,55 +249,47 @@
             color: white;
             transform: scale(1.02);
         }
-        .verb-chip:active {
-            transform: scale(0.96);
-        }
-        .verb-chip .en {
-            font-weight: 400;
-            font-size: 0.75rem;
-            color: #5b6f7e;
-            margin-left: 4px;
-        }
-        .verb-chip:hover .en {
-            color: #d4e8e0;
-        }
-        .input-focus-hint {
-            font-size: 0.8rem;
-            color: #5b6f7e;
-            background: #e8e5df;
-            padding: 2px 14px;
-            border-radius: 30px;
-            display: inline-block;
-            margin-bottom: 6px;
-        }
-        .pregunta .verb-insert {
-            font-weight: 600;
-            color: #2a7f6e;
+        .verb-chip:active { transform: scale(0.96); }
+        .texto-ejemplo {
             background: #eef4f2;
-            padding: 2px 12px;
-            border-radius: 30px;
+            padding: 18px 22px;
+            border-radius: 20px;
+            margin: 12px 0 22px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            border-left: 4px solid #2a7f6e;
+        }
+        .foto-placeholder {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            background: #eae7e1;
+            padding: 16px 24px;
+            border-radius: 60px;
+            margin: 15px 0 5px;
+            flex-wrap: wrap;
+        }
+        .foto-placeholder span {
+            background: #b3ada3;
+            color: white;
+            font-weight: 500;
+            padding: 6px 18px;
+            border-radius: 60px;
             font-size: 0.9rem;
-            min-width: 60px;
-            display: inline-block;
-            text-align: center;
         }
-
-        /* ── responsive ── */
-        @media (max-width: 700px) {
-            .conj-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            .verb-chips {
-                gap: 6px 10px;
-            }
-            .verb-chip {
-                padding: 4px 14px;
-                font-size: 0.85rem;
-            }
+        .foto-placeholder i {
+            font-style: normal;
+            background: #d9d4cb;
+            padding: 8px 18px;
+            border-radius: 60px;
         }
-
-        /* ── tooltip de ayuda ── */
+        .badge {
+            background: #d3cbc0;
+            border-radius: 40px;
+            padding: 2px 14px;
+            font-size: 0.75rem;
+            color: #2c3e4e;
+        }
         .help-tip {
             font-size: 0.8rem;
             color: #5b6f7e;
@@ -378,522 +298,411 @@
             border-radius: 30px;
             display: inline-block;
         }
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 8px;
+        hr { margin: 22px 0 14px; border: 0; border-top: 1px solid #e2ddd6; }
+        @media (max-width: 700px) {
+            .conj-grid { grid-template-columns: 1fr; gap: 16px; }
+            .verb-chips { gap: 6px 10px; }
+            .verb-chip { padding: 4px 14px; font-size: 0.85rem; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📘 Ejercicios · Español A0-A1</h1>
+<div class="container">
+    <h1>📘 Ejercicios · Español A0-A1</h1>
 
-        <!-- ════════════════════════════════════════════ -->
-        <!--  1. CONJUGACIÓN EN COLUMNAS                  -->
-        <!-- ════════════════════════════════════════════ -->
-        <div class="card">
-            <h2>1. Conjuga los verbos <small>presente de indicativo</small></h2>
-            <div class="conj-grid">
-                <div class="conj-col">
-                    <h3>TRABAJAR</h3>
-                    <div class="conj-row"><label>yo</label><input type="text" id="tr1" /></div>
-                    <div class="conj-row"><label>tú</label><input type="text" id="tr2" /></div>
-                    <div class="conj-row"><label>él/ella</label><input type="text" id="tr3" /></div>
-                    <div class="conj-row"><label>nosotros</label><input type="text" id="tr4" /></div>
-                    <div class="conj-row"><label>vosotros</label><input type="text" id="tr5" /></div>
-                    <div class="conj-row"><label>ellos</label><input type="text" id="tr6" /></div>
-                </div>
-                <div class="conj-col">
-                    <h3>ESTUDIAR</h3>
-                    <div class="conj-row"><label>yo</label><input type="text" id="es1" /></div>
-                    <div class="conj-row"><label>tú</label><input type="text" id="es2" /></div>
-                    <div class="conj-row"><label>él/ella</label><input type="text" id="es3" /></div>
-                    <div class="conj-row"><label>nosotros</label><input type="text" id="es4" /></div>
-                    <div class="conj-row"><label>vosotros</label><input type="text" id="es5" /></div>
-                    <div class="conj-row"><label>ellos</label><input type="text" id="es6" /></div>
-                </div>
-                <div class="conj-col">
-                    <h3>CANTAR</h3>
-                    <div class="conj-row"><label>yo</label><input type="text" id="ca1" /></div>
-                    <div class="conj-row"><label>tú</label><input type="text" id="ca2" /></div>
-                    <div class="conj-row"><label>él/ella</label><input type="text" id="ca3" /></div>
-                    <div class="conj-row"><label>nosotros</label><input type="text" id="ca4" /></div>
-                    <div class="conj-row"><label>vosotros</label><input type="text" id="ca5" /></div>
-                    <div class="conj-row"><label>ellos</label><input type="text" id="ca6" /></div>
-                </div>
+    <!-- 1. Conjugación -->
+    <div class="card" id="card1">
+        <h2>1. Conjuga los verbos <small>presente de indicativo</small></h2>
+        <div class="conj-grid">
+            <div class="conj-col">
+                <h3>TRABAJAR</h3>
+                <div class="conj-row"><label>yo</label><input type="text" id="tr1" /><span class="hint" data-answer="trabajo">trabajo</span></div>
+                <div class="conj-row"><label>tú</label><input type="text" id="tr2" /><span class="hint" data-answer="trabajas">trabajas</span></div>
+                <div class="conj-row"><label>él/ella</label><input type="text" id="tr3" /><span class="hint" data-answer="trabaja">trabaja</span></div>
+                <div class="conj-row"><label>nosotros</label><input type="text" id="tr4" /><span class="hint" data-answer="trabajamos">trabajamos</span></div>
+                <div class="conj-row"><label>vosotros</label><input type="text" id="tr5" /><span class="hint" data-answer="trabajáis">trabajáis</span></div>
+                <div class="conj-row"><label>ellos</label><input type="text" id="tr6" /><span class="hint" data-answer="trabajan">trabajan</span></div>
             </div>
-            <div class="btn-group">
-                <button onclick="checkConjColumnas()">Comprobar</button>
-                <button onclick="showConjAnswers()" class="btn-show-answers">📖 Mostrar respuestas</button>
+            <div class="conj-col">
+                <h3>ESTUDIAR</h3>
+                <div class="conj-row"><label>yo</label><input type="text" id="es1" /><span class="hint" data-answer="estudio">estudio</span></div>
+                <div class="conj-row"><label>tú</label><input type="text" id="es2" /><span class="hint" data-answer="estudias">estudias</span></div>
+                <div class="conj-row"><label>él/ella</label><input type="text" id="es3" /><span class="hint" data-answer="estudia">estudia</span></div>
+                <div class="conj-row"><label>nosotros</label><input type="text" id="es4" /><span class="hint" data-answer="estudiamos">estudiamos</span></div>
+                <div class="conj-row"><label>vosotros</label><input type="text" id="es5" /><span class="hint" data-answer="estudiáis">estudiáis</span></div>
+                <div class="conj-row"><label>ellos</label><input type="text" id="es6" /><span class="hint" data-answer="estudian">estudian</span></div>
             </div>
-            <div id="resultConjCol" class="result"></div>
-        </div>
-
-        <!-- ════════════════════════════════════════════ -->
-        <!--  2. FRASES CON BANCO DE VERBOS               -->
-        <!-- ════════════════════════════════════════════ -->
-        <div class="card">
-            <h2>2. Completa con la forma correcta <small>elige el verbo del banco</small></h2>
-
-            <!-- BANCO DE VERBOS -->
-            <div class="verb-bank" id="verbBank">
-                <h3>📚 Banco de verbos <span class="help-tip">haz clic en un verbo para insertarlo en el campo activo</span></h3>
-                <div class="verb-chips" id="verbChips">
-                    <button class="verb-chip" data-verb="hablar">hablar <span class="en">(speak)</span></button>
-                    <button class="verb-chip" data-verb="ir">ir <span class="en">(go)</span></button>
-                    <button class="verb-chip" data-verb="ser">ser <span class="en">(be)</span></button>
-                    <button class="verb-chip" data-verb="estudiar">estudiar <span class="en">(study)</span></button>
-                    <button class="verb-chip" data-verb="tener">tener <span class="en">(have)</span></button>
-                    <button class="verb-chip" data-verb="trabajar">trabajar <span class="en">(work)</span></button>
-                    <button class="verb-chip" data-verb="estar">estar <span class="en">(be)</span></button>
-                    <button class="verb-chip" data-verb="cantar">cantar <span class="en">(sing)</span></button>
-                </div>
-                <div style="margin-top:8px;font-size:0.8rem;color:#4b6a7a;">
-                    💡 Haz clic en un verbo → se escribe en el campo que tengas seleccionado (azul).
-                </div>
+            <div class="conj-col">
+                <h3>CANTAR</h3>
+                <div class="conj-row"><label>yo</label><input type="text" id="ca1" /><span class="hint" data-answer="canto">canto</span></div>
+                <div class="conj-row"><label>tú</label><input type="text" id="ca2" /><span class="hint" data-answer="cantas">cantas</span></div>
+                <div class="conj-row"><label>él/ella</label><input type="text" id="ca3" /><span class="hint" data-answer="canta">canta</span></div>
+                <div class="conj-row"><label>nosotros</label><input type="text" id="ca4" /><span class="hint" data-answer="cantamos">cantamos</span></div>
+                <div class="conj-row"><label>vosotros</label><input type="text" id="ca5" /><span class="hint" data-answer="cantáis">cantáis</span></div>
+                <div class="conj-row"><label>ellos</label><input type="text" id="ca6" /><span class="hint" data-answer="cantan">cantan</span></div>
             </div>
-
-            <div class="pregunta"><label>1. María <input type="text" id="s1" placeholder="verbo" /> español muy bien.</label></div>
-            <div class="pregunta"><label>2. Nosotros <input type="text" id="s2" placeholder="verbo" /> al cine los viernes.</label></div>
-            <div class="pregunta"><label>3. Tú <input type="text" id="s3" placeholder="verbo" /> muy inteligente.</label></div>
-            <div class="pregunta"><label>4. Ellos <input type="text" id="s4" placeholder="verbo" /> en la biblioteca.</label></div>
-            <div class="pregunta"><label>5. Yo <input type="text" id="s5" placeholder="verbo" /> tres hermanos.</label></div>
-            <div class="pregunta"><label>6. Pedro y Ana <input type="text" id="s6" placeholder="verbo" /> en un restaurante.</label></div>
-            <div class="pregunta"><label>7. Yo <input type="text" id="s7" placeholder="verbo" /> cansado hoy.</label></div>
-            <div class="pregunta"><label>8. Vosotros <input type="text" id="s8" placeholder="verbo" /> muy bonito.</label></div>
-            <div class="pregunta"><label>9. Mi hermana <input type="text" id="s9" placeholder="verbo" /> a la universidad.</label></div>
-            <div class="pregunta"><label>10. Nosotros <input type="text" id="s10" placeholder="verbo" /> mucha tarea.</label></div>
-
-            <div class="btn-group">
-                <button onclick="checkScreenshot()">Comprobar</button>
-                <button onclick="showSentenceAnswers()" class="btn-show-answers">📖 Mostrar respuestas</button>
-            </div>
-            <div id="resultScreenshot" class="result"></div>
         </div>
-
-        <!-- ════════════════════════════════════════════ -->
-        <!--  3. TEXTO + PREGUNTAS ABIERTAS              -->
-        <!-- ════════════════════════════════════════════ -->
-        <div class="card">
-            <h2>3. Texto: Carlos Ruiz <small>responde con tus palabras</small></h2>
-            <div class="texto-ejemplo">
-                <strong>Carlos Ruiz</strong><br />
-                Me llamo Carlos Ruiz y tengo 22 años. Soy mexicano y soy estudiante de medicina. Estudio en la Universidad de Guadalajara. Voy a la biblioteca todos los días. Hablo español y estudio inglés.
-            </div>
-            <div class="pregunta"><label>1. ¿De dónde es él? <input type="text" id="t1" /></label></div>
-            <div class="pregunta"><label>2. ¿Cuántos años tiene? <input type="text" id="t2" /></label></div>
-            <div class="pregunta"><label>3. ¿Trabaja o estudia? <input type="text" id="t3" /></label></div>
-            <div class="pregunta"><label>4. ¿Dónde estudia? <input type="text" id="t4" /></label></div>
-            <div class="pregunta"><label>5. ¿Dónde va todos los días? <input type="text" id="t5" /></label></div>
-            <div class="pregunta"><label>6. ¿Qué idiomas habla? <input type="text" id="t6" /></label></div>
-            <div class="pregunta"><label>7. (V/F) Carlos tiene 22 años. <input type="text" id="t7" /></label></div>
-            <div class="pregunta"><label>8. (V/F) Carlos trabaja en un hospital. <input type="text" id="t8" /></label></div>
-            <button onclick="checkTextoAbierto()" class="check-btn">Verificar</button>
-            <div id="resultTextoAbierto" class="result"></div>
+        <div class="btn-group">
+            <button onclick="checkConjColumnas()">Comprobar</button>
+            <button onclick="toggleHints(this)" class="btn-show-answers">📖 Mostrar respuestas</button>
         </div>
-
-        <!-- ════════════════════════════════════════════ -->
-        <!--  4. DESCRIBIR A JAVIER                      -->
-        <!-- ════════════════════════════════════════════ -->
-        <div class="card">
-            <h2>4. Describe a Javier <small>usa verbos -AR</small></h2>
-            <div class="foto-placeholder">
-                <span>👨‍💼</span> <i>Javier, 30 años, argentino, profesor</i>
-                <span class="badge">foto referencia</span>
-            </div>
-            <div class="pregunta"><label>Escribe 3 oraciones sobre Javier (usa verbos -AR):
-                    <input type="text" id="descJavier" style="width:100%;" /></label>
-            </div>
-            <button onclick="checkDescJavier()">Comprobar sugerencia</button>
-            <div id="resultDescJavier" class="result"></div>
-        </div>
-
-        <!-- ════════════════════════════════════════════ -->
-        <!--  5. TAMBIÉN / TAMPOCO                       -->
-        <!-- ════════════════════════════════════════════ -->
-        <div class="card">
-            <h2>5. También / Tampoco <small>6 ejercicios</small></h2>
-            <div class="pregunta"><label>1. Yo soy estudiante. → María ______ es estudiante. <input type="text" id="ta1" /></label></div>
-            <div class="pregunta"><label>2. Yo no estudio inglés. → Él ______ estudia inglés. <input type="text" id="ta2" /></label></div>
-            <div class="pregunta"><label>3. A ella le gusta el café. → A mí ______ me gusta. <input type="text" id="ta3" /></label></div>
-            <div class="pregunta"><label>4. Ellos no van al cine. → Nosotros ______ vamos. <input type="text" id="ta4" /></label></div>
-            <div class="pregunta"><label>5. Mi hermana trabaja los sábados. → Yo ______ trabajo. <input type="text" id="ta5" /></label></div>
-            <div class="pregunta"><label>6. Pedro no habla francés. → Ana ______ habla francés. <input type="text" id="ta6" /></label></div>
-            <button onclick="checkTambTampoco()">Comprobar</button>
-            <div id="resultTambTampoco" class="result"></div>
-        </div>
-
-        <!-- ════════════════════════════════════════════ -->
-        <!--  6. GUSTAR                                  -->
-        <!-- ════════════════════════════════════════════ -->
-        <div class="card">
-            <h2>6. Gustar <small>gusta/gustan (4) y pronombres (4)</small></h2>
-            <div><strong>Elige gusta / gustan</strong></div>
-            <div class="pregunta"><label>1. A mí ______ los libros. <input type="text" id="g1" /></label></div>
-            <div class="pregunta"><label>2. A ti ______ cantar. <input type="text" id="g2" /></label></div>
-            <div class="pregunta"><label>3. A ella ______ las películas. <input type="text" id="g3" /></label></div>
-            <div class="pregunta"><label>4. A nosotros ______ el deporte. <input type="text" id="g4" /></label></div>
-            <hr />
-            <div><strong>Escribe el pronombre (me, te, le, nos, os, les)</strong></div>
-            <div class="pregunta"><label>5. ______ gusta el cine. (a mí) <input type="text" id="gp1" /></label></div>
-            <div class="pregunta"><label>6. ______ gustan las frutas. (a ellos) <input type="text" id="gp2" /></label></div>
-            <div class="pregunta"><label>7. ______ gusta viajar. (a nosotros) <input type="text" id="gp3" /></label></div>
-            <div class="pregunta"><label>8. ______ gusta la música. (a ti) <input type="text" id="gp4" /></label></div>
-            <button onclick="checkGustarCompleto()">Comprobar</button>
-            <div id="resultGustarCompleto" class="result"></div>
-        </div>
-
-        <!-- ════════════════════════════════════════════ -->
-        <!--  EXTRA: TRADUCCIÓN                          -->
-        <!-- ════════════════════════════════════════════ -->
-        <div class="card">
-            <h2>➕ Traducción del ruso <small>6 oraciones</small></h2>
-            <div class="pregunta"><label>🔹 "Я студент." → <input type="text" id="tr1" /></label></div>
-            <div class="pregunta"><label>🔹 "Она умная." → <input type="text" id="tr2" /></label></div>
-            <div class="pregunta"><label>🔹 "Мы работаем в больнице." → <input type="text" id="tr3" /></label></div>
-            <div class="pregunta"><label>🔹 "Ты говоришь по-испански?" → <input type="text" id="tr4" /></label></div>
-            <div class="pregunta"><label>🔹 "Они учатся в университете." → <input type="text" id="tr5" /></label></div>
-            <div class="pregunta"><label>🔹 "Я люблю музыку." → <input type="text" id="tr6" /></label></div>
-            <button onclick="checkTraduccion()">Comprobar</button>
-            <div id="resultTraduccion" class="result"></div>
-        </div>
+        <div id="resultConjCol" class="result"></div>
     </div>
 
-    <script>
-        // ──────────────────────────────────────────────
-        //  UTILITY: limpiar estilos de un grupo
-        // ──────────────────────────────────────────────
-        function clearStyles(ids) {
-            ids.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) { el.classList.remove('correct', 'wrong'); }
-            });
-        }
+    <!-- 2. Frases con banco -AR -->
+    <div class="card" id="card2">
+        <h2>2. Completa con la forma correcta <small>elige el verbo del banco</small></h2>
+        <div class="verb-bank">
+            <h3>📚 Banco de verbos <span class="help-tip">haz clic en un verbo para insertarlo en el campo activo</span></h3>
+            <div class="verb-chips" id="verbChips">
+                <button class="verb-chip" data-verb="hablar">hablar</button>
+                <button class="verb-chip" data-verb="viajar">viajar</button>
+                <button class="verb-chip" data-verb="estudiar">estudiar</button>
+                <button class="verb-chip" data-verb="trabajar">trabajar</button>
+                <button class="verb-chip" data-verb="cantar">cantar</button>
+                <button class="verb-chip" data-verb="mirar">mirar</button>
+                <button class="verb-chip" data-verb="escuchar">escuchar</button>
+                <button class="verb-chip" data-verb="practicar">practicar</button>
+            </div>
+            <div style="margin-top:8px;font-size:0.8rem;color:#4b6a7a;">💡 Haz clic en un verbo → se escribe en el campo que tengas seleccionado (azul).</div>
+        </div>
 
-        function applyStyles(ids, correctAnswers, normalize) {
-            let ok = true,
-                wrong = [];
-            ids.forEach((id, i) => {
-                const el = document.getElementById(id);
-                if (!el) return;
-                const val = el.value.trim();
-                const norm = normalize ? val.toLowerCase() : val;
-                const correct = normalize ? correctAnswers[i].toLowerCase() : correctAnswers[i];
-                if (norm === correct) {
-                    el.classList.remove('wrong');
-                    el.classList.add('correct');
-                } else {
-                    el.classList.remove('correct');
-                    el.classList.add('wrong');
-                    ok = false;
-                    wrong.push(i + 1);
-                }
-            });
-            return { ok, wrong };
-        }
+        <div class="pregunta"><label>1. María <input type="text" id="s1" placeholder="verbo" /><span class="hint" data-answer="habla">habla</span> español muy bien.</label></div>
+        <div class="pregunta"><label>2. Nosotros <input type="text" id="s2" placeholder="verbo" /><span class="hint" data-answer="viajamos">viajamos</span> a la playa los viernes.</label></div>
+        <div class="pregunta"><label>3. Tú <input type="text" id="s3" placeholder="verbo" /><span class="hint" data-answer="estudias">estudias</span> en la biblioteca.</label></div>
+        <div class="pregunta"><label>4. Ellos <input type="text" id="s4" placeholder="verbo" /><span class="hint" data-answer="trabajan">trabajan</span> en el hospital.</label></div>
+        <div class="pregunta"><label>5. Yo <input type="text" id="s5" placeholder="verbo" /><span class="hint" data-answer="canto">canto</span> en el coro.</label></div>
+        <div class="pregunta"><label>6. Pedro y Ana <input type="text" id="s6" placeholder="verbo" /><span class="hint" data-answer="miran">miran</span> películas.</label></div>
+        <div class="pregunta"><label>7. Yo <input type="text" id="s7" placeholder="verbo" /><span class="hint" data-answer="escucho">escucho</span> música.</label></div>
+        <div class="pregunta"><label>8. Vosotros <input type="text" id="s8" placeholder="verbo" /><span class="hint" data-answer="cantáis">cantáis</span> muy bien.</label></div>
+        <div class="pregunta"><label>9. Mi hermana <input type="text" id="s9" placeholder="verbo" /><span class="hint" data-answer="practica">practica</span> yoga.</label></div>
+        <div class="pregunta"><label>10. Nosotros <input type="text" id="s10" placeholder="verbo" /><span class="hint" data-answer="estudiamos">estudiamos</span> mucho.</label></div>
 
-        // ──────────────────────────────────────────────
-        //  1. CONJUGACIÓN EN COLUMNAS
-        // ──────────────────────────────────────────────
-        const conjIds = [
-            'tr1', 'tr2', 'tr3', 'tr4', 'tr5', 'tr6',
-            'es1', 'es2', 'es3', 'es4', 'es5', 'es6',
-            'ca1', 'ca2', 'ca3', 'ca4', 'ca5', 'ca6'
-        ];
-        const conjCorrect = [
-            'trabajo', 'trabajas', 'trabaja', 'trabajamos', 'trabajáis', 'trabajan',
-            'estudio', 'estudias', 'estudia', 'estudiamos', 'estudiáis', 'estudian',
-            'canto', 'cantas', 'canta', 'cantamos', 'cantáis', 'cantan'
-        ];
+        <div class="btn-group">
+            <button onclick="checkScreenshot()">Comprobar</button>
+            <button onclick="toggleHints(this)" class="btn-show-answers">📖 Mostrar respuestas</button>
+        </div>
+        <div id="resultScreenshot" class="result"></div>
+    </div>
 
-        function checkConjColumnas() {
-            clearStyles(conjIds);
-            const result = applyStyles(conjIds, conjCorrect, true);
-            const el = document.getElementById('resultConjCol');
-            if (result.ok) {
-                el.className = 'result ok';
-                el.textContent = '✅ ¡Todas las formas correctas!';
-            } else {
-                el.className = 'result fail';
-                el.textContent = '❌ Revisa los campos: ' + result.wrong.join(', ');
-            }
-        }
+    <!-- 3. Texto Carlos Ruiz -->
+    <div class="card" id="card3">
+        <h2>3. Texto: Carlos Ruiz <small>responde con tus palabras</small></h2>
+        <div class="texto-ejemplo">
+            <strong>Carlos Ruiz</strong><br>
+            Me llamo Carlos Ruiz y tengo 22 años. Soy mexicano y soy estudiante de medicina. Estudio en la Universidad de Guadalajara. Voy a la biblioteca todos los días. Hablo español y estudio inglés.
+        </div>
+        <div class="pregunta"><label>1. ¿De dónde es él? <input type="text" id="t1" /><span class="hint" data-answer="México / De México / Es mexicano">México / De México / Es mexicano</span></label></div>
+        <div class="pregunta"><label>2. ¿Cuántos años tiene? <input type="text" id="t2" /><span class="hint" data-answer="22 / 22 años / Tiene 22 años">22 / 22 años / Tiene 22 años</span></label></div>
+        <div class="pregunta"><label>3. ¿Trabaja o estudia? <input type="text" id="t3" /><span class="hint" data-answer="Estudia / Es estudiante / No trabaja, estudia">Estudia / Es estudiante / No trabaja, estudia</span></label></div>
+        <div class="pregunta"><label>4. ¿Dónde estudia? <input type="text" id="t4" /><span class="hint" data-answer="En la Universidad de Guadalajara / En Guadalajara">En la Universidad de Guadalajara / En Guadalajara</span></label></div>
+        <div class="pregunta"><label>5. ¿Dónde va todos los días? <input type="text" id="t5" /><span class="hint" data-answer="A la biblioteca / Va a la biblioteca">A la biblioteca / Va a la biblioteca</span></label></div>
+        <div class="pregunta"><label>6. ¿Qué idiomas habla? <input type="text" id="t6" /><span class="hint" data-answer="Español e inglés / Habla español e inglés">Español e inglés / Habla español e inglés</span></label></div>
+        <div class="pregunta"><label>7. (V/F) Carlos tiene 22 años. <input type="text" id="t7" /><span class="hint" data-answer="Verdadero / V / Cierto">Verdadero / V / Cierto</span></label></div>
+        <div class="pregunta"><label>8. (V/F) Carlos trabaja en un hospital. <input type="text" id="t8" /><span class="hint" data-answer="Falso / F / No, es estudiante">Falso / F / No, es estudiante</span></label></div>
+        <div class="btn-group">
+            <button onclick="checkTextoAbierto()" class="check-btn">Verificar</button>
+            <button onclick="toggleHints(this)" class="btn-show-answers">📖 Mostrar respuestas</button>
+        </div>
+        <div id="resultTextoAbierto" class="result"></div>
+    </div>
 
-        function showConjAnswers() {
-            conjIds.forEach((id, i) => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.value = conjCorrect[i];
-                    el.classList.remove('wrong', 'correct');
-                    el.classList.add('correct');
-                }
-            });
-            const el = document.getElementById('resultConjCol');
-            el.className = 'result info';
-            el.textContent = '📖 Respuestas mostradas (verde).';
-        }
+    <!-- 4. Describir a Javier -->
+    <div class="card" id="card4">
+        <h2>4. Describe a Javier <small>usa verbos -AR</small></h2>
+        <div class="foto-placeholder">
+            <span>👨‍💼</span> <i>Javier, 30 años, argentino, profesor</i>
+            <span class="badge">foto referencia</span>
+        </div>
+        <div class="pregunta"><label>Escribe 3 oraciones sobre Javier (usa verbos -AR):
+            <input type="text" id="descJavier" style="width:100%;" /></label>
+        </div>
+        <button onclick="checkDescJavier()">Comprobar sugerencia</button>
+        <div id="resultDescJavier" class="result"></div>
+    </div>
 
-        // ──────────────────────────────────────────────
-        //  2. FRASES CON BANCO DE VERBOS
-        // ──────────────────────────────────────────────
-        const sentenceIds = ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10'];
-        const sentenceCorrect = [
-            'habla', 'vamos', 'eres', 'estudian', 'tengo',
-            'trabajan', 'estoy', 'cantáis', 'va', 'tenemos'
-        ];
+    <!-- 5. También / Tampoco -->
+    <div class="card" id="card5">
+        <h2>5. También / Tampoco <small>6 ejercicios</small></h2>
+        <div class="pregunta"><label>1. Yo soy estudiante. → María ______ es estudiante. <input type="text" id="ta1" /><span class="hint" data-answer="también">también</span></label></div>
+        <div class="pregunta"><label>2. Yo no estudio inglés. → Él ______ estudia inglés. <input type="text" id="ta2" /><span class="hint" data-answer="tampoco">tampoco</span></label></div>
+        <div class="pregunta"><label>3. A ella le gusta el café. → A mí ______ me gusta. <input type="text" id="ta3" /><span class="hint" data-answer="también">también</span></label></div>
+        <div class="pregunta"><label>4. Ellos no van al cine. → Nosotros ______ vamos. <input type="text" id="ta4" /><span class="hint" data-answer="tampoco">tampoco</span></label></div>
+        <div class="pregunta"><label>5. Mi hermana trabaja los sábados. → Yo ______ trabajo. <input type="text" id="ta5" /><span class="hint" data-answer="también">también</span></label></div>
+        <div class="pregunta"><label>6. Pedro no habla francés. → Ana ______ habla francés. <input type="text" id="ta6" /><span class="hint" data-answer="tampoco">tampoco</span></label></div>
+        <div class="btn-group">
+            <button onclick="checkTambTampoco()">Comprobar</button>
+            <button onclick="toggleHints(this)" class="btn-show-answers">📖 Mostrar respuestas</button>
+        </div>
+        <div id="resultTambTampoco" class="result"></div>
+    </div>
 
-        // ── banco de verbos: clic → insertar en campo activo ──
-        let activeInputId = null;
+    <!-- 6. Gustar -->
+    <div class="card" id="card6">
+        <h2>6. Gustar <small>gusta/gustan (4) y pronombres (4)</small></h2>
+        <div><strong>Elige gusta / gustan</strong></div>
+        <div class="pregunta"><label>1. A mí ______ los libros. <input type="text" id="g1" /><span class="hint" data-answer="gustan">gustan</span></label></div>
+        <div class="pregunta"><label>2. A ti ______ cantar. <input type="text" id="g2" /><span class="hint" data-answer="gusta">gusta</span></label></div>
+        <div class="pregunta"><label>3. A ella ______ las películas. <input type="text" id="g3" /><span class="hint" data-answer="gustan">gustan</span></label></div>
+        <div class="pregunta"><label>4. A nosotros ______ el deporte. <input type="text" id="g4" /><span class="hint" data-answer="gusta">gusta</span></label></div>
+        <hr>
+        <div><strong>Escribe el pronombre (me, te, le, nos, os, les)</strong></div>
+        <div class="pregunta"><label>5. ______ gusta el cine. (a mí) <input type="text" id="gp1" /><span class="hint" data-answer="me">me</span></label></div>
+        <div class="pregunta"><label>6. ______ gustan las frutas. (a ellos) <input type="text" id="gp2" /><span class="hint" data-answer="les">les</span></label></div>
+        <div class="pregunta"><label>7. ______ gusta viajar. (a nosotros) <input type="text" id="gp3" /><span class="hint" data-answer="nos">nos</span></label></div>
+        <div class="pregunta"><label>8. ______ gusta la música. (a ti) <input type="text" id="gp4" /><span class="hint" data-answer="te">te</span></label></div>
+        <div class="btn-group">
+            <button onclick="checkGustarCompleto()">Comprobar</button>
+            <button onclick="toggleHints(this)" class="btn-show-answers">📖 Mostrar respuestas</button>
+        </div>
+        <div id="resultGustarCompleto" class="result"></div>
+    </div>
 
-        document.querySelectorAll('#verbChips .verb-chip').forEach(chip => {
-            chip.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const verb = this.dataset.verb;
-                if (!activeInputId) {
-                    // si no hay campo activo, buscar el primer input vacío
-                    for (let id of sentenceIds) {
-                        const inp = document.getElementById(id);
-                        if (inp && inp.value.trim() === '') {
-                            activeInputId = id;
-                            break;
-                        }
-                    }
-                    if (!activeInputId) {
-                        // si todos están llenos, usar el primero
-                        activeInputId = sentenceIds[0];
-                    }
-                }
-                const target = document.getElementById(activeInputId);
-                if (target) {
-                    target.value = verb;
-                    target.focus();
-                    // quitar estilos previos
-                    target.classList.remove('correct', 'wrong');
-                    // resaltar el campo
-                    target.style.outline = '3px solid #2a7f6e';
-                    setTimeout(() => { target.style.outline = ''; }, 400);
-                }
-            });
+    <!-- 7. Traducción del ruso (SIN botón Comprobar) -->
+    <div class="card" id="card7">
+        <h2>➕ Traducción del ruso <small>6 oraciones</small></h2>
+        <div class="pregunta"><label>🔹 "Я студент." → <input type="text" id="tr1" /><span class="hint" data-answer="soy estudiante / yo soy estudiante / estudiante">soy estudiante / yo soy estudiante / estudiante</span></label></div>
+        <div class="pregunta"><label>🔹 "Она умная." → <input type="text" id="tr2" /><span class="hint" data-answer="ella es inteligente / es inteligente / inteligente">ella es inteligente / es inteligente / inteligente</span></label></div>
+        <div class="pregunta"><label>🔹 "Мы работаем в больнице." → <input type="text" id="tr3" /><span class="hint" data-answer="trabajamos en el hospital / nosotros trabajamos en el hospital / en el hospital trabajamos">trabajamos en el hospital / nosotros trabajamos en el hospital / en el hospital trabajamos</span></label></div>
+        <div class="pregunta"><label>🔹 "Ты говоришь по-испански?" → <input type="text" id="tr4" /><span class="hint" data-answer="¿hablas español? / hablas español / ¿tú hablas español?">¿hablas español? / hablas español / ¿tú hablas español?</span></label></div>
+        <div class="pregunta"><label>🔹 "Они учатся в университете." → <input type="text" id="tr5" /><span class="hint" data-answer="estudian en la universidad / ellos estudian en la universidad / en la universidad estudian">estudian en la universidad / ellos estudian en la universidad / en la universidad estudian</span></label></div>
+        <div class="pregunta"><label>🔹 "Я люблю музыку." → <input type="text" id="tr6" /><span class="hint" data-answer="me gusta la música / la música me gusta / yo me gusta la música / gusta la música">me gusta la música / la música me gusta / yo me gusta la música / gusta la música</span></label></div>
+        <div class="btn-group">
+            <!-- Кнопка Comprobar удалена -->
+            <button onclick="toggleHints(this)" class="btn-show-answers">📖 Mostrar respuestas</button>
+        </div>
+        <div id="resultTraduccion" class="result"></div>
+    </div>
+</div>
+
+<script>
+    // ──────────────────────────────────────────────
+    //  TOGGLE HINTS (local por card)
+    // ──────────────────────────────────────────────
+    function toggleHints(button) {
+        const card = button.closest('.card');
+        if (!card) return;
+        const hints = card.querySelectorAll('.hint');
+        const allHidden = Array.from(hints).every(h => !h.classList.contains('show'));
+        hints.forEach(h => {
+            if (allHidden) h.classList.add('show');
+            else h.classList.remove('show');
         });
+    }
 
-        // Al hacer clic en un input, se vuelve el activo
-        sentenceIds.forEach(id => {
-            const inp = document.getElementById(id);
-            if (inp) {
-                inp.addEventListener('focus', function() {
-                    activeInputId = this.id;
-                    // quitar resaltado de otros
-                    sentenceIds.forEach(sid => {
-                        const other = document.getElementById(sid);
-                        if (other) other.style.outline = '';
-                    });
-                    this.style.outline = '3px solid #2a7f6e';
-                });
-                inp.addEventListener('blur', function() {
-                    this.style.outline = '';
-                });
-            }
+    // ──────────────────────────────────────────────
+    //  UTILITY
+    // ──────────────────────────────────────────────
+    function clearStyles(ids) {
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('correct', 'wrong');
         });
+    }
 
-        function checkScreenshot() {
-            clearStyles(sentenceIds);
-            const result = applyStyles(sentenceIds, sentenceCorrect, true);
-            const el = document.getElementById('resultScreenshot');
-            if (result.ok) {
-                el.className = 'result ok';
-                el.textContent = '✅ ¡Correcto!';
-            } else {
-                el.className = 'result fail';
-                el.textContent = '❌ Revisa oración(es): ' + result.wrong.join(', ');
-            }
-        }
-
-        function showSentenceAnswers() {
-            sentenceIds.forEach((id, i) => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.value = sentenceCorrect[i];
-                    el.classList.remove('wrong', 'correct');
-                    el.classList.add('correct');
-                }
-            });
-            const el = document.getElementById('resultScreenshot');
-            el.className = 'result info';
-            el.textContent = '📖 Respuestas mostradas (verde).';
-        }
-
-        // ──────────────────────────────────────────────
-        //  3. TEXTO ABIERTO
-        // ──────────────────────────────────────────────
-        function checkTextoAbierto() {
-            const ids = ['t1', 't2', 't3', 't4', 't5', 't6', 't7', 't8'];
-            const modelos = [
-                'México / De México / Es mexicano',
-                '22 / 22 años / Tiene 22 años',
-                'Estudia / Es estudiante / No trabaja, estudia',
-                'En la Universidad de Guadalajara / En Guadalajara',
-                'A la biblioteca / Va a la biblioteca',
-                'Español e inglés / Habla español e inglés',
-                'Verdadero / V / Cierto',
-                'Falso / F / No, es estudiante'
-            ];
-            let vacios = [];
-            let respuestas = [];
-            // limpiar estilos previos
-            ids.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.remove('correct', 'wrong');
-            });
-            ids.forEach((id, i) => {
-                const val = document.getElementById(id).value.trim();
-                respuestas.push(val);
-                if (val === '') vacios.push(i + 1);
-            });
-            const el = document.getElementById('resultTextoAbierto');
-            if (vacios.length === 0) {
-                // marcar todos como "correctos" (tienen contenido)
-                ids.forEach(id => {
-                    const inp = document.getElementById(id);
-                    if (inp) inp.classList.add('correct');
-                });
-                el.className = 'result info';
-                let html = '✅ ¡Has respondido todas! Aquí tienes respuestas modelo (pueden variar):\n';
-                modelos.forEach((m, i) => {
-                    html += '\n' + (i + 1) + '. ' + m;
-                });
-                el.textContent = html;
-            } else {
-                // marcar los vacíos como "wrong"
-                vacios.forEach(idx => {
-                    const inp = document.getElementById(ids[idx - 1]);
-                    if (inp) inp.classList.add('wrong');
-                });
-                el.className = 'result fail';
-                el.textContent = '❌ Deja vacía(s) la(s) pregunta(s): ' + vacios.join(', ') +
-                    ' — completa todas para ver las respuestas modelo.';
-            }
-        }
-
-        // ──────────────────────────────────────────────
-        //  4. DESCRIPCIÓN JAVIER
-        // ──────────────────────────────────────────────
-        function checkDescJavier() {
-            const el = document.getElementById('descJavier');
+    function applyStyles(ids, correctAnswers, normalize) {
+        let ok = true;
+        ids.forEach((id, i) => {
+            const el = document.getElementById(id);
+            if (!el) return;
             const val = el.value.trim();
-            const resultEl = document.getElementById('resultDescJavier');
-            el.classList.remove('correct', 'wrong');
-            if (val.length < 10) {
+            const norm = normalize ? val.toLowerCase() : val;
+            const correct = normalize ? correctAnswers[i].toLowerCase() : correctAnswers[i];
+            if (norm === correct) {
+                el.classList.remove('wrong');
+                el.classList.add('correct');
+            } else {
+                el.classList.remove('correct');
                 el.classList.add('wrong');
-                resultEl.className = 'result fail';
-                resultEl.textContent = '✏️ Escribe al menos 3 oraciones (mínimo 10 caracteres).';
+                ok = false;
+            }
+        });
+        return ok;
+    }
+
+    // ──────────────────────────────────────────────
+    //  1. CONJUGACIÓN
+    // ──────────────────────────────────────────────
+    const conjIds = [
+        'tr1','tr2','tr3','tr4','tr5','tr6',
+        'es1','es2','es3','es4','es5','es6',
+        'ca1','ca2','ca3','ca4','ca5','ca6'
+    ];
+    const conjCorrect = [
+        'trabajo','trabajas','trabaja','trabajamos','trabajáis','trabajan',
+        'estudio','estudias','estudia','estudiamos','estudiáis','estudian',
+        'canto','cantas','canta','cantamos','cantáis','cantan'
+    ];
+
+    function checkConjColumnas() {
+        clearStyles(conjIds);
+        const ok = applyStyles(conjIds, conjCorrect, true);
+        const el = document.getElementById('resultConjCol');
+        el.className = ok ? 'result ok' : 'result fail';
+        el.textContent = ok ? '✅ ¡Todas las formas correctas!' : '❌ Hay errores, revisa los campos en rojo.';
+    }
+
+    // ──────────────────────────────────────────────
+    //  2. FRASES
+    // ──────────────────────────────────────────────
+    const sentenceIds = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'];
+    const sentenceCorrect = [
+        'habla','viajamos','estudias','trabajan','canto',
+        'miran','escucho','cantáis','practica','estudiamos'
+    ];
+
+    let activeInputId = null;
+    document.querySelectorAll('#verbChips .verb-chip').forEach(chip => {
+        chip.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const verb = this.dataset.verb;
+            if (!activeInputId) {
+                for (let id of sentenceIds) {
+                    const inp = document.getElementById(id);
+                    if (inp && inp.value.trim() === '') {
+                        activeInputId = id;
+                        break;
+                    }
+                }
+                if (!activeInputId) activeInputId = sentenceIds[0];
+            }
+            const target = document.getElementById(activeInputId);
+            if (target) {
+                target.value = verb;
+                target.focus();
+                target.classList.remove('correct','wrong');
+                target.style.outline = '3px solid #2a7f6e';
+                setTimeout(() => target.style.outline = '', 400);
+            }
+        });
+    });
+    sentenceIds.forEach(id => {
+        const inp = document.getElementById(id);
+        if (inp) {
+            inp.addEventListener('focus', function() {
+                activeInputId = this.id;
+                sentenceIds.forEach(sid => {
+                    const other = document.getElementById(sid);
+                    if (other) other.style.outline = '';
+                });
+                this.style.outline = '3px solid #2a7f6e';
+            });
+            inp.addEventListener('blur', function() { this.style.outline = ''; });
+        }
+    });
+
+    function checkScreenshot() {
+        clearStyles(sentenceIds);
+        const ok = applyStyles(sentenceIds, sentenceCorrect, true);
+        const el = document.getElementById('resultScreenshot');
+        el.className = ok ? 'result ok' : 'result fail';
+        el.textContent = ok ? '✅ ¡Correcto!' : '❌ Hay errores, revisa los campos en rojo.';
+    }
+
+    // ──────────────────────────────────────────────
+    //  3. TEXTO ABIERTO
+    // ──────────────────────────────────────────────
+    function checkTextoAbierto() {
+        const ids = ['t1','t2','t3','t4','t5','t6','t7','t8'];
+        const modelos = [
+            'México / De México / Es mexicano',
+            '22 / 22 años / Tiene 22 años',
+            'Estudia / Es estudiante / No trabaja, estudia',
+            'En la Universidad de Guadalajara / En Guadalajara',
+            'A la biblioteca / Va a la biblioteca',
+            'Español e inglés / Habla español e inglés',
+            'Verdadero / V / Cierto',
+            'Falso / F / No, es estudiante'
+        ];
+        let vacios = [];
+        ids.forEach((id, i) => {
+            const el = document.getElementById(id);
+            const val = el.value.trim();
+            el.classList.remove('correct','wrong');
+            if (val === '') {
+                el.classList.add('wrong');
+                vacios.push(i+1);
             } else {
                 el.classList.add('correct');
-                resultEl.className = 'result ok';
-                resultEl.textContent = '✅ ¡Buena descripción! (usa verbos -AR)';
-            }
-        }
-
-        // ──────────────────────────────────────────────
-        //  5. TAMBIÉN / TAMPOCO
-        // ──────────────────────────────────────────────
-        const tambIds = ['ta1', 'ta2', 'ta3', 'ta4', 'ta5', 'ta6'];
-        const tambCorrect = ['también', 'tampoco', 'también', 'tampoco', 'también', 'tampoco'];
-
-        function checkTambTampoco() {
-            clearStyles(tambIds);
-            const result = applyStyles(tambIds, tambCorrect, true);
-            const el = document.getElementById('resultTambTampoco');
-            if (result.ok) {
-                el.className = 'result ok';
-                el.textContent = '✅ Perfecto con también/tampoco.';
-            } else {
-                el.className = 'result fail';
-                el.textContent = '❌ Revisa ejercicio(s) ' + result.wrong.join(', ');
-            }
-        }
-
-        // ──────────────────────────────────────────────
-        //  6. GUSTAR
-        // ──────────────────────────────────────────────
-        const gustarIds = ['g1', 'g2', 'g3', 'g4', 'gp1', 'gp2', 'gp3', 'gp4'];
-        const gustarCorrect = ['gustan', 'gusta', 'gustan', 'gusta', 'me', 'les', 'nos', 'te'];
-
-        function checkGustarCompleto() {
-            clearStyles(gustarIds);
-            const result = applyStyles(gustarIds, gustarCorrect, true);
-            const el = document.getElementById('resultGustarCompleto');
-            if (result.ok) {
-                el.className = 'result ok';
-                el.textContent = '✅ ¡Excelente con gustar!';
-            } else {
-                el.className = 'result fail';
-                el.textContent = '❌ Revisa item(s) ' + result.wrong.join(', ');
-            }
-        }
-
-        // ──────────────────────────────────────────────
-        //  EXTRA: TRADUCCIÓN
-        // ──────────────────────────────────────────────
-        const tradIds = ['tr1', 'tr2', 'tr3', 'tr4', 'tr5', 'tr6'];
-        const tradVariants = [
-            ['yo soy estudiante', 'soy estudiante', 'estudiante'],
-            ['ella es inteligente', 'es inteligente', 'inteligente'],
-            ['nosotros trabajamos en el hospital', 'trabajamos en el hospital', 'en el hospital trabajamos'],
-            ['¿hablas español?', 'hablas español', '¿tú hablas español?'],
-            ['ellos estudian en la universidad', 'estudian en la universidad', 'en la universidad estudian'],
-            ['me gusta la música', 'la música me gusta', 'gusta la música']
-        ];
-
-        function checkTraduccion() {
-            clearStyles(tradIds);
-            let ok = true,
-                wrong = [];
-            let resultados = [];
-            tradIds.forEach((id, i) => {
-                const el = document.getElementById(id);
-                const val = el.value.trim().toLowerCase();
-                const variantes = tradVariants[i];
-                let coincide = false;
-                variantes.forEach(v => {
-                    if (val.includes(v) || v.includes(val)) coincide = true;
-                });
-                if (!coincide || val === '') {
-                    ok = false;
-                    wrong.push(i + 1);
-                    el.classList.add('wrong');
-                } else {
-                    el.classList.add('correct');
-                }
-                resultados.push(variantes.join(' / '));
-            });
-            const el = document.getElementById('resultTraduccion');
-            if (ok) {
-                el.className = 'result ok';
-                el.textContent = '✅ ¡Traducciones correctas!';
-            } else {
-                el.className = 'result info';
-                let msg = '❌ Revisa traducción(es) ' + wrong.join(', ') + '. Variantes correctas:\n';
-                resultados.forEach((r, i) => {
-                    msg += '\n' + (i + 1) + '. ' + r;
-                });
-                el.textContent = msg;
-            }
-        }
-
-        // ──────────────────────────────────────────────
-        //  Inicialización: ningún input activo por defecto
-        // ──────────────────────────────────────────────
-        // El primer input de la lista se activa al cargar (opcional)
-        document.addEventListener('DOMContentLoaded', function() {
-            // Activar el primer input de la frase 2 para que el banco funcione
-            const first = document.getElementById('s1');
-            if (first) {
-                activeInputId = 's1';
-                first.style.outline = '3px solid #2a7f6e';
             }
         });
-    </script>
+        const el = document.getElementById('resultTextoAbierto');
+        if (vacios.length === 0) {
+            el.className = 'result info';
+            let html = '✅ ¡Has respondido todas! Aquí tienes respuestas modelo (pueden variar):\n';
+            modelos.forEach((m, i) => { html += '\n' + (i+1) + '. ' + m; });
+            el.textContent = html;
+        } else {
+            el.className = 'result fail';
+            el.textContent = '❌ Completa todas las preguntas (campos en rojo).';
+        }
+    }
+
+    // ──────────────────────────────────────────────
+    //  4. DESCRIBIR JAVIER
+    // ──────────────────────────────────────────────
+    function checkDescJavier() {
+        const el = document.getElementById('descJavier');
+        const val = el.value.trim();
+        const resultEl = document.getElementById('resultDescJavier');
+        el.classList.remove('correct','wrong');
+        if (val.length < 10) {
+            el.classList.add('wrong');
+            resultEl.className = 'result fail';
+            resultEl.textContent = '✏️ Escribe al menos 3 oraciones (mínimo 10 caracteres).';
+        } else {
+            el.classList.add('correct');
+            resultEl.className = 'result ok';
+            resultEl.textContent = '✅ ¡Buena descripción! (usa verbos -AR)';
+        }
+    }
+
+    // ──────────────────────────────────────────────
+    //  5. TAMBIÉN / TAMPOCO
+    // ──────────────────────────────────────────────
+    const tambIds = ['ta1','ta2','ta3','ta4','ta5','ta6'];
+    const tambCorrect = ['también','tampoco','también','tampoco','también','tampoco'];
+
+    function checkTambTampoco() {
+        clearStyles(tambIds);
+        const ok = applyStyles(tambIds, tambCorrect, true);
+        const el = document.getElementById('resultTambTampoco');
+        el.className = ok ? 'result ok' : 'result fail';
+        el.textContent = ok ? '✅ Perfecto con también/tampoco.' : '❌ Hay errores, revisa los campos en rojo.';
+    }
+
+    // ──────────────────────────────────────────────
+    //  6. GUSTAR
+    // ──────────────────────────────────────────────
+    const gustarIds = ['g1','g2','g3','g4','gp1','gp2','gp3','gp4'];
+    const gustarCorrect = ['gustan','gusta','gustan','gusta','me','les','nos','te'];
+
+    function checkGustarCompleto() {
+        clearStyles(gustarIds);
+        const ok = applyStyles(gustarIds, gustarCorrect, true);
+        const el = document.getElementById('resultGustarCompleto');
+        el.className = ok ? 'result ok' : 'result fail';
+        el.textContent = ok ? '✅ ¡Excelente con gustar!' : '❌ Hay errores, revisa los campos en rojo.';
+    }
+
+    // ──────────────────────────────────────────────
+    //  7. TRADUCCIÓN (sin botón Comprobar, pero con función por si acaso)
+    // ──────────────────────────────────────────────
+    // Функция checkTraduccion больше не вызывается, но оставлена для совместимости
+    function checkTraduccion() {
+        // можно оставить пустой или удалить – она не используется
+    }
+
+    // ──────────────────────────────────────────────
+    //  Inicialización
+    // ──────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function() {
+        const first = document.getElementById('s1');
+        if (first) {
+            activeInputId = 's1';
+            first.style.outline = '3px solid #2a7f6e';
+        }
+    });
+</script>
 </body>
 </html>
