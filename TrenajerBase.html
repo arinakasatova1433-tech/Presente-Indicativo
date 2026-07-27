@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇪🇸 Испанский тренажёр — полная версия</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #f0f4fb;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: white;
+            border-radius: 36px;
+            padding: 26px 28px;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.12);
+        }
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 600;
+            color: #0a1f3b;
+            border-left: 6px solid #2b7be0;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+        .sub {
+            color: #3d5477;
+            margin-bottom: 28px;
+            padding-left: 26px;
+            border-bottom: 1px solid #dfe8f2;
+            padding-bottom: 12px;
+        }
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 10px;
+            margin-bottom: 28px;
+            border-bottom: 2px solid #dde6f0;
+            padding-bottom: 14px;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 60px;
+            font-weight: 600;
+            color: #2d4b72;
+            cursor: pointer;
+            transition: 0.15s;
+            font-size: 0.85rem;
+            border: 1.5px solid transparent;
+        }
+        .tab-btn:hover { background: #e4edf8; }
+        .tab-btn.active {
+            background: #1f4f89;
+            color: white;
+            border-color: #1f4f89;
+            box-shadow: 0 4px 8px rgba(28,78,138,0.15);
+        }
+        .tab-content { display: none; animation: fade 0.2s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fade { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+        .task-block {
+            background: #f9fcff;
+            border-radius: 24px;
+            padding: 18px 22px 22px;
+            margin-bottom: 22px;
+            border: 1px solid #dfeaf5;
+        }
+        .task-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #12315a;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .task-title .badge {
+            background: #1f3d66;
+            color: white;
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            letter-spacing: 0.3px;
+        }
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px 18px;
+            margin: 6px 0;
+        }
+        .fill-in {
+            border: 2px solid #ccddef;
+            border-radius: 60px;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            min-width: 140px;
+            background: #fafdff;
+            transition: 0.12s;
+        }
+        .fill-in:focus {
+            border-color: #2b7be0;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(43,123,224,0.15);
+        }
+        .fill-in.correct { border-color: #1e8847; background: #e6f5ea; }
+        .fill-in.wrong { border-color: #c73e3e; background: #fde8e8; }
+        .btn-check {
+            background: #1f4f89;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 30px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: 0.15s;
+            margin-top: 12px;
+            font-size: 0.95rem;
+        }
+        .btn-check:hover { background: #123b66; }
+        .btn-check:disabled { opacity: 0.5; cursor: not-allowed; }
+        .feedback {
+            margin-top: 16px;
+            padding: 14px 20px;
+            border-radius: 20px;
+            background: #e9f1fc;
+            border-left: 6px solid #2b7be0;
+            font-weight: 500;
+            color: #0b2447;
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .feedback.show { display: block; }
+        .translation {
+            color: #3a5d81;
+            font-size: 0.85rem;
+            background: #eef4fc;
+            padding: 2px 12px;
+            border-radius: 40px;
+            margin-left: 8px;
+        }
+        .flashcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 12px 0;
+        }
+        .flashcard {
+            background: #f2f7ff;
+            border: 2px solid #c6d8ed;
+            border-radius: 16px;
+            padding: 14px 16px;
+            text-align: center;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .flashcard:hover { transform: scale(1.02); border-color: #7fa7d9; }
+        .flashcard .es { color: #1a4f8b; font-size: 1.1rem; }
+        .flashcard .ru { color: #3d5a7a; font-size: 0.95rem; margin-top: 4px; }
+        .sub-section {
+            background: #f2f7ff;
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin: 12px 0 16px;
+            border-left: 4px solid #4a7fc7;
+        }
+        hr { margin: 28px 0 12px; border: 0; border-top: 2px solid #dee9f3; }
+        .footer { text-align: center; color: #4d6a8f; font-size: 0.9rem; padding-top: 14px; }
+        .result-msg { font-size: 0.9rem; margin-top: 6px; }
+        @media (max-width: 600px) {
+            .container { padding: 16px; }
+            .tab-btn { padding: 5px 10px; font-size: 0.75rem; }
+            .flashcard-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📘 Entrenador completo</h1>
+    <div class="sub">7 вкладок · более 150 заданий</div>
+
+    <div class="nav-tabs" id="navTabs">
+        <button class="tab-btn active" data-tab="tab1">Числа</button>
+        <button class="tab-btn" data-tab="tab2">Время</button>
+        <button class="tab-btn" data-tab="tab3">Дни / Месяцы</button>
+        <button class="tab-btn" data-tab="tab4">Bien/Bueno/Mal/Malo</button>
+        <button class="tab-btn" data-tab="tab5">Gustar</button>
+        <button class="tab-btn" data-tab="tab6">Muy/Mucho</button>
+        <button class="tab-btn" data-tab="tab7">Глаголы · Estar/Hay/Ser</button>
+    </div>
+
+    <!-- ====== TAB 1: ЧИСЛА ====== -->
+    <div id="tab1" class="tab-content active">
+        <div class="task-block">
+            <div class="task-title"><span class="badge">30 заданий</span> Числа 0–100</div>
+            <div id="numQuestions"></div>
+            <div id="numFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkNum">Проверить</button>
+        </div>
+    </div>
+
+    <!-- ====== TAB 2: ВРЕМЯ (только словами) ====== -->
+    <div id="tab2" class="tab-content">
+        <div class="task-block">
+            <div class="task-title"><span class="badge">20 заданий</span> ¿Qué hora es? (только словами)</div>
+            <div id="timeQuestions"></div>
+            <div id="timeFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkTime">Проверить</button>
+        </div>
+    </div>
+
+    <!-- ====== TAB 3: ДНИ / МЕСЯЦЫ ====== -->
+    <div id="tab3" class="tab-content">
+        <div class="task-block">
+            <div class="task-title"><span class="badge">30 заданий</span> Дни недели & Месяцы</div>
+            <div id="dayMonthQuestions"></div>
+            <div id="dayMonthFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkDayMonth">Проверить</button>
+        </div>
+    </div>
+
+    <!-- ====== TAB 4: BIEN / BUENO / MAL / MALO ====== -->
+    <div id="tab4" class="tab-content">
+        <div class="task-block">
+            <div class="task-title"><span class="badge">25 заданий</span> Bien · Bueno · Mal · Malo</div>
+            <div id="bienMalQuestions"></div>
+            <div id="bienMalFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkBienMal">Проверить</button>
+        </div>
+    </div>
+
+    <!-- ====== TAB 5: GUSTAR ====== -->
+    <div id="tab5" class="tab-content">
+        <div class="task-block">
+            <div class="task-title"><span class="badge">1/3</span> Gustar: формы (gusta / gustan)</div>
+            <div id="gustarForms"></div>
+            <div id="gustarFormsFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkGustarForms">Проверить</button>
+        </div>
+        <div class="task-block">
+            <div class="task-title"><span class="badge">2/3</span> Gustar: местоимения</div>
+            <div id="gustarPronouns"></div>
+            <div id="gustarPronounsFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkGustarPronouns">Проверить</button>
+        </div>
+        <div class="task-block">
+            <div class="task-title"><span class="badge">3/3</span> Gustar: перевод с русского</div>
+            <div id="gustarTranslate"></div>
+            <div id="gustarTranslateFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkGustarTranslate">Проверить</button>
+        </div>
+    </div>
+
+    <!-- ====== TAB 6: MUY / MUCHO (отдельно) ====== -->
+    <div id="tab6" class="tab-content">
+        <div class="task-block">
+            <div class="task-title"><span class="badge">20 заданий</span> Muy vs Mucho</div>
+            <div id="muyMuchoQuestions"></div>
+            <div id="muyMuchoFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkMuyMucho">Проверить</button>
+        </div>
+    </div>
+
+    <!-- ====== TAB 7: ГЛАГОЛЫ ====== -->
+    <div id="tab7" class="tab-content">
+        <!-- Карточки глаголов -->
+        <div class="task-block">
+            <div class="task-title"><span class="badge">Карточки</span> Неправильные глаголы</div>
+            <div class="flashcard-grid" id="verbCards">
+                <div class="flashcard"><div class="es">ser</div><div class="ru">быть</div></div>
+                <div class="flashcard"><div class="es">ir</div><div class="ru">идти</div></div>
+                <div class="flashcard"><div class="es">dar</div><div class="ru">давать</div></div>
+                <div class="flashcard"><div class="es">poner</div><div class="ru">класть, ставить</div></div>
+                <div class="flashcard"><div class="es">decir</div><div class="ru">говорить</div></div>
+                <div class="flashcard"><div class="es">hacer</div><div class="ru">делать</div></div>
+                <div class="flashcard"><div class="es">tener</div><div class="ru">иметь</div></div>
+                <div class="flashcard"><div class="es">venir</div><div class="ru">приходить</div></div>
+                <div class="flashcard"><div class="es">salir</div><div class="ru">выходить</div></div>
+                <div class="flashcard"><div class="es">ver</div><div class="ru">видеть</div></div>
+                <div class="flashcard"><div class="es">saber</div><div class="ru">знать</div></div>
+            </div>
+        </div>
+
+        <!-- Estar vs Hay -->
+        <div class="task-block">
+            <div class="task-title"><span class="badge">1/5</span> Estar vs Hay</div>
+            <div id="estarHayQuestions"></div>
+            <div id="estarHayFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkEstarHay">Проверить</button>
+        </div>
+
+        <!-- Estar vs Hay vs Ser -->
+        <div class="task-block">
+            <div class="task-title"><span class="badge">2/5</span> Estar · Hay · Ser</div>
+            <div id="estarHaySerQuestions"></div>
+            <div id="estarHaySerFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkEstarHaySer">Проверить</button>
+        </div>
+
+        <!-- Неправильные глаголы: перевод -->
+        <div class="task-block">
+            <div class="task-title"><span class="badge">3/5</span> Неправильные глаголы: перевод с русского</div>
+            <div id="irregularTranslate"></div>
+            <div id="irregularTranslateFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkIrregularTranslate">Проверить</button>
+        </div>
+
+        <!-- Неправильные глаголы: формы -->
+        <div class="task-block">
+            <div class="task-title"><span class="badge">4/5</span> Неправильные глаголы: формы</div>
+            <div id="irregularForms"></div>
+            <div id="irregularFormsFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkIrregularForms">Проверить</button>
+        </div>
+
+        <!-- Estar vs Hay vs Ser (доп) -->
+        <div class="task-block">
+            <div class="task-title"><span class="badge">5/5</span> Estar · Hay · Ser (дополнительно)</div>
+            <div id="estarHaySerExtra"></div>
+            <div id="estarHaySerExtraFeedback" class="feedback"></div>
+            <button class="btn-check" id="checkEstarHaySerExtra">Проверить</button>
+        </div>
+    </div>
+    <div class="footer">✔ Нажмите «Проверить» для каждого тренажёра. Правильные ответы показываются в конце.</div>
+</div>
+
+<script>
+(function() {
+    // ----- TABS -----
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = {
+        tab1: document.getElementById('tab1'),
+        tab2: document.getElementById('tab2'),
+        tab3: document.getElementById('tab3'),
+        tab4: document.getElementById('tab4'),
+        tab5: document.getElementById('tab5'),
+        tab6: document.getElementById('tab6'),
+        tab7: document.getElementById('tab7')
+    };
+    tabs.forEach(btn => {
+        btn.addEventListener('click', function() {
+            tabs.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            Object.keys(contents).forEach(key => contents[key].classList.remove('active'));
+            const target = document.getElementById(this.dataset.tab);
+            if (target) target.classList.add('active');
+        });
+    });
+
+    // ----- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ -----
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+    function normalize(str) {
+        return str.trim().toLowerCase().replace(/\s+/g, ' ').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    // ============================================================
+    //  1. ЧИСЛА (30)
+    // ============================================================
+    const numWords = ['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez',
+        'once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve','veinte',
+        'veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve',
+        'treinta','treinta y uno','treinta y dos','treinta y tres','treinta y cuatro','treinta y cinco','treinta y seis',
+        'treinta y siete','treinta y ocho','treinta y nueve','cuarenta','cuarenta y uno','cuarenta y dos','cuarenta y tres',
+        'cuarenta y cuatro','cuarenta y cinco','cuarenta y seis','cuarenta y siete','cuarenta y ocho','cuarenta y nueve',
+        'cincuenta','cincuenta y uno','cincuenta y dos','cincuenta y tres','cincuenta y cuatro','cincuenta y cinco',
+        'cincuenta y seis','cincuenta y siete','cincuenta y ocho','cincuenta y nueve','sesenta','sesenta y uno',
+        'sesenta y dos','sesenta y tres','sesenta y cuatro','sesenta y cinco','sesenta y seis','sesenta y siete',
+        'sesenta y ocho','sesenta y nueve','setenta','setenta y uno','setenta y dos','setenta y tres','setenta y cuatro',
+        'setenta y cinco','setenta y seis','setenta y siete','setenta y ocho','setenta y nueve','ochenta','ochenta y uno',
+        'ochenta y dos','ochenta y tres','ochenta y cuatro','ochenta y cinco','ochenta y seis','ochenta y siete',
+        'ochenta y ocho','ochenta y nueve','noventa','noventa y uno','noventa y dos','noventa y tres','noventa y cuatro',
+        'noventa y cinco','noventa y seis','noventa y siete','noventa y ocho','noventa y nueve','cien'];
+    const numData = [];
+    for (let i = 0; i < 30; i++) {
+        let idx = Math.floor(Math.random() * 101);
+        numData.push({ idx, word: numWords[idx], type: Math.random() < 0.5 ? 'num2word' : 'word2num' });
+    }
+    const numContainer = document.getElementById('numQuestions');
+    function renderNum() {
+        let html = '';
+        numData.forEach((item, idx) => {
+            const qId = 'num_' + idx;
+            const label = item.type === 'num2word' ? `✏️ ${item.idx} →` : `✏️ «${item.word}» →`;
+            html += `<div class="flex-row"><span style="min-width:90px;font-weight:500;">${label}</span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="${item.type === 'num2word' ? 'слово' : 'цифра'}" style="min-width:120px;"></div>`;
+        });
+        numContainer.innerHTML = html;
+    }
+    renderNum();
+    document.getElementById('checkNum').addEventListener('click', function() {
+        let correct = 0, total = numData.length, details = [];
+        numData.forEach((item, idx) => {
+            const input = document.getElementById('num_' + idx);
+            const val = normalize(input.value);
+            let expected = item.type === 'num2word' ? normalize(item.word) : String(item.idx);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} ${item.type === 'num2word' ? item.idx : item.word} → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+expected+')'}`);
+        });
+        const fb = document.getElementById('numFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // ============================================================
+    //  2. ВРЕМЯ (только словами!)
+    // ============================================================
+    const timeQuestions = [];
+    for (let i = 0; i < 20; i++) {
+        let h = Math.floor(Math.random() * 12) + 1;
+        let m = Math.floor(Math.random() * 60);
+        if (m % 5 !== 0) m = Math.round(m / 5) * 5;
+        if (m === 60) { m = 0; h = h % 12 + 1; }
+        timeQuestions.push({ h, m, display: `${h}:${m.toString().padStart(2, '0')}` });
+    }
+    const timeContainer = document.getElementById('timeQuestions');
+    function renderTime() {
+        let html = '';
+        timeQuestions.forEach((item, idx) => {
+            const qId = 'time_' + idx;
+            html += `<div class="flex-row"><span style="min-width:120px;font-weight:500;">🕐 ${item.display} →</span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="son las once y veinticinco" style="min-width:200px;"></div>`;
+        });
+        timeContainer.innerHTML = html;
+    }
+    renderTime();
+
+    function timeToSpanish(h, m) {
+        let hour = h % 12; if (hour === 0) hour = 12;
+        let mins = m;
+        let part = '';
+        if (mins === 0) part = 'en punto';
+        else if (mins === 15) part = 'y cuarto';
+        else if (mins === 30) part = 'y media';
+        else if (mins === 45) { part = 'menos cuarto'; hour = (hour % 12) + 1; }
+        else if (mins < 30) part = 'y ' + mins;
+        else { part = 'menos ' + (60 - mins); hour = (hour % 12) + 1; }
+        let prefix = (hour === 1 ? 'es la una' : 'son las ' + hour);
+        if (mins === 0) return prefix + ' ' + part;
+        else if (mins === 45) return (hour === 1 ? 'es la una' : 'son las ' + hour) + ' ' + part;
+        else return prefix + ' ' + part;
+    }
+
+    // Дополнительные варианты для чисел словами (например, 25 = veinticinco)
+    function numberToWord(n) {
+        if (n === 0) return 'cero';
+        if (n <= 30) return numWords[n];
+        // для простоты используем массив
+        return numWords[n] || String(n);
+    }
+
+    document.getElementById('checkTime').addEventListener('click', function() {
+        let correct = 0, total = timeQuestions.length, details = [];
+        timeQuestions.forEach((item, idx) => {
+            const input = document.getElementById('time_' + idx);
+            const val = normalize(input.value);
+            const expectedText = normalize(timeToSpanish(item.h, item.m));
+            // Также разрешаем вариант с числами словами (например, once y veinticinco)
+            let hourWord = numberToWord(item.h % 12 || 12);
+            let minWord = item.m === 0 ? '' : (item.m < 30 ? 'y ' + numberToWord(item.m) : 'menos ' + numberToWord(60 - item.m));
+            let alt1 = normalize(`son las ${hourWord} ${minWord}`).trim();
+            let alt2 = normalize(`es la ${hourWord} ${minWord}`).trim();
+            // для 1 часа: es la una ...
+            let isOk = val === expectedText || val === alt1 || val === alt2;
+            // дополнительно проверяем "y media", "y cuarto", "en punto"
+            if (item.m === 30) isOk = isOk || val === normalize(`son las ${hourWord} y media`);
+            if (item.m === 15) isOk = isOk || val === normalize(`son las ${hourWord} y cuarto`);
+            if (item.m === 0) isOk = isOk || val === normalize(`son las ${hourWord} en punto`) || val === normalize(`es la ${hourWord} en punto`);
+            if (item.m === 45) isOk = isOk || val === normalize(`son las ${hourWord} menos cuarto`) || val === normalize(`es la ${hourWord} menos cuarto`);
+            if (item.m === 45) {
+                let nextHour = numberToWord((item.h % 12) + 1 || 1);
+                isOk = isOk || val === normalize(`son las ${nextHour} menos cuarto`);
+            }
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} ${item.display} → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+expectedText+')'}`);
+        });
+        const fb = document.getElementById('timeFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // ============================================================
+    //  3. ДНИ / МЕСЯЦЫ
+    // ============================================================
+    const days = ['lunes','martes','miércoles','jueves','viernes','sábado','domingo'];
+    const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const daysRu = ['понедельник','вторник','среда','четверг','пятница','суббота','воскресенье'];
+    const monthsRu = ['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+    const dayMonthQ = [];
+    for (let i = 0; i < 30; i++) {
+        if (Math.random() < 0.5) {
+            let d = Math.floor(Math.random() * days.length);
+            dayMonthQ.push({ type: 'day', es: days[d], ru: daysRu[d] });
+        } else {
+            let m = Math.floor(Math.random() * months.length);
+            dayMonthQ.push({ type: 'month', es: months[m], ru: monthsRu[m] });
+        }
+    }
+    const dmContainer = document.getElementById('dayMonthQuestions');
+    function renderDM() {
+        let html = '';
+        dayMonthQ.forEach((item, idx) => {
+            const qId = 'dm_' + idx;
+            const label = item.type === 'day' ? `📅 ${item.ru} →` : `📆 ${item.ru} →`;
+            html += `<div class="flex-row"><span style="min-width:130px;font-weight:500;">${label}</span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="испанский" style="min-width:140px;"></div>`;
+        });
+        dmContainer.innerHTML = html;
+    }
+    renderDM();
+    document.getElementById('checkDayMonth').addEventListener('click', function() {
+        let correct = 0, total = dayMonthQ.length, details = [];
+        dayMonthQ.forEach((item, idx) => {
+            const input = document.getElementById('dm_' + idx);
+            const val = normalize(input.value);
+            const expected = normalize(item.es);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} ${item.ru} → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+item.es+')'}`);
+        });
+        const fb = document.getElementById('dayMonthFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // ============================================================
+    //  4. BIEN / BUENO / MAL / MALO (исправлены фразы)
+    // ============================================================
+    const bienMalData = [
+        { q: 'Ella canta ______.', ans: 'bien', ru: 'Она поёт хорошо.', en: 'She sings well.' },
+        { q: 'El chico es ______.', ans: 'bueno', ru: 'Парень хороший.', en: 'The guy is good.' },
+        { q: 'El café está ______.', ans: 'malo', ru: 'Кофе плохой.', en: 'The coffee is bad.' },
+        { q: 'Él juega ______ al tenis.', ans: 'mal', ru: 'Он плохо играет в теннис.', en: 'He plays tennis badly.' },
+        { q: 'El día es ______.', ans: 'bueno', ru: 'День хороший.', en: 'The day is good.' },
+        { q: 'La sopa huele ______.', ans: 'mal', ru: 'Суп плохо пахнет.', en: 'The soup smells bad.' },
+        { q: 'Hablas español muy ______.', ans: 'bien', ru: 'Ты говоришь по-испански очень хорошо.', en: 'You speak Spanish very well.' },
+        { q: 'El problema es ______.', ans: 'malo', ru: 'Проблема плохая.', en: 'The problem is bad.' },
+        { q: 'Me siento ______ hoy.', ans: 'mal', ru: 'Я чувствую себя плохо сегодня.', en: 'I feel bad today.' },
+        { q: 'El momento es ______.', ans: 'bueno', ru: 'Момент хороший.', en: 'The moment is good.' },
+        { q: 'Trabaja ______.', ans: 'bien', ru: 'Он/она работает хорошо.', en: 'He/she works well.' },
+        { q: 'El tiempo está ______.', ans: 'malo', ru: 'Погода плохая.', en: 'The weather is bad.' },
+        { q: 'La idea es ______.', ans: 'buena', ru: 'Идея хорошая.', en: 'The idea is good.' },
+        { q: 'La comida está ______.', ans: 'mala', ru: 'Еда плохая.', en: 'The food is bad.' },
+        { q: 'Ellos bailan ______.', ans: 'mal', ru: 'Они плохо танцуют.', en: 'They dance badly.' },
+        { q: 'El amigo es ______.', ans: 'bueno', ru: 'Друг хороший.', en: 'The friend is good.' },
+        { q: 'El resultado fue ______.', ans: 'malo', ru: 'Результат был плохим.', en: 'The result was bad.' },
+        { q: 'Lo hiciste ______.', ans: 'bien', ru: 'Ты сделал это хорошо.', en: 'You did it well.' },
+        { q: 'La película es ______.', ans: 'mala', ru: 'Фильм плохой.', en: 'The movie is bad.' },
+        { q: 'Responde ______ a las preguntas.', ans: 'mal', ru: 'Он/она отвечает на вопросы плохо.', en: 'He/she answers questions badly.' },
+        { q: 'El carácter es ______.', ans: 'malo', ru: 'Характер плохой.', en: 'The character is bad.' },
+        { q: 'La noticia es ______.', ans: 'buena', ru: 'Новость хорошая.', en: 'The news is good.' },
+        { q: 'Cocina ______.', ans: 'bien', ru: 'Он/она готовит хорошо.', en: 'He/she cooks well.' },
+        { q: 'El olor es ______.', ans: 'malo', ru: 'Запах плохой.', en: 'The smell is bad.' },
+        { q: 'El chico es ______.', ans: 'bueno', ru: 'Парень хороший.', en: 'The guy is good.' }
+    ];
+    shuffleArray(bienMalData);
+    const bmContainer = document.getElementById('bienMalQuestions');
+    function renderBM() {
+        let html = '';
+        bienMalData.forEach((item, idx) => {
+            const qId = 'bm_' + idx;
+            html += `<div class="flex-row" style="margin-bottom:8px;">
+                <span style="min-width:280px;font-weight:400;">${item.q} <span class="translation">${item.ru} / ${item.en}</span></span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="bien/bueno/mal/malo" style="min-width:140px;">
+            </div>`;
+        });
+        bmContainer.innerHTML = html;
+    }
+    renderBM();
+    document.getElementById('checkBienMal').addEventListener('click', function() {
+        let correct = 0, total = bienMalData.length, details = [];
+        bienMalData.forEach((item, idx) => {
+            const input = document.getElementById('bm_' + idx);
+            const val = normalize(input.value);
+            const expected = normalize(item.ans);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} «${item.q}» → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+item.ans+')'}`);
+        });
+        const fb = document.getElementById('bienMalFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // ============================================================
+    //  5. GUSTAR
+    // ============================================================
+    // 5.1 Формы gusta/gustan
+    const gustaForms = [
+        { q: 'A mí me ______ el café.', ans: 'gusta' },
+        { q: 'A ellos les ______ los libros.', ans: 'gustan' },
+        { q: 'A ella le ______ bailar.', ans: 'gusta' },
+        { q: 'A nosotros nos ______ las películas.', ans: 'gustan' },
+        { q: 'A ti te ______ el chocolate.', ans: 'gusta' },
+        { q: 'A vosotros os ______ los deportes.', ans: 'gustan' },
+        { q: 'A Juan le ______ el fútbol.', ans: 'gusta' },
+        { q: 'A mis padres les ______ viajar.', ans: 'gusta' },
+        { q: 'A María le ______ las flores.', ans: 'gustan' },
+        { q: 'A los niños les ______ los juguetes.', ans: 'gustan' },
+        { q: 'Me ______ el verano.', ans: 'gusta' },
+        { q: 'Te ______ los museos.', ans: 'gustan' },
+        { q: 'Le ______ la playa.', ans: 'gusta' },
+        { q: 'Nos ______ las montañas.', ans: 'gustan' },
+        { q: 'Os ______ el cine.', ans: 'gusta' },
+        { q: 'Les ______ los animales.', ans: 'gustan' },
+        { q: 'Me ______ el helado de fresa.', ans: 'gusta' },
+        { q: 'Te ______ los perros.', ans: 'gustan' },
+        { q: 'Nos ______ el arte.', ans: 'gusta' },
+        { q: 'Les ______ las canciones.', ans: 'gustan' }
+    ];
+    shuffleArray(gustaForms);
+    const gfContainer = document.getElementById('gustarForms');
+    function renderGustaForms() {
+        let html = '';
+        gustaForms.forEach((item, idx) => {
+            const qId = 'gf_' + idx;
+            html += `<div class="flex-row"><span style="min-width:280px;font-weight:400;">${item.q}</span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="gusta / gustan" style="min-width:120px;"></div>`;
+        });
+        gfContainer.innerHTML = html;
+    }
+    renderGustaForms();
+    document.getElementById('checkGustarForms').addEventListener('click', function() {
+        let correct = 0, total = gustaForms.length, details = [];
+        gustaForms.forEach((item, idx) => {
+            const input = document.getElementById('gf_' + idx);
+            const val = normalize(input.value);
+            const expected = normalize(item.ans);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} «${item.q}» → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+item.ans+')'}`);
+        });
+        const fb = document.getElementById('gustarFormsFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // 5.2 Местоимения
+    const gustaPron = [
+        { q: '______ gusta el café.', ans: 'me', hint: 'я' },
+        { q: '______ gustan los libros.', ans: 'les', hint: 'они' },
+        { q: '______ gusta bailar.', ans: 'le', hint: 'она' },
+        { q: '______ gustan las películas.', ans: 'nos', hint: 'мы' },
+        { q: '______ gusta el chocolate.', ans: 'te', hint: 'ты' },
+        { q: '______ gustan los deportes.', ans: 'os', hint: 'вы (vosotros)' },
+        { q: '______ gusta el fútbol.', ans: 'le', hint: 'Хуан' },
+        { q: '______ gusta viajar.', ans: 'les', hint: 'мои родители' },
+        { q: '______ gustan las flores.', ans: 'le', hint: 'Мария' },
+        { q: '______ gustan los juguetes.', ans: 'les', hint: 'дети' },
+        { q: '______ gusta el verano.', ans: 'me', hint: 'я' },
+        { q: '______ gustan los museos.', ans: 'te', hint: 'ты' },
+        { q: '______ gusta la playa.', ans: 'le', hint: 'она' },
+        { q: '______ gustan las montañas.', ans: 'nos', hint: 'мы' },
+        { q: '______ gusta el cine.', ans: 'os', hint: 'вы' },
+        { q: '______ gustan los animales.', ans: 'les', hint: 'они' }
+    ];
+    shuffleArray(gustaPron);
+    const gpContainer = document.getElementById('gustarPronouns');
+    function renderGustaPron() {
+        let html = '';
+        gustaPron.forEach((item, idx) => {
+            const qId = 'gp_' + idx;
+            html += `<div class="flex-row"><span style="min-width:280px;font-weight:400;">${item.q} <span class="translation">(${item.hint})</span></span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="me/te/le/nos/os/les" style="min-width:120px;"></div>`;
+        });
+        gpContainer.innerHTML = html;
+    }
+    renderGustaPron();
+    document.getElementById('checkGustarPronouns').addEventListener('click', function() {
+        let correct = 0, total = gustaPron.length, details = [];
+        gustaPron.forEach((item, idx) => {
+            const input = document.getElementById('gp_' + idx);
+            const val = normalize(input.value);
+            const expected = normalize(item.ans);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} «${item.q}» → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+item.ans+')'}`);
+        });
+        const fb = document.getElementById('gustarPronounsFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // 5.3 Перевод
+    const gustaTrans = [
+        { q: 'Мне нравится кофе.', ans: 'me gusta el café' },
+        { q: 'Им нравятся книги.', ans: 'les gustan los libros' },
+        { q: 'Ей нравится танцевать.', ans: 'le gusta bailar' },
+        { q: 'Нам нравятся фильмы.', ans: 'nos gustan las películas' },
+        { q: 'Тебе нравится шоколад.', ans: 'te gusta el chocolate' },
+        { q: 'Вам нравятся виды спорта.', ans: 'os gustan los deportes' },
+        { q: 'Хуану нравится футбол.', ans: 'a juan le gusta el fútbol' },
+        { q: 'Моим родителям нравится путешествовать.', ans: 'a mis padres les gusta viajar' },
+        { q: 'Марии нравятся цветы.', ans: 'a maría le gustan las flores' },
+        { q: 'Детям нравятся игрушки.', ans: 'a los niños les gustan los juguetes' }
+    ];
+    shuffleArray(gustaTrans);
+    const gtContainer = document.getElementById('gustarTranslate');
+    function renderGustaTrans() {
+        let html = '';
+        gustaTrans.forEach((item, idx) => {
+            const qId = 'gt_' + idx;
+            html += `<div class="flex-row"><span style="min-width:280px;font-weight:400;">🇷🇺 ${item.q} →</span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="испанский" style="min-width:240px;"></div>`;
+        });
+        gtContainer.innerHTML = html;
+    }
+    renderGustaTrans();
+    document.getElementById('checkGustarTranslate').addEventListener('click', function() {
+        let correct = 0, total = gustaTrans.length, details = [];
+        gustaTrans.forEach((item, idx) => {
+            const input = document.getElementById('gt_' + idx);
+            const val = normalize(input.value);
+            const expected = normalize(item.ans);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} «${item.q}» → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+item.ans+')'}`);
+        });
+        const fb = document.getElementById('gustarTranslateFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // ============================================================
+    //  6. MUY / MUCHO (отдельная вкладка)
+    // ============================================================
+    const muyMuchoData = [
+        { q: 'Ella es ______ inteligente.', ans: 'muy', ru: 'Она очень умная.' },
+        { q: 'Tengo ______ dinero.', ans: 'mucho', ru: 'У меня много денег.' },
+        { q: 'Él come ______.', ans: 'mucho', ru: 'Он много ест.' },
+        { q: 'La casa es ______ grande.', ans: 'muy', ru: 'Дом очень большой.' },
+        { q: 'Hay ______ gente en la fiesta.', ans: 'mucha', ru: 'На вечеринке много людей.' },
+        { q: 'Estoy ______ cansado.', ans: 'muy', ru: 'Я очень устал.' },
+        { q: 'Bebo ______ agua.', ans: 'mucha', ru: 'Я пью много воды.' },
+        { q: 'Ella estudia ______.', ans: 'mucho', ru: 'Она много учится.' },
+        { q: 'Es ______ importante.', ans: 'muy', ru: 'Это очень важно.' },
+        { q: 'Tienes ______ amigos.', ans: 'muchos', ru: 'У тебя много друзей.' },
+        { q: 'La película es ______ larga.', ans: 'muy', ru: 'Фильм очень длинный.' },
+        { q: 'Hay ______ ruido.', ans: 'mucho', ru: 'Много шума.' },
+        { q: 'Trabaja ______ duro.', ans: 'muy', ru: 'Он работает очень усердно.' },
+        { q: 'Tenemos ______ tarea.', ans: 'mucha', ru: 'У нас много домашнего задания.' },
+        { q: 'Me gusta ______ el helado.', ans: 'mucho', ru: 'Мне очень нравится мороженое.' },
+        { q: 'Escribe ______ rápido.', ans: 'muy', ru: 'Он пишет очень быстро.' },
+        { q: 'Hay ______ sillas en la clase.', ans: 'muchas', ru: 'В классе много стульев.' },
+        { q: 'Está ______ lejos.', ans: 'muy', ru: 'Это очень далеко.' },
+        { q: 'Tiene ______ paciencia.', ans: 'mucha', ru: 'У него много терпения.' },
+        { q: 'Cuesta ______ dinero.', ans: 'mucho', ru: 'Это стоит много денег.' }
+    ];
+    shuffleArray(muyMuchoData);
+    const mmContainer = document.getElementById('muyMuchoQuestions');
+    function renderMM() {
+        let html = '';
+        muyMuchoData.forEach((item, idx) => {
+            const qId = 'mm_' + idx;
+            html += `<div class="flex-row"><span style="min-width:280px;font-weight:400;">${item.q} <span class="translation">${item.ru}</span></span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="muy/mucho" style="min-width:120px;"></div>`;
+        });
+        mmContainer.innerHTML = html;
+    }
+    renderMM();
+    document.getElementById('checkMuyMucho').addEventListener('click', function() {
+        let correct = 0, total = muyMuchoData.length, details = [];
+        muyMuchoData.forEach((item, idx) => {
+            const input = document.getElementById('mm_' + idx);
+            const val = normalize(input.value);
+            const expected = normalize(item.ans);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} «${item.q}» → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+item.ans+')'}`);
+        });
+        const fb = document.getElementById('muyMuchoFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // ============================================================
+    //  7. ГЛАГОЛЫ (Estar/Hay/Ser + неправильные)
+    // ============================================================
+    // 7.1 Estar vs Hay
+    const estarHayData = [
+        { q: '¿Dónde ______ el museo?', ans: 'está' },
+        { q: 'En la sala ______ muchas sillas.', ans: 'hay' },
+        { q: '______ un libro sobre la mesa.', ans: 'hay' },
+        { q: 'El perro ______ en el parque.', ans: 'está' },
+        { q: '______ dos ventanas en la habitación.', ans: 'hay' },
+        { q: 'La oficina ______ abierta.', ans: 'está' },
+        { q: '______ mucha gente en la fiesta.', ans: 'hay' },
+        { q: '¿Qué ______ en la caja?', ans: 'hay' },
+        { q: 'El agua ______ fría.', ans: 'está' },
+        { q: '______ leche en la nevera.', ans: 'hay' },
+        { q: 'Ellos ______ en el cine.', ans: 'están' },
+        { q: '______ cinco personas en el coche.', ans: 'hay' },
+        { q: 'Nosotros ______ en casa.', ans: 'estamos' },
+        { q: '______ tres gatos en el jardín.', ans: 'hay' },
+        { q: 'Yo ______ cansado.', ans: 'estoy' }
+    ];
+    shuffleArray(estarHayData);
+    const ehContainer = document.getElementById('estarHayQuestions');
+    function renderEH() {
+        let html = '';
+        estarHayData.forEach((item, idx) => {
+            const qId = 'eh_' + idx;
+            html += `<div class="flex-row"><span style="min-width:320px;font-weight:400;">${item.q}</span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="estar / hay" style="min-width:120px;"></div>`;
+        });
+        ehContainer.innerHTML = html;
+    }
+    renderEH();
+    document.getElementById('checkEstarHay').addEventListener('click', function() {
+        let correct = 0, total = estarHayData.length, details = [];
+        estarHayData.forEach((item, idx) => {
+            const input = document.getElementById('eh_' + idx);
+            const val = normalize(input.value);
+            const expected = normalize(item.ans);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} «${item.q}» → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+item.ans+')'}`);
+        });
+        const fb = document.getElementById('estarHayFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // 7.2 Estar vs Hay vs Ser
+    const ehsData = [
+        { q: '¿Dónde ______ el museo? (estar)', ans: 'está' },
+        { q: 'En la sala ______ muchas sillas. (haber)', ans: 'hay' },
+        { q: 'Ella ______ alta y morena. (ser)', ans: 'es' },
+        { q: 'Nosotros ______ en casa. (estar)', ans: 'estamos' },
+        { q: '______ tres gatos en el jardín. (haber)', ans: 'hay' },
+        { q: 'Mis padres ______ profesores. (ser)', ans: 'son' },
+        { q: 'Yo ______ cansado. (estar)', ans: 'estoy' },
+        { q: '______ un libro sobre la mesa. (haber)', ans: 'hay' },
+        { q: 'Tú ______ muy simpático. (ser)', ans: 'eres' },
+        { q: 'El perro ______ en el parque. (estar)', ans: 'está' },
+        { q: '______ dos ventanas en la habitación. (haber)', ans: 'hay' },
+        { q: 'Nosotros ______ estudiantes. (ser)', ans: 'somos' },
+        { q: 'Ellos ______ contentos. (estar)', ans: 'están' },
+        { q: '______ mucha gente en la fiesta. (haber)', ans: 'hay' },
+        { q: 'Yo ______ ingeniero. (ser)', ans: 'soy' }
+    ];
+    shuffleArray(ehsData);
+    const ehsContainer = document.getElementById('estarHaySerQuestions');
+    function renderEHS() {
+        let html = '';
+        ehsData.forEach((item, idx) => {
+            const qId = 'ehs_' + idx;
+            html += `<div class="flex-row"><span style="min-width:340px;font-weight:400;">${item.q}</span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="estar/hay/ser" style="min-width:120px;"></div>`;
+        });
+        ehsContainer.innerHTML = html;
+    }
+    renderEHS();
+    document.getElementById('checkEstarHaySer').addEventListener('click', function() {
+        let correct = 0, total = ehsData.length, details = [];
+        ehsData.forEach((item, idx) => {
+            const input = document.getElementById('ehs_' + idx);
+            const val = normalize(input.value);
+            const expected = normalize(item.ans);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} «${item.q}» → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+item.ans+')'}`);
+        });
+        const fb = document.getElementById('estarHaySerFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // 7.3 Неправильные глаголы: перевод (только 10 глаголов)
+    const irrVerbs = [
+        { es: 'ser', ru: 'быть' },
+        { es: 'ir', ru: 'идти' },
+        { es: 'dar', ru: 'давать' },
+        { es: 'poner', ru: 'класть, ставить' },
+        { es: 'decir', ru: 'говорить' },
+        { es: 'hacer', ru: 'делать' },
+        { es: 'tener', ru: 'иметь' },
+        { es: 'venir', ru: 'приходить' },
+        { es: 'salir', ru: 'выходить' },
+        { es: 'ver', ru: 'видеть' },
+        { es: 'saber', ru: 'знать' }
+    ];
+    const irrTrans = irrVerbs.map(v => ({ q: v.ru, ans: v.es }));
+    shuffleArray(irrTrans);
+    const itContainer = document.getElementById('irregularTranslate');
+    function renderIT() {
+        let html = '';
+        irrTrans.forEach((item, idx) => {
+            const qId = 'it_' + idx;
+            html += `<div class="flex-row"><span style="min-width:200px;font-weight:400;">🇷🇺 ${item.q} →</span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="глагол в испанском" style="min-width:150px;"></div>`;
+        });
+        itContainer.innerHTML = html;
+    }
+    renderIT();
+    document.getElementById('checkIrregularTranslate').addEventListener('click', function() {
+        let correct = 0, total = irrTrans.length, details = [];
+        irrTrans.forEach((item, idx) => {
+            const input = document.getElementById('it_' + idx);
+            const val = normalize(input.value);
+            const expected = normalize(item.ans);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} «${item.q}» → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+item.ans+')'}`);
+        });
+        const fb = document.getElementById('irregularTranslateFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // 7.4 Неправильные глаголы: формы (только 10 глаголов)
+    const irrFormsData = [
+        { q: 'yo (ser) →', ans: 'soy' },
+        { q: 'tú (ir) →', ans: 'vas' },
+        { q: 'él (dar) →', ans: 'da' },
+        { q: 'nosotros (poner) →', ans: 'ponemos' },
+        { q: 'vosotros (decir) →', ans: 'decís' },
+        { q: 'ellos (hacer) →', ans: 'hacen' },
+        { q: 'yo (tener) →', ans: 'tengo' },
+        { q: 'tú (venir) →', ans: 'vienes' },
+        { q: 'él (salir) →', ans: 'sale' },
+        { q: 'nosotros (ver) →', ans: 'vemos' },
+        { q: 'vosotros (saber) →', ans: 'sabéis' },
+        { q: 'ellos (ser) →', ans: 'son' },
+        { q: 'yo (ir) →', ans: 'voy' },
+        { q: 'tú (dar) →', ans: 'das' },
+        { q: 'él (poner) →', ans: 'pone' },
+        { q: 'nosotros (decir) →', ans: 'decimos' },
+        { q: 'vosotros (hacer) →', ans: 'hacéis' },
+        { q: 'ellos (tener) →', ans: 'tienen' },
+        { q: 'yo (venir) →', ans: 'vengo' },
+        { q: 'tú (salir) →', ans: 'sales' }
+    ];
+    shuffleArray(irrFormsData);
+    const ifContainer = document.getElementById('irregularForms');
+    function renderIF() {
+        let html = '';
+        irrFormsData.forEach((item, idx) => {
+            const qId = 'if_' + idx;
+            html += `<div class="flex-row"><span style="min-width:200px;font-weight:400;">${item.q}</span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="форма глагола" style="min-width:120px;"></div>`;
+        });
+        ifContainer.innerHTML = html;
+    }
+    renderIF();
+    document.getElementById('checkIrregularForms').addEventListener('click', function() {
+        let correct = 0, total = irrFormsData.length, details = [];
+        irrFormsData.forEach((item, idx) => {
+            const input = document.getElementById('if_' + idx);
+            const val = normalize(input.value);
+            const expected = normalize(item.ans);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} «${item.q}» → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+item.ans+')'}`);
+        });
+        const fb = document.getElementById('irregularFormsFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+    // 7.5 Estar vs Hay vs Ser (доп)
+    const ehsExtra = [
+        { q: '¿Qué ______ esto? (ser)', ans: 'es' },
+        { q: 'La casa ______ grande. (ser)', ans: 'es' },
+        { q: 'Ellos ______ en la playa. (estar)', ans: 'están' },
+        { q: '______ una fiesta hoy. (haber)', ans: 'hay' },
+        { q: 'Tú ______ médico. (ser)', ans: 'eres' },
+        { q: 'El libro ______ en la mesa. (estar)', ans: 'está' },
+        { q: '______ muchos estudiantes en clase. (haber)', ans: 'hay' },
+        { q: 'Nosotros ______ felices. (estar)', ans: 'estamos' },
+        { q: 'Vosotros ______ altos. (ser)', ans: 'sois' },
+        { q: '______ un problema con el coche. (haber)', ans: 'hay' }
+    ];
+    shuffleArray(ehsExtra);
+    const ehsxContainer = document.getElementById('estarHaySerExtra');
+    function renderEHSX() {
+        let html = '';
+        ehsExtra.forEach((item, idx) => {
+            const qId = 'ehsx_' + idx;
+            html += `<div class="flex-row"><span style="min-width:340px;font-weight:400;">${item.q}</span>
+                <input type="text" class="fill-in" id="${qId}" placeholder="estar/hay/ser" style="min-width:120px;"></div>`;
+        });
+        ehsxContainer.innerHTML = html;
+    }
+    renderEHSX();
+    document.getElementById('checkEstarHaySerExtra').addEventListener('click', function() {
+        let correct = 0, total = ehsExtra.length, details = [];
+        ehsExtra.forEach((item, idx) => {
+            const input = document.getElementById('ehsx_' + idx);
+            const val = normalize(input.value);
+            const expected = normalize(item.ans);
+            const isOk = val === expected;
+            if (isOk) correct++;
+            input.className = 'fill-in ' + (isOk ? 'correct' : 'wrong');
+            details.push(`${isOk ? '✅' : '❌'} «${item.q}» → «${input.value || '—'}» ${isOk ? '' : '(правильно: '+item.ans+')'}`);
+        });
+        const fb = document.getElementById('estarHaySerExtraFeedback');
+        fb.className = 'feedback show';
+        fb.innerHTML = `<strong>${correct}/${total}</strong> верно.<br>${details.join('<br>')}`;
+        fb.style.borderLeftColor = correct === total ? '#1e8847' : '#c73e3e';
+    });
+
+})();
+</script>
+</body>
+</html>
