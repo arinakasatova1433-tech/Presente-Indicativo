@@ -10,3 +10,5 @@ Trenajer  https://arinakasatova1433-tech.github.io/Presente-Indicativo/TrenajerV
 TrenajerBase https://arinakasatova1433-tech.github.io/Presente-Indicativo/TrenajerBase.html
 
 TranejerTodoenUno https://arinakasatova1433-tech.github.io/Presente-Indicativo/TranejerTodoenUno.html
+
+TrenajerTodoenUnoCompleto https://arinakasatova1433-tech.github.io/Presente-Indicativo/TrenajerTodoenUnoCompleto.html
