@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Испанский тренажёр – только SER, ESTAR, HAY, TENER</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Roboto, system-ui, sans-serif; background: #f0f4f8; color: #1e2a36; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { max-width: 850px; width: 100%; background: #ffffff; border-radius: 32px; box-shadow: 0 12px 30px rgba(0,0,0,0.12); padding: 30px 35px; margin-bottom: 30px; }
+        h1 { font-size: 2.2rem; font-weight: 700; color: #1a73e8; border-bottom: 4px solid #e8edf3; padding-bottom: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        h1 small { font-size: 1rem; font-weight: 400; color: #5f6b7a; margin-left: auto; }
+        .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; border-bottom: 2px solid #e8edf3; padding-bottom: 8px; }
+        .tab-btn { background: transparent; border: none; padding: 8px 16px; border-radius: 30px; font-weight: 600; font-size: 0.85rem; cursor: pointer; color: #5f6b7a; transition: 0.15s; }
+        .tab-btn:hover { background: #e8edf3; color: #1a73e8; }
+        .tab-btn.active { background: #1a73e8; color: white; box-shadow: 0 2px 8px rgba(26,115,232,0.3); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .score { font-size: 1.2rem; background: #e8edf3; padding: 6px 18px; border-radius: 40px; color: #1a73e8; font-weight: 600; display: inline-block; }
+        .question-box { background: #f8fafc; border-radius: 20px; padding: 25px; margin: 20px 0; border: 1px solid #dde3ea; }
+        .question-text { font-size: 1.3rem; font-weight: 500; margin-bottom: 20px; }
+        .options { display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
+        .options label { display: flex; align-items: center; gap: 12px; background: white; padding: 12px 18px; border-radius: 14px; border: 2px solid #dde3ea; cursor: pointer; transition: 0.15s; font-size: 1.05rem; }
+        .options label:hover { border-color: #1a73e8; background: #f0f7ff; }
+        .options input[type="radio"] { accent-color: #1a73e8; width: 18px; height: 18px; flex-shrink: 0; }
+        .input-answer { width: 100%; max-width: 300px; padding: 10px 16px; font-size: 1rem; border: 2px solid #dde3ea; border-radius: 14px; background: white; transition: 0.2s; color: #1e2a36; }
+        .input-answer:focus { outline: none; border-color: #1a73e8; box-shadow: 0 0 0 3px rgba(26,115,232,0.2); }
+        .btn { background: #1a73e8; color: white; border: none; padding: 12px 28px; border-radius: 40px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.15s; margin-right: 10px; margin-top: 10px; box-shadow: 0 4px 10px rgba(26,115,232,0.25); }
+        .btn:hover { background: #1557b0; transform: scale(1.02); }
+        .btn:disabled { opacity: 0.5; pointer-events: none; }
+        .btn-secondary { background: #5f6b7a; box-shadow: none; }
+        .btn-secondary:hover { background: #475260; }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #1e7e34; }
+        .feedback { margin: 20px 0 10px; padding: 16px 20px; border-radius: 14px; font-size: 1rem; line-height: 1.5; display: none; }
+        .feedback.correct { background: #d4edda; border-left: 6px solid #28a745; display: block; }
+        .feedback.wrong { background: #f8d7da; border-left: 6px solid #dc3545; display: block; }
+        .feedback .explanation { margin-top: 8px; color: #2d3e50; font-style: italic; }
+        .progress { font-size: 0.95rem; color: #5f6b7a; margin-top: 10px; }
+        .result { text-align: center; padding: 30px 20px; }
+        .result h2 { color: #1a73e8; font-size: 2rem; }
+        .result .big-score { font-size: 3.5rem; font-weight: 700; color: #1a73e8; }
+        .hidden { display: none; }
+        .flex-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+        .level-passed { background: #d4edda; padding: 8px 16px; border-radius: 40px; color: #155724; font-weight: 600; border: 2px solid #28a745; }
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.7rem; }
+            .question-text { font-size: 1.1rem; }
+            .tabs { gap: 4px; }
+            .tab-btn { font-size: 0.7rem; padding: 6px 10px; }
+            .input-answer { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>
+        🧠 Испанский тренажёр
+        <small>только SER, ESTAR, HAY, TENER</small>
+    </h1>
+
+    <div class="tabs" id="tabHeaders">
+        <button class="tab-btn active" data-tab="tab1">Ser/Estar/Hay</button>
+        <button class="tab-btn" data-tab="tab2">Estar+estados</button>
+        <button class="tab-btn" data-tab="tab3">Tener</button>
+        <button class="tab-btn" data-tab="tab4">Числа 0-19</button>
+        <button class="tab-btn" data-tab="tab5">Вопросы</button>
+        <button class="tab-btn" data-tab="tab6">Страны</button>
+        <button class="tab-btn" data-tab="tab7">También/Tampoco</button>
+        <button class="tab-btn" data-tab="tab8">Muy/Mucho</button>
+        <button class="tab-btn" data-tab="tab9">Внешность</button>
+        <button class="tab-btn" data-tab="tab10">Перевод</button>
+    </div>
+
+    <div id="tab1" class="tab-content active"></div>
+    <div id="tab2" class="tab-content"></div>
+    <div id="tab3" class="tab-content"></div>
+    <div id="tab4" class="tab-content"></div>
+    <div id="tab5" class="tab-content"></div>
+    <div id="tab6" class="tab-content"></div>
+    <div id="tab7" class="tab-content"></div>
+    <div id="tab8" class="tab-content"></div>
+    <div id="tab9" class="tab-content"></div>
+    <div id="tab10" class="tab-content"></div>
+</div>
+
+<script>
+// ================================================================
+//  ВОПРОСЫ ПО ТЕМАМ (только ser, estar, hay, tener)
+//  В каждой теме 25 вопросов (choice и input)
+// ================================================================
+const questionsByTopic = {
+    // ========== 1. SER / ESTAR / HAY ==========
+    tab1: [
+        { q: 'La fiesta _____ en mi casa.', type:'choice', opts:['es','está','hay','tiene'], correct:1, expl:'ESTAR для местоположения.' },
+        { q: 'En la clase _____ 20 estudiantes.', type:'choice', opts:['hay','está','son','tienen'], correct:0, expl:'HAY = есть, имеется.' },
+        { q: 'Yo _____ alto.', type:'choice', opts:['soy','estoy','tengo','hay'], correct:0, expl:'SER для постоянных характеристик.' },
+        { q: 'Mis amigos _____ en el parque.', type:'choice', opts:['están','son','tienen','hay'], correct:0, expl:'ESTAR для местоположения.' },
+        { q: '¿Qué _____ esto?', type:'choice', opts:['es','está','hay','tiene'], correct:0, expl:'SER для идентификации.' },
+        { q: 'En mi casa _____ una mesa.', type:'choice', opts:['hay','está','es','tiene'], correct:0, expl:'HAY = есть.' },
+        { q: 'Nosotros _____ contentos.', type:'choice', opts:['estamos','somos','tenemos','hay'], correct:0, expl:'ESTAR для состояния.' },
+        { q: '¿Dónde _____ el libro?', type:'choice', opts:['está','es','hay','tiene'], correct:0, expl:'ESTAR для местоположения.' },
+        { q: 'La chica _____ rubia.', type:'choice', opts:['es','está','tiene','hay'], correct:0, expl:'SER для внешности.' },
+        { q: 'En el jardín _____ muchas flores.', type:'choice', opts:['hay','están','son','tienen'], correct:0, expl:'HAY для наличия.' },
+        { q: 'Ellos _____ de España.', type:'choice', opts:['son','están','tienen','hay'], correct:0, expl:'SER для происхождения.' },
+        { q: 'La sopa _____ fría.', type:'choice', opts:['está','es','tiene','hay'], correct:0, expl:'ESTAR для температуры.' },
+        { q: '¿Quién _____ ella?', type:'choice', opts:['es','está','tiene','hay'], correct:0, expl:'SER + quién.' },
+        { q: 'El coche _____ en el garaje.', type:'choice', opts:['está','es','tiene','hay'], correct:0, expl:'ESTAR для местоположения.' },
+        { q: 'En la nevera _____ leche.', type:'choice', opts:['hay','está','es','tiene'], correct:0, expl:'HAY = есть.' },
+        { q: 'Tú _____ muy guapo.', type:'choice', opts:['eres','estás','tienes','hay'], correct:0, expl:'SER + adj.' },
+        { q: 'Mi hermana _____ enferma.', type:'choice', opts:['está','es','tiene','hay'], correct:0, expl:'ESTAR для состояния болезни.' },
+        { q: '_____ un problema.', type:'choice', opts:['Hay','Está','Es','Tiene'], correct:0, expl:'HAY = есть проблема.' },
+        { q: 'La fiesta _____ divertida.', type:'choice', opts:['es','está','tiene','hay'], correct:0, expl:'SER для оценки.' },
+        { q: 'Los niños _____ en la escuela.', type:'choice', opts:['están','son','tienen','hay'], correct:0, expl:'ESTAR местоположение.' },
+        { q: 'Вставьте: La mesa _____ rota.', type:'input', correct:'está', expl:'ESTAR для состояния (сломана).' },
+        { q: 'Вставьте: _____ tres gatos en mi casa.', type:'input', correct:'hay', expl:'HAY = есть.' },
+        { q: 'Вставьте: Yo _____ estudiante.', type:'input', correct:'soy', expl:'SER для профессии.' },
+        { q: 'Вставьте: Ellos _____ en la playa ahora.', type:'input', correct:'están', expl:'ESTAR местоположение.' },
+        { q: 'Вставьте: ¿_____ tu madre en casa?', type:'input', correct:'está', expl:'ESTAR для вопроса о местоположении.' }
+    ],
+    // ========== 2. ESTAR + состояния ==========
+    tab2: [
+        { q: 'Él _____ triste hoy.', type:'choice', opts:['está','es','tiene','hay'], correct:0, expl:'ESTAR для эмоций.' },
+        { q: 'Mis padres _____ casados.', type:'choice', opts:['están','son','tienen','hay'], correct:0, expl:'ESTAR для семейного статуса.' },
+        { q: 'Yo _____ cansado.', type:'choice', opts:['estoy','soy','tengo','hay'], correct:0, expl:'ESTAR для усталости.' },
+        { q: 'Ellas _____ contentas.', type:'choice', opts:['están','son','tienen','hay'], correct:0, expl:'ESTAR для состояния.' },
+        { q: 'El café _____ caliente.', type:'choice', opts:['está','es','tiene','hay'], correct:0, expl:'ESTAR для температуры.' },
+        { q: 'La puerta _____ abierta.', type:'choice', opts:['está','es','tiene','hay'], correct:0, expl:'ESTAR для состояния (открыта).' },
+        { q: 'Nosotros _____ ocupados.', type:'choice', opts:['estamos','somos','tenemos','hay'], correct:0, expl:'ESTAR + ocupados.' },
+        { q: 'Ella _____ enferma.', type:'choice', opts:['está','es','tiene','hay'], correct:0, expl:'ESTAR для болезни.' },
+        { q: 'Los niños _____ felices.', type:'choice', opts:['están','son','tienen','hay'], correct:0, expl:'ESTAR + felices.' },
+        { q: 'Mi abuelo _____ viejo.', type:'choice', opts:['es','está','tiene','hay'], correct:0, expl:'SER для возраста (постоянное).' },
+        { q: 'La comida _____ lista.', type:'choice', opts:['está','es','tiene','hay'], correct:0, expl:'ESTAR для готовности.' },
+        { q: 'Ellos _____ nerviosos.', type:'choice', opts:['están','son','tienen','hay'], correct:0, expl:'ESTAR + nerviosos.' },
+        { q: 'El agua _____ fría.', type:'choice', opts:['está','es','tiene','hay'], correct:0, expl:'ESTAR для температуры.' },
+        { q: 'Yo _____ aburrido.', type:'choice', opts:['estoy','soy','tengo','hay'], correct:0, expl:'ESTAR + aburrido.' },
+        { q: 'La tienda _____ cerrada.', type:'choice', opts:['está','es','tiene','hay'], correct:0, expl:'ESTAR для состояния (закрыта).' },
+        { q: 'Переведите: Я устал.', type:'input', correct:'estoy cansado', expl:'ESTAR + cansado.' },
+        { q: 'Переведите: Мы заняты.', type:'input', correct:'estamos ocupados', expl:'ESTAR + ocupados.' },
+        { q: 'Переведите: Она счастлива.', type:'input', correct:'está feliz', expl:'ESTAR + feliz.' },
+        { q: 'Вставьте: El bebé _____ dormido.', type:'input', correct:'está', expl:'ESTAR + dormido.' },
+        { q: 'Вставьте: Vosotros _____ muy tranquilos.', type:'input', correct:'estáis', expl:'ESTAR + tranquilos (vosotros).' },
+        { q: 'Вставьте: La película _____ interesante.', type:'choice', opts:['es','está','tiene','hay'], correct:0, expl:'SER для оценки (интересная).' },
+        { q: 'Вставьте: La ventana _____ rota.', type:'input', correct:'está', expl:'ESTAR для состояния (разбита).' },
+        { q: 'Вставьте: Yo _____ muy contento.', type:'input', correct:'estoy', expl:'ESTAR + contento.' },
+        { q: 'Вставьте: Ellas _____ tristes.', type:'input', correct:'están', expl:'ESTAR + tristes.' },
+        { q: 'Вставьте: Tú _____ en casa.', type:'input', correct:'estás', expl:'ESTAR местоположение.' }
+    ],
+    // ========== 3. TENER ==========
+    tab3: [
+        { q: 'Yo _____ dos hermanos.', type:'choice', opts:['tengo','soy','estoy','hay'], correct:0, expl:'TENER для обладания.' },
+        { q: '¿Cuántos años _____ tú?', type:'choice', opts:['tienes','eres','estás','hay'], correct:0, expl:'TENER для возраста.' },
+        { q: 'Ella _____ el pelo largo.', type:'choice', opts:['tiene','es','está','hay'], correct:0, expl:'TENER для частей тела.' },
+        { q: 'Nosotros _____ una casa grande.', type:'choice', opts:['tenemos','somos','estamos','hay'], correct:0, expl:'TENER обладание.' },
+        { q: 'Ellos _____ sed.', type:'choice', opts:['tienen','son','están','hay'], correct:0, expl:'TENER + sed.' },
+        { q: 'Mi hermana _____ 15 años.', type:'choice', opts:['tiene','es','está','hay'], correct:0, expl:'TENER для возраста.' },
+        { q: 'Yo _____ hambre.', type:'choice', opts:['tengo','soy','estoy','hay'], correct:0, expl:'TENER + hambre.' },
+        { q: 'Ellas _____ sueño.', type:'choice', opts:['tienen','son','están','hay'], correct:0, expl:'TENER + sueño.' },
+        { q: 'Él _____ calor.', type:'choice', opts:['tiene','es','está','hay'], correct:0, expl:'TENER + calor.' },
+        { q: 'Nosotros _____ frío.', type:'choice', opts:['tenemos','somos','estamos','hay'], correct:0, expl:'TENER + frío.' },
+        { q: 'Tú _____ un coche.', type:'choice', opts:['tienes','eres','estás','hay'], correct:0, expl:'TENER + objeto.' },
+        { q: 'Ellos _____ dinero.', type:'choice', opts:['tienen','son','están','hay'], correct:0, expl:'TENER + dinero.' },
+        { q: 'Yo _____ una bicicleta.', type:'choice', opts:['tengo','soy','estoy','hay'], correct:0, expl:'TENER + objeto.' },
+        { q: 'Mi padre _____ bigote.', type:'choice', opts:['tiene','es','está','hay'], correct:0, expl:'TENER + bigote.' },
+        { q: 'La chica _____ ojos azules.', type:'choice', opts:['tiene','es','está','hay'], correct:0, expl:'TENER + ojos.' },
+        { q: 'Переведите: У меня есть собака.', type:'input', correct:'tengo un perro', expl:'TENER + objeto.' },
+        { q: 'Переведите: Ей 20 лет.', type:'input', correct:'tiene 20 años', expl:'TENER для возраста.' },
+        { q: 'Переведите: Они хотят пить (имеют жажду).', type:'input', correct:'tienen sed', expl:'TENER + sed.' },
+        { q: 'Вставьте: Yo _____ mucho trabajo.', type:'input', correct:'tengo', expl:'TENER + trabajo.' },
+        { q: 'Вставьте: ¿_____ vosotros una casa?', type:'input', correct:'tenéis', expl:'TENER (vosotros).' },
+        { q: 'Вставьте: Ellas _____ miedo.', type:'input', correct:'tienen', expl:'TENER + miedo.' },
+        { q: 'Вставьте: Él _____ razón.', type:'input', correct:'tiene', expl:'TENER + razón (прав).' },
+        { q: 'Вставьте: Nosotros _____ hambre.', type:'input', correct:'tenemos', expl:'TENER + hambre.' },
+        { q: 'Вставьте: Tú _____ 18 años.', type:'input', correct:'tienes', expl:'TENER для возраста.' },
+        { q: 'Вставьте: Ellos _____ prisa.', type:'input', correct:'tienen', expl:'TENER + prisa (спешка).' }
+    ],
+    // ========== 4. Числа 0-19 ==========
+    tab4: [
+        { q: '¿Cómo se escribe 5?', type:'choice', opts:['cinco','siete','ocho','nueve'], correct:0, expl:'5 = cinco.' },
+        { q: '¿Cómo se escribe 12?', type:'choice', opts:['doce','catorce','dieciséis','diez'], correct:0, expl:'12 = doce.' },
+        { q: '¿Cómo se escribe 16?', type:'choice', opts:['dieciséis','diez y seis','diecisiete','diecinueve'], correct:0, expl:'16 = dieciséis.' },
+        { q: '¿Cómo se escribe 0?', type:'choice', opts:['cero','uno','diez','nada'], correct:0, expl:'0 = cero.' },
+        { q: '¿Cómo se escribe 14?', type:'choice', opts:['catorce','cuatro','catorse','catorze'], correct:0, expl:'14 = catorce.' },
+        { q: '¿Cuál es el número que sigue a 17?', type:'choice', opts:['dieciocho','diecisiete','diecinueve','dieciséis'], correct:0, expl:'17+1=18 = dieciocho.' },
+        { q: '¿Cómo se escribe 3?', type:'choice', opts:['tres','dos','cuatro','cinco'], correct:0, expl:'3 = tres.' },
+        { q: '¿Cómo se escribe 9?', type:'choice', opts:['nueve','ocho','siete','diez'], correct:0, expl:'9 = nueve.' },
+        { q: '¿Cómo se escribe 11?', type:'choice', opts:['once','doce','trece','catorce'], correct:0, expl:'11 = once.' },
+        { q: '¿Cómo se escribe 18?', type:'choice', opts:['dieciocho','diecisiete','diecinueve','dieciséis'], correct:0, expl:'18 = dieciocho.' },
+        { q: 'Напишите словами: 7', type:'input', correct:'siete', expl:'7 = siete.' },
+        { q: 'Напишите словами: 13', type:'input', correct:'trece', expl:'13 = trece.' },
+        { q: 'Напишите словами: 19', type:'input', correct:'diecinueve', expl:'19 = diecinueve.' },
+        { q: 'Напишите словами: 4', type:'input', correct:'cuatro', expl:'4 = cuatro.' },
+        { q: 'Напишите словами: 10', type:'input', correct:'diez', expl:'10 = diez.' },
+        { q: 'Напишите словами: 15', type:'input', correct:'quince', expl:'15 = quince.' },
+        { q: 'Сколько будет 3+6? (напишите словами)', type:'input', correct:'nueve', expl:'3+6=9 → nueve.' },
+        { q: 'Сколько будет 8+4? (напишите словами)', type:'input', correct:'doce', expl:'8+4=12 → doce.' },
+        { q: 'Сколько будет 10+5?', type:'input', correct:'quince', expl:'10+5=15 → quince.' },
+        { q: 'Сколько будет 7+7?', type:'input', correct:'catorce', expl:'7+7=14 → catorce.' },
+        { q: 'Напишите число: 2', type:'input', correct:'dos', expl:'2 = dos.' },
+        { q: 'Напишите число: 6', type:'input', correct:'seis', expl:'6 = seis.' },
+        { q: 'Напишите число: 1', type:'input', correct:'uno', expl:'1 = uno.' },
+        { q: 'Напишите число: 17', type:'input', correct:'diecisiete', expl:'17 = diecisiete.' },
+        { q: 'Сколько будет 9-2? (напишите словами)', type:'input', correct:'siete', expl:'9-2=7 → siete.' }
+    ],
+    // ========== 5. Вопросы ==========
+    tab5: [
+        { q: '_____ vives? (Где)', type:'choice', opts:['¿Dónde?','¿Cómo?','¿Qué?','¿Quién?'], correct:0, expl:'Dónde = где.' },
+        { q: '_____ es tu nombre? (Какое)', type:'choice', opts:['¿Cuál?','¿Cómo?','¿Qué?','¿Quién?'], correct:0, expl:'Cuál = какой.' },
+        { q: '_____ es él? (Кто)', type:'choice', opts:['¿Quién?','¿Qué?','¿Cómo?','¿Dónde?'], correct:0, expl:'Quién = кто.' },
+        { q: '_____ estás? (Как)', type:'choice', opts:['¿Cómo?','¿Qué?','¿Dónde?','¿Cuándo?'], correct:0, expl:'Cómo = как.' },
+        { q: '_____ quieres? (Что)', type:'choice', opts:['¿Qué?','¿Quién?','¿Cuál?','¿Dónde?'], correct:0, expl:'Qué = что.' },
+        { q: '_____ es la capital? (Какая)', type:'choice', opts:['¿Cuál?','¿Qué?','¿Quién?','¿Dónde?'], correct:0, expl:'Cuál = какой (выбор).' },
+        { q: '_____ está tu casa? (Где)', type:'choice', opts:['¿Dónde?','¿Cómo?','¿Qué?','¿Quién?'], correct:0, expl:'Dónde = где.' },
+        { q: '_____ tienes tú? (Что)', type:'choice', opts:['¿Qué?','¿Quién?','¿Cuál?','¿Dónde?'], correct:0, expl:'Qué = что.' },
+        { q: '_____ son tus amigos? (Кто)', type:'choice', opts:['¿Quién?','¿Qué?','¿Cómo?','¿Dónde?'], correct:0, expl:'Quién (мн.ч. quienes).' },
+        { q: '_____ es tu país? (Какое)', type:'choice', opts:['¿Cuál?','¿Qué?','¿Quién?','¿Dónde?'], correct:0, expl:'Cuál = какой.' },
+        { q: 'Напишите вопросное слово для "почему".', type:'input', correct:'¿por qué?', expl:'Почему = ¿por qué?' },
+        { q: 'Напишите вопросное слово для "когда".', type:'input', correct:'¿cuándo?', expl:'Когда = ¿cuándo?' },
+        { q: 'Напишите вопросное слово для "сколько".', type:'input', correct:'¿cuánto?', expl:'Сколько = ¿cuánto?' },
+        { q: 'Напишите вопросное слово для "откуда".', type:'input', correct:'¿de dónde?', expl:'Откуда = ¿de dónde?' },
+        { q: 'Напишите вопросное слово для "куда".', type:'input', correct:'¿adónde?', expl:'Куда = ¿adónde?' },
+        { q: 'Переведите вопрос: "Где книга?"', type:'input', correct:'¿dónde está el libro?', expl:'ESTAR для местоположения.' },
+        { q: 'Переведите вопрос: "Сколько тебе лет?"', type:'input', correct:'¿cuántos años tienes?', expl:'TENER для возраста.' },
+        { q: 'Переведите вопрос: "Кто она?"', type:'input', correct:'¿quién es ella?', expl:'SER + quién.' },
+        { q: 'Переведите вопрос: "Что это?"', type:'input', correct:'¿qué es esto?', expl:'SER для идентификации.' },
+        { q: 'Переведите вопрос: "Где вы?"', type:'input', correct:'¿dónde estáis?', expl:'ESTAR + vosotros.' },
+        { q: 'Переведите вопрос: "Какая твоя профессия?"', type:'input', correct:'¿cuál es tu profesión?', expl:'Cuál = какой.' },
+        { q: 'Переведите вопрос: "Когда у тебя день рождения?"', type:'input', correct:'¿cuándo es tu cumpleaños?', expl:'SER для даты.' },
+        { q: 'Переведите вопрос: "Почему ты грустный?"', type:'input', correct:'¿por qué estás triste?', expl:'ESTAR + triste.' },
+        { q: 'Переведите вопрос: "Кто твой друг?"', type:'input', correct:'¿quién es tu amigo?', expl:'SER + quién.' },
+        { q: 'Переведите вопрос: "Сколько у тебя братьев?"', type:'input', correct:'¿cuántos hermanos tienes?', expl:'TENER + cuántos.' }
+    ],
+    // ========== 6. Страны и национальности ==========
+    tab6: [
+        { q: 'Él es de España, es _____.', type:'choice', opts:['español','española','españo','españolés'], correct:0, expl:'España → español.' },
+        { q: 'Ella es de Rusia, es _____.', type:'choice', opts:['rusa','ruso','rusia','rús'], correct:0, expl:'Rusia → rusa.' },
+        { q: 'Somos de México, somos _____.', type:'choice', opts:['mexicanos','mexicanas','mexicano','mexica'], correct:0, expl:'México → mexicanos (мн.ч.).' },
+        { q: 'Ellos son de Francia, son _____.', type:'choice', opts:['franceses','francesas','francés','francésas'], correct:0, expl:'Francia → franceses.' },
+        { q: 'Tú eres de Italia, eres _____.', type:'choice', opts:['italiano','italiana','itali','italian'], correct:0, expl:'Italia → italiano.' },
+        { q: 'Mi amiga es de Alemania, es _____.', type:'choice', opts:['alemana','alemán','aleman','germana'], correct:0, expl:'Alemania → alemana.' },
+        { q: 'Ellas son de China, son _____.', type:'choice', opts:['chinas','chinos','china','chino'], correct:0, expl:'China → chinas (жен. мн.).' },
+        { q: 'Vosotros sois de Portugal, sois _____.', type:'choice', opts:['portugueses','portuguesas','portugués','portuguesa'], correct:0, expl:'Portugal → portugueses.' },
+        { q: 'Él es de Brasil, es _____.', type:'choice', opts:['brasileño','brasileña','brasil','brasileñ'], correct:0, expl:'Brasil → brasileño.' },
+        { q: 'Ella es de Argentina, es _____.', type:'choice', opts:['argentina','argentino','argenta','argentin'], correct:0, expl:'Argentina → argentina.' },
+        { q: 'Напишите национальность (муж.) для страны "Francia".', type:'input', correct:'francés', expl:'Francia → francés.' },
+        { q: 'Напишите национальность (жен.) для страны "Italia".', type:'input', correct:'italiana', expl:'Italia → italiana.' },
+        { q: 'Напишите национальность (муж.) для страны "China".', type:'input', correct:'chino', expl:'China → chino.' },
+        { q: 'Напишите национальность (жен.) для страны "Brasil".', type:'input', correct:'brasileña', expl:'Brasil → brasileña.' },
+        { q: 'Напишите национальность (муж.) для страны "Alemania".', type:'input', correct:'alemán', expl:'Alemania → alemán.' },
+        { q: 'Переведите: Они из Испании.', type:'input', correct:'son de España', expl:'Ser de + país.' },
+        { q: 'Переведите: Мы из Мексики.', type:'input', correct:'somos de México', expl:'Ser de + país.' },
+        { q: 'Переведите: Ты из России?', type:'input', correct:'¿eres de Rusia?', expl:'Ser de + país (вопрос).' },
+        { q: 'Переведите: Она из Аргентины.', type:'input', correct:'es de Argentina', expl:'Ser de + país.' },
+        { q: 'Переведите: Они из Китая.', type:'input', correct:'son de China', expl:'Ser de + país.' },
+        { q: 'Вставьте национальность: Él es de Francia, es _____.', type:'input', correct:'francés', expl:'Francia → francés.' },
+        { q: 'Вставьте национальность: Ella es de Alemania, es _____.', type:'input', correct:'alemana', expl:'Alemania → alemana.' },
+        { q: 'Вставьте национальность: Ellos son de Brasil, son _____.', type:'input', correct:'brasileños', expl:'Brasil → brasileños (мн.ч.).' },
+        { q: 'Вставьте национальность: Vosotras sois de Portugal, sois _____.', type:'input', correct:'portuguesas', expl:'Portugal → portuguesas (жен. мн.).' },
+        { q: 'Вставьте национальность: Tú eres de Italia, eres _____.', type:'input', correct:'italiano', expl:'Italia → italiano.' }
+    ],
+    // ========== 7. También / Tampoco ==========
+    tab7: [
+        { q: 'Yo soy estudiante. Él _____ es estudiante. (тоже)', type:'choice', opts:['también','tampoco'], correct:0, expl:'También = тоже.' },
+        { q: 'No me gusta el fútbol. A ella _____ le gusta. (тоже не)', type:'choice', opts:['tampoco','también'], correct:0, expl:'Tampoco = тоже не.' },
+        { q: 'Ellos trabajan mucho. Nosotros _____ trabajamos mucho. (тоже)', type:'choice', opts:['también','tampoco'], correct:0, expl:'También.' },
+        { q: 'No tengo hambre. Él _____ tiene hambre. (тоже не)', type:'choice', opts:['tampoco','también'], correct:0, expl:'Tampoco.' },
+        { q: 'Mi hermana es alta. Yo _____ soy alta. (тоже)', type:'choice', opts:['también','tampoco'], correct:0, expl:'También.' },
+        { q: 'No estamos cansados. Ellos _____ están cansados. (тоже не)', type:'choice', opts:['tampoco','también'], correct:0, expl:'Tampoco.' },
+        { q: 'A mí me gusta el cine, y a ella _____ le gusta.', type:'choice', opts:['también','tampoco'], correct:0, expl:'Утверждение → también.' },
+        { q: 'No estudio italiano, y él _____ estudia italiano.', type:'choice', opts:['tampoco','también'], correct:0, expl:'Отрицание → tampoco.' },
+        { q: 'Ellos son inteligentes, nosotros _____ somos inteligentes.', type:'choice', opts:['también','tampoco'], correct:0, expl:'También.' },
+        { q: 'No tengo frío, ella _____ tiene frío.', type:'choice', opts:['tampoco','también'], correct:0, expl:'Tampoco.' },
+        { q: 'Вставьте: A mí me gusta el chocolate, y a ti _____ te gusta.', type:'input', correct:'también', expl:'También.' },
+        { q: 'Вставьте: No quiero comer, y vosotros _____ queréis comer.', type:'input', correct:'tampoco', expl:'Tampoco.' },
+        { q: 'Вставьте: Él es alto, y su hermano _____ es alto.', type:'input', correct:'también', expl:'También.' },
+        { q: 'Вставьте: No tenemos dinero, y ellos _____ tienen dinero.', type:'input', correct:'tampoco', expl:'Tampoco.' },
+        { q: 'Вставьте: Ellas están contentas, y nosotros _____ estamos contentos.', type:'input', correct:'también', expl:'También.' },
+        { q: 'Переведите: Я тоже устал.', type:'input', correct:'yo también estoy cansado', expl:'También + estar.' },
+        { q: 'Переведите: Она тоже не хочет есть.', type:'input', correct:'ella tampoco tiene hambre', expl:'Tampoco + tener hambre.' },
+        { q: 'Переведите: Мы тоже из Испании.', type:'input', correct:'nosotros también somos de España', expl:'También + ser.' },
+        { q: 'Переведите: Они тоже не дома.', type:'input', correct:'ellos tampoco están en casa', expl:'Tampoco + estar.' },
+        { q: 'Переведите: Ты тоже голоден?', type:'input', correct:'¿tú también tienes hambre?', expl:'También + tener hambre.' },
+        { q: 'Вставьте: No soy alto, y mi hermano _____ es alto.', type:'input', correct:'tampoco', expl:'Tampoco (отрицание).' },
+        { q: 'Вставьте: Ellos tienen perro, y nosotros _____ tenemos perro.', type:'input', correct:'también', expl:'También.' },
+        { q: 'Вставьте: No estamos en casa, y ellos _____ están en casa.', type:'input', correct:'tampoco', expl:'Tampoco.' },
+        { q: 'Вставьте: Tú eres simpático, y ella _____ es simpática.', type:'input', correct:'también', expl:'También.' },
+        { q: 'Вставьте: No tengo sueño, y tú _____ tienes sueño.', type:'input', correct:'tampoco', expl:'Tampoco.' }
+    ],
+    // ========== 8. Muy / Mucho ==========
+    tab8: [
+        { q: 'Él es _____ alto.', type:'choice', opts:['muy','mucho'], correct:0, expl:'Muy + adj.' },
+        { q: 'Tengo _____ dinero.', type:'choice', opts:['mucho','muy'], correct:0, expl:'Mucho + sust.' },
+        { q: 'Estudiamos _____ para el examen.', type:'choice', opts:['mucho','muy'], correct:0, expl:'Mucho después de verbo.' },
+        { q: 'La película es _____ interesante.', type:'choice', opts:['muy','mucho'], correct:0, expl:'Muy + adj.' },
+        { q: 'Hay _____ gente en la fiesta.', type:'choice', opts:['mucha','muy'], correct:0, expl:'Mucho/a + sustantivo (gente fem.)' },
+        { q: 'Corres _____ rápido.', type:'choice', opts:['muy','mucho'], correct:0, expl:'Muy + adv.' },
+        { q: 'Ella es _____ guapa.', type:'choice', opts:['muy','mucho'], correct:0, expl:'Muy + adj.' },
+        { q: 'Tengo _____ trabajo.', type:'choice', opts:['mucho','muy'], correct:0, expl:'Mucho + sustantivo.' },
+        { q: 'Ellos son _____ amables.', type:'choice', opts:['muy','mucho'], correct:0, expl:'Muy + adj.' },
+        { q: 'Hay _____ ruido aquí.', type:'choice', opts:['mucho','muy'], correct:0, expl:'Mucho + sustantivo (ruido).' },
+        { q: 'Вставьте: Estoy _____ cansado.', type:'input', correct:'muy', expl:'Muy + adj.' },
+        { q: 'Вставьте: Tengo _____ hambre.', type:'input', correct:'mucha', expl:'Mucho/a + sustantivo (hambre fem.)' },
+        { q: 'Вставьте: Son _____ inteligentes.', type:'input', correct:'muy', expl:'Muy + adj.' },
+        { q: 'Вставьте: Hay _____ estudiantes.', type:'input', correct:'muchos', expl:'Muchos + sustantivo plural.' },
+        { q: 'Вставьте: Ella tiene _____ libros.', type:'input', correct:'muchos', expl:'Muchos + libros.' },
+        { q: 'Переведите: Очень высокий.', type:'input', correct:'muy alto', expl:'Muy + adj.' },
+        { q: 'Переведите: Много воды.', type:'input', correct:'mucha agua', expl:'Mucha + agua (fem.)' },
+        { q: 'Переведите: Очень хорошо.', type:'input', correct:'muy bien', expl:'Muy + adv.' },
+        { q: 'Переведите: Много друзей.', type:'input', correct:'muchos amigos', expl:'Muchos + amigos.' },
+        { q: 'Переведите: Очень холодно.', type:'input', correct:'muy frío', expl:'Muy + adj.' },
+        { q: 'Вставьте: El café está _____ caliente.', type:'input', correct:'muy', expl:'Muy + adj.' },
+        { q: 'Вставьте: Hay _____ leche.', type:'input', correct:'mucha', expl:'Mucha + leche.' },
+        { q: 'Вставьте: Ellos corren _____ rápido.', type:'input', correct:'muy', expl:'Muy + adv.' },
+        { q: 'Вставьте: Tenemos _____ dinero.', type:'input', correct:'mucho', expl:'Mucho + dinero.' },
+        { q: 'Вставьте: Ella es _____ bonita.', type:'input', correct:'muy', expl:'Muy + adj.' }
+    ],
+    // ========== 9. Внешность (ser/tener) ==========
+    tab9: [
+        { q: 'Ella _____ el pelo rubio.', type:'choice', opts:['tiene','es','está','hay'], correct:0, expl:'TENER + pelo.' },
+        { q: 'Ellos _____ ojos azules.', type:'choice', opts:['tienen','son','están','hay'], correct:0, expl:'TENER + ojos.' },
+        { q: 'Mi padre _____ calvo.', type:'choice', opts:['es','está','tiene','hay'], correct:0, expl:'SER для характеристика.' },
+        { q: 'La chica _____ guapa.', type:'choice', opts:['es','está','tiene','hay'], correct:0, expl:'SER + adj.' },
+        { q: 'Él _____ bigote.', type:'choice', opts:['tiene','es','está','hay'], correct:0, expl:'TENER + bigote.' },
+        { q: 'Mis abuelos _____ canosos.', type:'choice', opts:['son','están','tienen','hay'], correct:0, expl:'SER + canosos.' },
+        { q: 'Ella _____ el pelo largo.', type:'choice', opts:['tiene','es','está','hay'], correct:0, expl:'TENER + pelo.' },
+        { q: 'Ellas _____ altas.', type:'choice', opts:['son','están','tienen','hay'], correct:0, expl:'SER + altas.' },
+        { q: 'Tú _____ bajo.', type:'choice', opts:['eres','estás','tienes','hay'], correct:0, expl:'SER + bajo.' },
+        { q: 'Mi hermana _____ pecas.', type:'choice', opts:['tiene','es','está','hay'], correct:0, expl:'TENER + pecas (веснушки).' },
+        { q: 'Вставьте: Ella _____ el pelo castaño.', type:'input', correct:'tiene', expl:'TENER + pelo.' },
+        { q: 'Вставьте: Él _____ alto y delgado.', type:'input', correct:'es', expl:'SER + adj.' },
+        { q: 'Вставьте: Ellos _____ gafas.', type:'input', correct:'tienen', expl:'TENER + gafas (очки).' },
+        { q: 'Вставьте: La mujer _____ joven.', type:'input', correct:'es', expl:'SER + joven.' },
+        { q: 'Вставьте: Los niños _____ rubios.', type:'input', correct:'son', expl:'SER + rubios.' },
+        { q: 'Переведите: У неё зелёные глаза.', type:'input', correct:'tiene ojos verdes', expl:'TENER + ojos.' },
+        { q: 'Переведите: Он высокий и сильный.', type:'input', correct:'es alto y fuerte', expl:'SER + adj.' },
+        { q: 'Переведите: Моя сестра блондинка.', type:'input', correct:'mi hermana es rubia', expl:'SER + rubia.' },
+        { q: 'Переведите: У них короткие волосы.', type:'input', correct:'tienen el pelo corto', expl:'TENER + pelo corto.' },
+        { q: 'Переведите: Ты очень красивый.', type:'input', correct:'eres muy guapo', expl:'SER + muy + guapo.' },
+        { q: 'Вставьте: Mi padre _____ barba.', type:'input', correct:'tiene', expl:'TENER + barba.' },
+        { q: 'Вставьте: Vosotras _____ morenas.', type:'input', correct:'sois', expl:'SER + morenas (жен. мн.).' },
+        { q: 'Вставьте: Ellos _____ el pelo rizado.', type:'input', correct:'tienen', expl:'TENER + pelo rizado.' },
+        { q: 'Вставьте: Ella _____ mayor (старше).', type:'input', correct:'es', expl:'SER + mayor (возраст).' },
+        { q: 'Вставьте: Yo _____ baja.', type:'input', correct:'soy', expl:'SER + baja.' }
+    ],
+    // ========== 10. Перевод (русский → испанский, только ser/estar/hay/tener) ==========
+    tab10: [
+        { q: 'Переведите: Я из России.', type:'input', correct:'soy de rusia', expl:'Ser de + país.' },
+        { q: 'Переведите: У меня есть собака.', type:'input', correct:'tengo un perro', expl:'TENER + objeto.' },
+        { q: 'Переведите: Мы заняты.', type:'input', correct:'estamos ocupados', expl:'ESTAR + adj.' },
+        { q: 'Переведите: Он высокий и красивый.', type:'input', correct:'es alto y guapo', expl:'SER + adj.' },
+        { q: 'Переведите: Где находится вокзал?', type:'input', correct:'¿dónde está la estación?', expl:'ESTAR + местоположение.' },
+        { q: 'Переведите: Сколько тебе лет?', type:'input', correct:'¿cuántos años tienes?', expl:'TENER + возраст.' },
+        { q: 'Переведите: Мне нравится музыка, и ему тоже.', type:'input', correct:'me gusta la música, y a él también', expl:'También.' },
+        { q: 'Переведите: Я не хочу есть, и она тоже не хочет.', type:'input', correct:'no quiero comer, y ella tampoco', expl:'Tampoco.' },
+        { q: 'Переведите: У них много работы.', type:'input', correct:'tienen mucho trabajo', expl:'Mucho + sust.' },
+        { q: 'Переведите: Она очень добрая.', type:'input', correct:'es muy amable', expl:'Muy + adj.' },
+        { q: 'Переведите: Моя сестра высокая.', type:'input', correct:'mi hermana es alta', expl:'SER + alta.' },
+        { q: 'Переведите: У тебя есть книга?', type:'input', correct:'¿tienes un libro?', expl:'TENER + вопрос.' },
+        { q: 'Переведите: Мы в парке.', type:'input', correct:'estamos en el parque', expl:'ESTAR + местоположение.' },
+        { q: 'Переведите: Есть хлеб?', type:'input', correct:'¿hay pan?', expl:'HAY + вопрос.' },
+        { q: 'Переведите: Мне 25 лет.', type:'input', correct:'tengo 25 años', expl:'TENER + возраст.' },
+        { q: 'Переведите: Они из Испании.', type:'input', correct:'son de España', expl:'Ser de + país.' },
+        { q: 'Переведите: Я устал.', type:'input', correct:'estoy cansado', expl:'ESTAR + cansado.' },
+        { q: 'Переведите: Он лысый.', type:'input', correct:'es calvo', expl:'SER + calvo.' },
+        { q: 'Переведите: У неё голубые глаза.', type:'input', correct:'tiene ojos azules', expl:'TENER + ojos.' },
+        { q: 'Переведите: В классе 10 студентов.', type:'input', correct:'hay 10 estudiantes en la clase', expl:'HAY + количество.' },
+        { q: 'Переведите: Ты тоже голоден?', type:'input', correct:'¿tú también tienes hambre?', expl:'También + tener hambre.' },
+        { q: 'Переведите: Она тоже не дома.', type:'input', correct:'ella tampoco está en casa', expl:'Tampoco + estar.' },
+        { q: 'Переведите: Мы очень рады.', type:'input', correct:'estamos muy contentos', expl:'Muy + adj. (contentos).' },
+        { q: 'Переведите: У меня много друзей.', type:'input', correct:'tengo muchos amigos', expl:'Muchos + amigos.' },
+        { q: 'Переведите: Где ваша школа?', type:'input', correct:'¿dónde está vuestra escuela?', expl:'ESTAR + местоположение.' }
+    ]
+};
+
+// ================================================================
+//  ОБЩАЯ ЛОГИКА ДЛЯ КАЖДОЙ ВКЛАДКИ
+// ================================================================
+const tabContents = document.querySelectorAll('.tab-content');
+const tabBtns = document.querySelectorAll('.tab-btn');
+const states = {};
+
+// ---------- НОРМАЛИЗАЦИЯ ДЛЯ ГИБКОЙ ПРОВЕРКИ ----------
+function normalizeAnswer(str) {
+    if (!str) return '';
+    // Приводим к нижнему регистру
+    let s = str.toLowerCase();
+    // Убираем ударения (заменяем на обычные буквы)
+    const accents = {
+        'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+        'à': 'a', 'è': 'e', 'ì': 'i', 'ò': 'o', 'ù': 'u',
+        'ä': 'a', 'ë': 'e', 'ï': 'i', 'ö': 'o', 'ü': 'u'
+    };
+    s = s.replace(/[áàäéèëíìïóòöúùü]/g, function(match) {
+        return accents[match] || match;
+    });
+    // Удаляем вопросительные и восклицательные знаки
+    s = s.replace(/[¿?¡!.,;:]/g, '');
+    // Удаляем лишние пробелы
+    s = s.replace(/\s+/g, ' ').trim();
+    return s;
+}
+
+// Функция проверки, считается ли ответ правильным
+function isAnswerAccepted(userAnswer, correctAnswer) {
+    const userNorm = normalizeAnswer(userAnswer);
+    const correctNorm = normalizeAnswer(correctAnswer);
+    // Если полностью совпадает после нормализации – ок
+    if (userNorm === correctNorm) return true;
+    // Если пользовательский ответ содержит правильный как подстроку – ок
+    // (это позволяет добавлять местоимения, артикли, etc.)
+    if (userNorm.includes(correctNorm)) return true;
+    // Если правильный ответ содержит пользовательский – ок
+    // (это позволяет писать сокращённо, но только если это имеет смысл)
+    if (correctNorm.includes(userNorm) && userNorm.length > 0) return true;
+    return false;
+}
+
+function initTab(tabId) {
+    if (states[tabId]) return;
+    const questions = questionsByTopic[tabId];
+    if (!questions) return;
+    const container = document.getElementById(tabId);
+    const wrapper = document.createElement('div');
+    wrapper.className = 'tab-wrapper';
+
+    // Статистика
+    const scoreDiv = document.createElement('div');
+    scoreDiv.className = 'flex-row';
+    scoreDiv.style.justifyContent = 'space-between';
+    scoreDiv.style.marginBottom = '10px';
+    const scoreSpan = document.createElement('span');
+    scoreSpan.className = 'score';
+    scoreSpan.id = `score-${tabId}`;
+    scoreSpan.textContent = '✅ 0 / 0';
+    const progressSpan = document.createElement('span');
+    progressSpan.className = 'progress';
+    progressSpan.id = `progress-${tabId}`;
+    progressSpan.textContent = `Вопрос 1 из ${questions.length}`;
+    scoreDiv.appendChild(scoreSpan);
+    scoreDiv.appendChild(progressSpan);
+    wrapper.appendChild(scoreDiv);
+
+    // Блок вопроса
+    const questionBox = document.createElement('div');
+    questionBox.className = 'question-box';
+    const questionText = document.createElement('div');
+    questionText.className = 'question-text';
+    questionText.id = `qtext-${tabId}`;
+    questionBox.appendChild(questionText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+    optionsDiv.id = `opts-${tabId}`;
+    questionBox.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = `fb-${tabId}`;
+    questionBox.appendChild(feedbackDiv);
+
+    const btnRow = document.createElement('div');
+    btnRow.className = 'flex-row';
+    const checkBtn = document.createElement('button');
+    checkBtn.className = 'btn';
+    checkBtn.id = `check-${tabId}`;
+    checkBtn.textContent = '✅ Проверить';
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'btn btn-secondary';
+    nextBtn.id = `next-${tabId}`;
+    nextBtn.textContent = '➡️ Следующий';
+    nextBtn.disabled = true;
+    const finishBtn = document.createElement('button');
+    finishBtn.className = 'btn btn-success';
+    finishBtn.id = `finish-${tabId}`;
+    finishBtn.textContent = '🏁 Завершить тему';
+    finishBtn.style.display = 'none';
+    btnRow.appendChild(checkBtn);
+    btnRow.appendChild(nextBtn);
+    btnRow.appendChild(finishBtn);
+    questionBox.appendChild(btnRow);
+    wrapper.appendChild(questionBox);
+
+    // Результат
+    const resultDiv = document.createElement('div');
+    resultDiv.className = 'result hidden';
+    resultDiv.id = `result-${tabId}`;
+    const resTitle = document.createElement('h2');
+    resTitle.textContent = '🎉 Тема пройдена!';
+    const bigScore = document.createElement('div');
+    bigScore.className = 'big-score';
+    bigScore.id = `final-${tabId}`;
+    bigScore.textContent = '0';
+    const totalSpan = document.createElement('p');
+    totalSpan.style.fontSize = '1.2rem';
+    totalSpan.textContent = `из ${questions.length}`;
+    const restartBtn = document.createElement('button');
+    restartBtn.className = 'btn';
+    restartBtn.textContent = '🔄 Повторить тему';
+    restartBtn.onclick = () => restartTab(tabId);
+    resultDiv.appendChild(resTitle);
+    resultDiv.appendChild(bigScore);
+    resultDiv.appendChild(totalSpan);
+    resultDiv.appendChild(restartBtn);
+    wrapper.appendChild(resultDiv);
+
+    container.appendChild(wrapper);
+
+    states[tabId] = {
+        currentIndex: 0,
+        correctCount: 0,
+        answered: false,
+        finished: false,
+        questions: questions,
+        wrapper: wrapper,
+        questionText: questionText,
+        optionsDiv: optionsDiv,
+        feedbackDiv: feedbackDiv,
+        checkBtn: checkBtn,
+        nextBtn: nextBtn,
+        finishBtn: finishBtn,
+        resultDiv: resultDiv,
+        scoreSpan: scoreSpan,
+        progressSpan: progressSpan,
+        finalScore: bigScore
+    };
+
+    loadQuestion(tabId);
+    checkBtn.addEventListener('click', () => checkAnswer(tabId));
+    nextBtn.addEventListener('click', () => nextQuestion(tabId));
+    finishBtn.addEventListener('click', () => finishTopic(tabId));
+    optionsDiv.addEventListener('change', () => {
+        const state = states[tabId];
+        if (!state.answered) {
+            document.querySelectorAll(`#opts-${tabId} label`).forEach(l => {
+                l.style.borderColor = '#dde3ea';
+                l.style.background = 'white';
+            });
+        }
+    });
+}
+
+function loadQuestion(tabId) {
+    const state = states[tabId];
+    if (!state || state.finished) return;
+    const q = state.questions[state.currentIndex];
+    state.questionText.textContent = q.q;
+    state.optionsDiv.innerHTML = '';
+    if (q.type === 'choice') {
+        q.opts.forEach((opt, i) => {
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `q-${tabId}`;
+            radio.value = i;
+            label.appendChild(radio);
+            label.appendChild(document.createTextNode(' ' + opt));
+            state.optionsDiv.appendChild(label);
+        });
+    } else {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'input-answer';
+        input.id = `input-${tabId}`;
+        input.placeholder = 'Введите ответ...';
+        state.optionsDiv.appendChild(input);
+    }
+    state.feedbackDiv.className = 'feedback';
+    state.feedbackDiv.innerHTML = '';
+    state.feedbackDiv.style.display = 'none';
+    state.checkBtn.disabled = false;
+    state.nextBtn.disabled = true;
+    state.answered = false;
+    state.progressSpan.textContent = `Вопрос ${state.currentIndex + 1} из ${state.questions.length}`;
+    updateScore(tabId);
+    if (state.correctCount >= 15 && !state.finished) {
+        state.finishBtn.style.display = 'inline-block';
+    } else {
+        state.finishBtn.style.display = 'none';
+    }
+}
+
+function updateScore(tabId) {
+    const state = states[tabId];
+    if (!state) return;
+    state.scoreSpan.textContent = `✅ ${state.correctCount} / ${state.questions.length}`;
+    if (state.correctCount >= 15 && !state.finished) {
+        state.finishBtn.style.display = 'inline-block';
+    }
+}
+
+function checkAnswer(tabId) {
+    const state = states[tabId];
+    if (!state || state.answered || state.finished) return;
+    const q = state.questions[state.currentIndex];
+    let userAnswer = null;
+    let isCorrect = false;
+    let correctDisplay = '';
+
+    if (q.type === 'choice') {
+        const selected = document.querySelector(`input[name="q-${tabId}"]:checked`);
+        if (!selected) {
+            state.feedbackDiv.style.display = 'block';
+            state.feedbackDiv.className = 'feedback wrong';
+            state.feedbackDiv.innerHTML = '⚠️ Выберите вариант ответа.';
+            return;
+        }
+        const selectedIndex = parseInt(selected.value);
+        isCorrect = (selectedIndex === q.correct);
+        userAnswer = q.opts[selectedIndex];
+        correctDisplay = q.opts[q.correct];
+        // Подсветка
+        const labels = state.optionsDiv.querySelectorAll('label');
+        labels.forEach((label, idx) => {
+            if (idx === q.correct) {
+                label.style.borderColor = '#28a745';
+                label.style.background = '#d4edda';
+            } else if (idx === selectedIndex && !isCorrect) {
+                label.style.borderColor = '#dc3545';
+                label.style.background = '#f8d7da';
+            }
+        });
+    } else {
+        // ---- ПИСЬМЕННЫЙ ОТВЕТ ----
+        const input = document.getElementById(`input-${tabId}`);
+        if (!input) return;
+        userAnswer = input.value.trim();
+        // Используем гибкую проверку
+        isCorrect = isAnswerAccepted(userAnswer, q.correct);
+        correctDisplay = q.correct;
+    }
+
+    state.feedbackDiv.style.display = 'block';
+    if (isCorrect) {
+        state.feedbackDiv.className = 'feedback correct';
+        state.correctCount++;
+        updateScore(tabId);
+    } else {
+        state.feedbackDiv.className = 'feedback wrong';
+    }
+    let html = isCorrect ? '✅ Правильно!' : '❌ Неправильно.';
+    if (q.expl) {
+        html += `<div class="explanation">${q.expl}</div>`;
+    }
+    if (!isCorrect) {
+        html += `<div style="margin-top:6px;">Правильный ответ: <strong>${correctDisplay}</strong></div>`;
+    }
+    state.feedbackDiv.innerHTML = html;
+
+    state.checkBtn.disabled = true;
+    state.nextBtn.disabled = false;
+    state.answered = true;
+    if (state.correctCount >= 15 && !state.finished) {
+        state.finishBtn.style.display = 'inline-block';
+    }
+}
+
+function nextQuestion(tabId) {
+    const state = states[tabId];
+    if (!state || !state.answered || state.finished) return;
+    if (state.currentIndex + 1 < state.questions.length) {
+        state.currentIndex++;
+        loadQuestion(tabId);
+    } else {
+        finishTopic(tabId);
+    }
+}
+
+function finishTopic(tabId) {
+    const state = states[tabId];
+    if (!state) return;
+    state.finished = true;
+    state.wrapper.querySelector('.question-box').style.display = 'none';
+    state.resultDiv.classList.remove('hidden');
+    state.finalScore.textContent = state.correctCount;
+    state.checkBtn.disabled = true;
+    state.nextBtn.disabled = true;
+    state.finishBtn.style.display = 'none';
+}
+
+function restartTab(tabId) {
+    const state = states[tabId];
+    if (!state) return;
+    state.currentIndex = 0;
+    state.correctCount = 0;
+    state.answered = false;
+    state.finished = false;
+    state.wrapper.querySelector('.question-box').style.display = 'block';
+    state.resultDiv.classList.add('hidden');
+    state.checkBtn.disabled = false;
+    state.nextBtn.disabled = true;
+    state.finishBtn.style.display = 'none';
+    updateScore(tabId);
+    loadQuestion(tabId);
+    document.querySelectorAll(`#opts-${tabId} label`).forEach(l => {
+        l.style.borderColor = '#dde3ea';
+        l.style.background = 'white';
+    });
+}
+
+// Переключение вкладок
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        const tabId = this.dataset.tab;
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+        if (!states[tabId]) {
+            initTab(tabId);
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab) {
+        const tabId = activeTab.dataset.tab;
+        initTab(tabId);
+    }
+});
+</script>
+</body>
+</html>
