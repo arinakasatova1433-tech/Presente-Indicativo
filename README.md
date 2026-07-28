@@ -8,3 +8,5 @@ Verbos Regulares https://arinakasatova1433-tech.github.io/Presente-Indicativo/Ve
 Trenajer  https://arinakasatova1433-tech.github.io/Presente-Indicativo/TrenajerVerbosRegIrreg_Vocabulario.html
 
 TrenajerBase https://arinakasatova1433-tech.github.io/Presente-Indicativo/TrenajerBase.html
+
+TranejerTodoenUno https://arinakasatova1433-tech.github.io/Presente-Indicativo/TranejerTodoenUno.html
