@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Таблицы спряжения + упражнения (все глаголы)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <style>
+        /* ── стили (без изменений) ── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f6f8fc;
+            color: #1a2634;
+            padding: 2rem 1.5rem;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .page-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+        .page-header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2b5a7a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            padding-bottom: 0.15rem;
+            border-bottom: 4px solid #d4a373;
+        }
+        .page-header p {
+            margin-top: 0.4rem;
+            font-size: 1rem;
+            color: #4a5a6e;
+            font-weight: 500;
+        }
+        .group-card {
+            background: #ffffff;
+            border-radius: 1.25rem;
+            box-shadow: 0 8px 30px rgba(0, 20, 40, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03);
+            padding: 1.75rem 1.75rem 2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(200, 212, 230, 0.3);
+            transition: box-shadow 0.2s ease;
+        }
+        .group-card:hover {
+            box-shadow: 0 12px 40px rgba(0, 20, 40, 0.10);
+        }
+        .group-title {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #eef2f7;
+        }
+        .group-title .badge {
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: #1e3a5f;
+            color: #fff;
+            padding: 0.2rem 0.9rem;
+            border-radius: 2rem;
+            letter-spacing: 0.02em;
+        }
+        .group-title .rule {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e3a5f;
+            background: #eaf0f8;
+            padding: 0.2rem 1rem;
+            border-radius: 2rem;
+        }
+        .group-title .verbs {
+            font-size: 0.95rem;
+            color: #3d556b;
+            font-weight: 450;
+            margin-left: 0.25rem;
+        }
+        .verb-tag {
+            display: inline-block;
+            background: #f2f5fa;
+            padding: 0.05rem 0.6rem;
+            border-radius: 1rem;
+            font-size: 0.78rem;
+            color: #2b4a6a;
+            margin: 0.1rem 0.15rem;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 0.5rem;
+            border-radius: 0.75rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+            min-width: 680px;
+        }
+        table thead th {
+            background: #eef2f7;
+            color: #1a2c3f;
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0.7rem 0.8rem;
+            text-align: center;
+            border-bottom: 2px solid #d8e0ea;
+            white-space: nowrap;
+        }
+        table tbody td {
+            padding: 0.6rem 0.8rem;
+            text-align: center;
+            border-bottom: 1px solid #eef2f7;
+            font-variant-numeric: tabular-nums;
+        }
+        table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        table tbody tr:hover {
+            background: #f8faff;
+        }
+        .gerundio-row td {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.85rem;
+            background: #f8faff;
+            border-top: 2px solid #d8e0ea;
+            font-weight: 500;
+            color: #1e3a5f;
+        }
+        .gerundio-row td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: #1a2c3f;
+        }
+        .imp-pos {
+            background: #f4faf7;
+        }
+        .imp-neg {
+            background: #fcf5f4;
+        }
+
+        /* ── стили упражнений ── */
+        .exercise {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed #d4e0ec;
+        }
+        .exercise-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+        }
+        .question-block {
+            background: #fafcff;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.7rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid #b6cde0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem 1.5rem;
+        }
+        .question-block .q-text {
+            font-weight: 500;
+            min-width: 180px;
+        }
+        .question-block .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+        }
+        .question-block .options label {
+            display: flex;
+            align-items: center;
+            gap: 0.2rem 0.4rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            background: #f0f4fa;
+            padding: 0.15rem 0.7rem;
+            border-radius: 1.5rem;
+            transition: background 0.1s;
+        }
+        .question-block .options label:hover {
+            background: #e2eaf5;
+        }
+        .question-block .options input[type="radio"] {
+            accent-color: #1e3a5f;
+            width: 0.9rem;
+            height: 0.9rem;
+            margin: 0;
+        }
+        .question-block .result-icon {
+            font-size: 1.2rem;
+            margin-left: 0.3rem;
+        }
+        .question-block.correct {
+            border-left-color: #2b8c5e;
+            background: #f0f9f4;
+        }
+        .question-block.wrong {
+            border-left-color: #b33c3c;
+            background: #fdf2f1;
+        }
+        .question-block .explanation {
+            font-size: 0.85rem;
+            color: #2b4a6a;
+            background: #eef4fa;
+            padding: 0.1rem 0.6rem;
+            border-radius: 1rem;
+            display: inline-block;
+        }
+        .btn-check {
+            background: #1e3a5f;
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            padding: 0.5rem 1.8rem;
+            border-radius: 2rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 0.3rem;
+        }
+        .btn-check:hover {
+            background: #2b5a7a;
+        }
+        .btn-check:active {
+            transform: scale(0.97);
+        }
+        .btn-check.reset {
+            background: #6a7f94;
+            margin-left: 1rem;
+        }
+        .btn-check.reset:hover {
+            background: #5a6f84;
+        }
+        .btn-check.small {
+            padding: 0.3rem 1rem;
+            font-size: 0.8rem;
+            margin-top: 0;
+            margin-left: 0.5rem;
+        }
+        .btn-check.show-answer {
+            background: #9b7b5e;
+        }
+        .btn-check.show-answer:hover {
+            background: #8a6b4e;
+        }
+        .exercise-stats {
+            margin-top: 0.5rem;
+            font-weight: 500;
+            color: #1e3a5f;
+        }
+        .final-test {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 4px solid #1e3a5f;
+        }
+        .final-test .exercise-title {
+            font-size: 1.4rem;
+        }
+        .input-answer {
+            border: 2px solid #d4e0ec;
+            border-radius: 1.5rem;
+            padding: 0.3rem 1rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: #fff;
+            width: 250px;
+            transition: border-color 0.2s;
+        }
+        .input-answer:focus {
+            outline: none;
+            border-color: #1e3a5f;
+        }
+        .input-answer.correct {
+            border-color: #2b8c5e;
+            background: #f0f9f4;
+        }
+        .input-answer.wrong {
+            border-color: #b33c3c;
+            background: #fdf2f1;
+        }
+        .answer-hint {
+            font-size: 0.85rem;
+            color: #2b4a6a;
+            background: #eef4fa;
+            padding: 0.1rem 0.6rem;
+            border-radius: 1rem;
+            display: none;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.75rem;
+            }
+            .group-card {
+                padding: 1.25rem 1rem;
+            }
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+            table {
+                font-size: 0.8rem;
+                min-width: 560px;
+            }
+            .question-block {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .question-block .options {
+                justify-content: center;
+            }
+            .input-answer {
+                width: 100%;
+            }
+        }
+        @media (max-width: 480px) {
+            table {
+                font-size: 0.7rem;
+                min-width: 420px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header class="page-header">
+            <h1>Таблицы спряжения отклоняющихся глаголов</h1>
+            <p>Все глаголы из списков – интерактивные упражнения на перевод</p>
+        </header>
+
+        <!-- ================================================== -->
+        <!-- ГРУППА I a – e → ie                                 -->
+        <!-- ================================================== -->
+        <section class="group-card" id="group1a">
+            <div class="group-title">
+                <span class="badge">I группа</span>
+                <span class="rule">a) e → ie</span>
+                <div class="verbs">
+                    <span class="verb-tag">pensar</span><span class="verb-tag">perder</span><span class="verb-tag">empezar</span>
+                    <span class="verb-tag">entender</span><span class="verb-tag">negarse</span><span class="verb-tag">sentarse</span>
+                    <span class="verb-tag">despertar</span><span class="verb-tag">atravesar</span><span class="verb-tag">encender</span>
+                    <span class="verb-tag">calentar</span><span class="verb-tag">recomendar</span><span class="verb-tag">merendar</span>
+                    <span class="verb-tag">descender</span><span class="verb-tag">encerrar</span><span class="verb-tag">apretar</span>
+                    <span class="verb-tag">atender</span><span class="verb-tag">extenderse</span><span class="verb-tag">defender</span>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th style="text-align:left;">Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th colspan="2">Imperativo</th></tr>
+                        <tr><th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#eef7f2;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#2d6a4f;">afirmativo</th>
+                            <th style="background:#f7eeed;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#a54a4a;">negativo</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="text-align:left;font-weight:500;">pienso</td><td>piense</td><td class="imp-pos">—</td><td class="imp-neg">—</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">piensas</td><td>pienses</td><td class="imp-pos">piensa <span style="font-size:0.7rem;color:#4a6a5a;">(tú)</span></td><td class="imp-neg">no pienses</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">piensa</td><td>piense</td><td class="imp-pos">piense <span style="font-size:0.7rem;color:#4a6a5a;">(usted)</span></td><td class="imp-neg">no piense</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">pensamos</td><td>pensemos</td><td class="imp-pos">pensemos</td><td class="imp-neg">no pensemos</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">pensáis</td><td>penséis</td><td class="imp-pos">pensad <span style="font-size:0.7rem;color:#4a6a5a;">(vosotros)</span></td><td class="imp-neg">no penséis</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">piensan</td><td>piensen</td><td class="imp-pos">piensen <span style="font-size:0.7rem;color:#4a6a5a;">(ustedes)</span></td><td class="imp-neg">no piensen</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="exercise" id="ex-group1a"></div>
+        </section>
+
+        <!-- ================================================== -->
+        <!-- ГРУППА I b – o → ue                                 -->
+        <!-- ================================================== -->
+        <section class="group-card" id="group1b">
+            <div class="group-title">
+                <span class="badge">I группа</span>
+                <span class="rule">b) o → ue</span>
+                <div class="verbs">
+                    <span class="verb-tag">volver</span><span class="verb-tag">soñar</span><span class="verb-tag">torcer</span>
+                    <span class="verb-tag">encontrar</span><span class="verb-tag">moverse</span><span class="verb-tag">acostarse</span>
+                    <span class="verb-tag">almorzar</span><span class="verb-tag">aprobar</span><span class="verb-tag">costar</span>
+                    <span class="verb-tag">sonar</span><span class="verb-tag">recordar</span><span class="verb-tag">rogar</span>
+                    <span class="verb-tag">soler</span><span class="verb-tag">cocer</span><span class="verb-tag">probar</span>
+                    <span class="verb-tag">demostrar</span>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th style="text-align:left;">Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th colspan="2">Imperativo</th></tr>
+                        <tr><th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#eef7f2;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#2d6a4f;">afirmativo</th>
+                            <th style="background:#f7eeed;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#a54a4a;">negativo</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="text-align:left;font-weight:500;">vuelvo</td><td>vuelva</td><td class="imp-pos">—</td><td class="imp-neg">—</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">vuelves</td><td>vuelvas</td><td class="imp-pos">vuelve</td><td class="imp-neg">no vuelvas</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">vuelve</td><td>vuelva</td><td class="imp-pos">vuelva</td><td class="imp-neg">no vuelva</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">volvemos</td><td>volvamos</td><td class="imp-pos">volvamos</td><td class="imp-neg">no volvamos</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">volvéis</td><td>volváis</td><td class="imp-pos">volved</td><td class="imp-neg">no volváis</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">vuelven</td><td>vuelvan</td><td class="imp-pos">vuelvan</td><td class="imp-neg">no vuelvan</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="exercise" id="ex-group1b"></div>
+        </section>
+
+        <!-- ================================================== -->
+        <!-- ГРУППА I c – e → i                                  -->
+        <!-- ================================================== -->
+        <section class="group-card" id="group1c">
+            <div class="group-title">
+                <span class="badge">I группа</span>
+                <span class="rule">c) e → i</span>
+                <div class="verbs">
+                    <span class="verb-tag">vestir</span><span class="verb-tag">servir</span><span class="verb-tag">reír</span>
+                    <span class="verb-tag">sonreír</span><span class="verb-tag">seguir</span><span class="verb-tag">elegir</span>
+                    <span class="verb-tag">pedir</span><span class="verb-tag">despedirse</span><span class="verb-tag">rendir</span>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th style="text-align:left;">Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Pretérito Indefinido</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Imperfecto</span></th>
+                            <th colspan="2">Imperativo</th></tr>
+                        <tr><th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#eef7f2;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#2d6a4f;">afirmativo</th>
+                            <th style="background:#f7eeed;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#a54a4a;">negativo</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="text-align:left;font-weight:500;">visto</td><td>vestí</td><td>vista</td><td>vistiera</td><td class="imp-pos">—</td><td class="imp-neg">—</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">vistes</td><td>vestiste</td><td>vistas</td><td>vistieras</td><td class="imp-pos">viste</td><td class="imp-neg">no vistas</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">viste</td><td>vistió</td><td>vista</td><td>vistiera</td><td class="imp-pos">vista</td><td class="imp-neg">no vista</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">vestimos</td><td>vestimos</td><td>vistamos</td><td>vistiéramos</td><td class="imp-pos">vistamos</td><td class="imp-neg">no vistamos</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">vestís</td><td>vestisteis</td><td>vistáis</td><td>vistierais</td><td class="imp-pos">vestid</td><td class="imp-neg">no vistáis</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">visten</td><td>vistieron</td><td>vistan</td><td>vistieran</td><td class="imp-pos">vistan</td><td class="imp-neg">no vistan</td></tr>
+                        <tr class="gerundio-row"><td colspan="6"><span style="font-weight:600;">Gerundio:</span> vistiendo</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="exercise" id="ex-group1c"></div>
+        </section>
+
+        <!-- ================================================== -->
+        <!-- ГРУППА III – e → ie ; e → i                         -->
+        <!-- ================================================== -->
+        <section class="group-card" id="group3">
+            <div class="group-title">
+                <span class="badge">III группа</span>
+                <span class="rule">e → ie ; e → i</span>
+                <div class="verbs">
+                    <span class="verb-tag">sentir</span><span class="verb-tag">divertirse</span><span class="verb-tag">advertir</span>
+                    <span class="verb-tag">preferir</span><span class="verb-tag">convertirse</span>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th style="text-align:left;">Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Pretérito Indefinido</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Imperfecto</span></th>
+                            <th colspan="2">Imperativo</th></tr>
+                        <tr><th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#eef7f2;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#2d6a4f;">afirmativo</th>
+                            <th style="background:#f7eeed;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#a54a4a;">negativo</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="text-align:left;font-weight:500;">siento</td><td>sentí</td><td>sienta</td><td>sintiera</td><td class="imp-pos">—</td><td class="imp-neg">—</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">sientes</td><td>sentiste</td><td>sientas</td><td>sintieras</td><td class="imp-pos">siente</td><td class="imp-neg">no sientas</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">siente</td><td>sintió</td><td>sienta</td><td>sintiera</td><td class="imp-pos">sienta</td><td class="imp-neg">no sienta</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">sentimos</td><td>sentimos</td><td>sintamos</td><td>sintiéramos</td><td class="imp-pos">sintamos</td><td class="imp-neg">no sintamos</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">sentís</td><td>sentisteis</td><td>sintáis</td><td>sintierais</td><td class="imp-pos">sentid</td><td class="imp-neg">no sintáis</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">sienten</td><td>sintieron</td><td>sientan</td><td>sintieran</td><td class="imp-pos">sientan</td><td class="imp-neg">no sientan</td></tr>
+                        <tr class="gerundio-row"><td colspan="6"><span style="font-weight:600;">Gerundio:</span> sintiendo</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="exercise" id="ex-group3"></div>
+        </section>
+
+        <!-- ================================================== -->
+        <!-- ГРУППА IV – o → ue ; o → u                          -->
+        <!-- ================================================== -->
+        <section class="group-card" id="group4">
+            <div class="group-title">
+                <span class="badge">IV группа</span>
+                <span class="rule">o → ue ; o → u</span>
+                <div class="verbs">
+                    <span class="verb-tag">dormir</span>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th style="text-align:left;">Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Pretérito Indefinido</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Imperfecto</span></th>
+                            <th colspan="2">Imperativo</th></tr>
+                        <tr><th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#eef7f2;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#2d6a4f;">afirmativo</th>
+                            <th style="background:#f7eeed;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#a54a4a;">negativo</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="text-align:left;font-weight:500;">duermo</td><td>dormí</td><td>duerma</td><td>durmiera</td><td class="imp-pos">—</td><td class="imp-neg">—</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">duermes</td><td>dormiste</td><td>duermas</td><td>durmieras</td><td class="imp-pos">duerme</td><td class="imp-neg">no duermas</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">duerme</td><td>durmió</td><td>duerma</td><td>durmiera</td><td class="imp-pos">duerma</td><td class="imp-neg">no duerma</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">dormimos</td><td>dormimos</td><td>durmamos</td><td>durmiéramos</td><td class="imp-pos">durmamos</td><td class="imp-neg">no durmamos</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">dormís</td><td>dormisteis</td><td>durmáis</td><td>durmierais</td><td class="imp-pos">dormid</td><td class="imp-neg">no durmáis</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">duermen</td><td>durmieron</td><td>duerman</td><td>durmieran</td><td class="imp-pos">duerman</td><td class="imp-neg">no duerman</td></tr>
+                        <tr class="gerundio-row"><td colspan="6"><span style="font-weight:600;">Gerundio:</span> durmiendo</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="exercise" id="ex-group4"></div>
+        </section>
+
+        <!-- ================================================== -->
+        <!-- ГРУППА V a – c → zc                                 -->
+        <!-- ================================================== -->
+        <section class="group-card" id="group5a">
+            <div class="group-title">
+                <span class="badge">V группа</span>
+                <span class="rule">a) c → zc</span>
+                <div class="verbs">
+                    <span class="verb-tag">conocer</span><span class="verb-tag">pertenecer</span><span class="verb-tag">carecer</span>
+                    <span class="verb-tag">parecer</span><span class="verb-tag">ofrecer</span><span class="verb-tag">aparecer</span>
+                    <span class="verb-tag">desaparecer</span><span class="verb-tag">apetecer</span>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th style="text-align:left;">Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th colspan="2">Imperativo</th></tr>
+                        <tr><th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#eef7f2;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#2d6a4f;">afirmativo</th>
+                            <th style="background:#f7eeed;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#a54a4a;">negativo</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="text-align:left;font-weight:500;">conozco</td><td>conozca</td><td class="imp-pos">—</td><td class="imp-neg">—</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">conoces</td><td>conozcas</td><td class="imp-pos">conoce</td><td class="imp-neg">no conozcas</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">conoce</td><td>conozca</td><td class="imp-pos">conozca</td><td class="imp-neg">no conozca</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">conocemos</td><td>conozcamos</td><td class="imp-pos">conozcamos</td><td class="imp-neg">no conozcamos</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">conocéis</td><td>conozcáis</td><td class="imp-pos">conoced</td><td class="imp-neg">no conozcáis</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">conocen</td><td>conozcan</td><td class="imp-pos">conozcan</td><td class="imp-neg">no conozcan</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="exercise" id="ex-group5a"></div>
+        </section>
+
+        <!-- ================================================== -->
+        <!-- ГРУППА V b – c → zc ; c → j                         -->
+        <!-- ================================================== -->
+        <section class="group-card" id="group5b">
+            <div class="group-title">
+                <span class="badge">V группа</span>
+                <span class="rule">b) c → zc ; c → j</span>
+                <div class="verbs">
+                    <span class="verb-tag">traducir</span><span class="verb-tag">introducir</span><span class="verb-tag">producir</span>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th style="text-align:left;">Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Pretérito Indefinido</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Imperfecto</span></th>
+                            <th colspan="2">Imperativo</th></tr>
+                        <tr><th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#eef7f2;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#2d6a4f;">afirmativo</th>
+                            <th style="background:#f7eeed;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#a54a4a;">negativo</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="text-align:left;font-weight:500;">traduzco</td><td>traduje</td><td>traduzca</td><td>tradujera</td><td class="imp-pos">—</td><td class="imp-neg">—</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">traduces</td><td>tradujiste</td><td>traduzcas</td><td>tradujeras</td><td class="imp-pos">traduce</td><td class="imp-neg">no traduzcas</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">traduce</td><td>tradujo</td><td>traduzca</td><td>tradujera</td><td class="imp-pos">traduzca</td><td class="imp-neg">no traduzca</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">traducimos</td><td>tradujimos</td><td>traduzcamos</td><td>tradujéramos</td><td class="imp-pos">traduzcamos</td><td class="imp-neg">no traduzcamos</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">traducís</td><td>tradujisteis</td><td>traduzcáis</td><td>tradujerais</td><td class="imp-pos">traducid</td><td class="imp-neg">no traduzcáis</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">traducen</td><td>tradujeron</td><td>traduzcan</td><td>tradujeran</td><td class="imp-pos">traduzcan</td><td class="imp-neg">no traduzcan</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="exercise" id="ex-group5b"></div>
+        </section>
+
+        <!-- ================================================== -->
+        <!-- ГРУППА VI – i → y                                   -->
+        <!-- ================================================== -->
+        <section class="group-card" id="group6">
+            <div class="group-title">
+                <span class="badge">VI группа</span>
+                <span class="rule">i → y</span>
+                <div class="verbs">
+                    <span class="verb-tag">construir</span><span class="verb-tag">destruir</span><span class="verb-tag">incluir</span>
+                    <span class="verb-tag">constituir</span>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th style="text-align:left;">Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Indicativo<br/><span style="font-weight:400;font-size:0.7rem;">Pretérito Indefinido</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Presente</span></th>
+                            <th>Subjuntivo<br/><span style="font-weight:400;font-size:0.7rem;">Imperfecto</span></th>
+                            <th colspan="2">Imperativo</th></tr>
+                        <tr><th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#f4f7fb;font-weight:400;font-size:0.7rem;">&nbsp;</th>
+                            <th style="background:#eef7f2;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#2d6a4f;">afirmativo</th>
+                            <th style="background:#f7eeed;font-weight:600;font-size:0.7rem;text-transform:uppercase;color:#a54a4a;">negativo</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="text-align:left;font-weight:500;">construyo</td><td>construí</td><td>construya</td><td>construyera</td><td class="imp-pos">—</td><td class="imp-neg">—</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">construyes</td><td>construiste</td><td>construyas</td><td>construyeras</td><td class="imp-pos">construye</td><td class="imp-neg">no construyas</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">construye</td><td>construyó</td><td>construya</td><td>construyera</td><td class="imp-pos">construya</td><td class="imp-neg">no construya</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">construimos</td><td>construimos</td><td>construyamos</td><td>construyéramos</td><td class="imp-pos">construyamos</td><td class="imp-neg">no construyamos</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">construís</td><td>construisteis</td><td>construyáis</td><td>construyerais</td><td class="imp-pos">construid</td><td class="imp-neg">no construyáis</td></tr>
+                        <tr><td style="text-align:left;font-weight:500;">construyen</td><td>construyeron</td><td>construyan</td><td>construyeran</td><td class="imp-pos">construyan</td><td class="imp-neg">no construyan</td></tr>
+                        <tr class="gerundio-row"><td colspan="6"><span style="font-weight:600;">Gerundio:</span> construyendo</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="exercise" id="ex-group6"></div>
+        </section>
+
+        <!-- ================================================== -->
+        <!-- НОВЫЕ ФИНАЛЬНЫЕ ЗАДАНИЯ (без общего теста)          -->
+        <!-- ================================================== -->
+
+        <!-- 1. Раскройте скобки (испанские предложения) -->
+        <section class="group-card final-test" id="fillTest">
+            <div class="exercise-title" style="font-size:1.4rem; font-weight:700; color:#1e3a5f;">
+                ✍️ Completa con la forma correcta del verbo (Presente)
+            </div>
+            <p style="color:#4a5a6e; margin-bottom:1.5rem;">
+                Escribe la forma adecuada del verbo entre paréntesis.
+            </p>
+            <div class="exercise" id="ex-fill"></div>
+        </section>
+
+        <!-- 2. Переведите на испанский (русские предложения) -->
+        <section class="group-card final-test" id="translationTest">
+            <div class="exercise-title" style="font-size:1.4rem; font-weight:700; color:#1e3a5f;">
+                🌍 Traduce al español
+            </div>
+            <p style="color:#4a5a6e; margin-bottom:1.5rem;">
+                Escribe la traducción completa de la frase.
+            </p>
+            <div class="exercise" id="ex-translate"></div>
+        </section>
+
+        <p style="text-align:center;font-size:0.8rem;color:#6a7f94;margin-top:1.5rem;border-top:1px solid #e2e8f0;padding-top:1.5rem;">
+            Таблицы спряжения отклоняющихся глаголов &bull; Все глаголы включены в упражнения
+        </p>
+
+    </div>
+
+    <script>
+        // ============================================================
+        //  ДАННЫЕ ДЛЯ УПРАЖНЕНИЙ (ВСЕ ГЛАГОЛЫ) – перевод инфинитива
+        // ============================================================
+
+        function makeItem(word, correct, distractors) {
+            return { word, correct, distractors };
+        }
+
+        // Группа I a (e->ie) – 18 глаголов
+        const wordsGroup1a = [
+            makeItem('pensar', 'думать', ['терять', 'начинать', 'понимать']),
+            makeItem('perder', 'терять', ['думать', 'начинать', 'понимать']),
+            makeItem('empezar', 'начинать', ['думать', 'терять', 'понимать']),
+            makeItem('entender', 'понимать', ['думать', 'терять', 'начинать']),
+            makeItem('negarse', 'отказываться', ['думать', 'терять', 'начинать']),
+            makeItem('sentarse', 'садиться', ['думать', 'терять', 'начинать']),
+            makeItem('despertar', 'просыпаться', ['думать', 'терять', 'начинать']),
+            makeItem('atravesar', 'пересекать', ['думать', 'терять', 'начинать']),
+            makeItem('encender', 'зажигать', ['думать', 'терять', 'начинать']),
+            makeItem('calentar', 'нагревать', ['думать', 'терять', 'начинать']),
+            makeItem('recomendar', 'рекомендовать', ['думать', 'терять', 'начинать']),
+            makeItem('merendar', 'полдничать', ['думать', 'терять', 'начинать']),
+            makeItem('descender', 'спускаться', ['думать', 'терять', 'начинать']),
+            makeItem('encerrar', 'запирать', ['думать', 'терять', 'начинать']),
+            makeItem('apretar', 'сжимать', ['думать', 'терять', 'начинать']),
+            makeItem('atender', 'обслуживать', ['думать', 'терять', 'начинать']),
+            makeItem('extenderse', 'простираться', ['думать', 'терять', 'начинать']),
+            makeItem('defender', 'защищать', ['думать', 'терять', 'начинать'])
+        ];
+
+        // Группа I b (o->ue) – 16 глаголов
+        const wordsGroup1b = [
+            makeItem('volver', 'возвращаться', ['находить', 'обедать', 'стоить']),
+            makeItem('soñar', 'мечтать', ['возвращаться', 'находить', 'обедать']),
+            makeItem('torcer', 'скручивать', ['возвращаться', 'находить', 'обедать']),
+            makeItem('encontrar', 'находить', ['возвращаться', 'обедать', 'стоить']),
+            makeItem('moverse', 'двигаться', ['возвращаться', 'находить', 'обедать']),
+            makeItem('acostarse', 'ложиться спать', ['возвращаться', 'находить', 'обедать']),
+            makeItem('almorzar', 'обедать', ['возвращаться', 'находить', 'стоить']),
+            makeItem('aprobar', 'одобрять', ['возвращаться', 'находить', 'обедать']),
+            makeItem('costar', 'стоить', ['возвращаться', 'находить', 'обедать']),
+            makeItem('sonar', 'звучать', ['возвращаться', 'находить', 'обедать']),
+            makeItem('recordar', 'вспоминать', ['возвращаться', 'находить', 'обедать']),
+            makeItem('rogar', 'умолять', ['возвращаться', 'находить', 'обедать']),
+            makeItem('soler', 'иметь обыкновение', ['возвращаться', 'находить', 'обедать']),
+            makeItem('cocer', 'варить', ['возвращаться', 'находить', 'обедать']),
+            makeItem('probar', 'пробовать', ['возвращаться', 'находить', 'обедать']),
+            makeItem('demostrar', 'доказывать', ['возвращаться', 'находить', 'обедать'])
+        ];
+
+        // Группа I c (e->i) – 9 глаголов
+        const wordsGroup1c = [
+            makeItem('vestir', 'одевать', ['просить', 'смеяться', 'служить']),
+            makeItem('servir', 'служить', ['одевать', 'просить', 'смеяться']),
+            makeItem('reír', 'смеяться', ['одевать', 'просить', 'служить']),
+            makeItem('sonreír', 'улыбаться', ['одевать', 'просить', 'служить']),
+            makeItem('seguir', 'следовать', ['одевать', 'просить', 'служить']),
+            makeItem('elegir', 'выбирать', ['одевать', 'просить', 'служить']),
+            makeItem('pedir', 'просить', ['одевать', 'смеяться', 'служить']),
+            makeItem('despedirse', 'прощаться', ['одевать', 'просить', 'служить']),
+            makeItem('rendir', 'сдавать (экзамен)', ['одевать', 'просить', 'служить'])
+        ];
+
+        // Группа III – 5 глаголов
+        const wordsGroup3 = [
+            makeItem('sentir', 'чувствовать', ['предпочитать', 'превращаться', 'предупреждать']),
+            makeItem('divertirse', 'развлекаться', ['чувствовать', 'предпочитать', 'предупреждать']),
+            makeItem('advertir', 'предупреждать', ['чувствовать', 'предпочитать', 'превращаться']),
+            makeItem('preferir', 'предпочитать', ['чувствовать', 'превращаться', 'предупреждать']),
+            makeItem('convertirse', 'превращаться', ['чувствовать', 'предпочитать', 'предупреждать'])
+        ];
+
+        // Группа IV – 1 глагол
+        const wordsGroup4 = [
+            makeItem('dormir', 'спать', ['есть', 'пить', 'ходить'])
+        ];
+
+        // Группа V a – 8 глаголов
+        const wordsGroup5a = [
+            makeItem('conocer', 'знать', ['предлагать', 'появляться', 'исчезать']),
+            makeItem('pertenecer', 'принадлежать', ['знать', 'предлагать', 'появляться']),
+            makeItem('carecer', 'испытывать недостаток', ['знать', 'предлагать', 'появляться']),
+            makeItem('parecer', 'казаться', ['знать', 'предлагать', 'появляться']),
+            makeItem('ofrecer', 'предлагать', ['знать', 'появляться', 'исчезать']),
+            makeItem('aparecer', 'появляться', ['знать', 'предлагать', 'исчезать']),
+            makeItem('desaparecer', 'исчезать', ['знать', 'предлагать', 'появляться']),
+            makeItem('apetecer', 'хотеться', ['знать', 'предлагать', 'появляться'])
+        ];
+
+        // Группа V b – 3 глагола
+        const wordsGroup5b = [
+            makeItem('traducir', 'переводить', ['вводить', 'производить', 'строить']),
+            makeItem('introducir', 'вводить', ['переводить', 'производить', 'строить']),
+            makeItem('producir', 'производить', ['переводить', 'вводить', 'строить'])
+        ];
+
+        // Группа VI – 4 глагола
+        const wordsGroup6 = [
+            makeItem('construir', 'строить', ['разрушать', 'включать', 'составлять']),
+            makeItem('destruir', 'разрушать', ['строить', 'включать', 'составлять']),
+            makeItem('incluir', 'включать', ['строить', 'разрушать', 'составлять']),
+            makeItem('constituir', 'составлять', ['строить', 'разрушать', 'включать'])
+        ];
+
+        // ============================================================
+        //  ФИНАЛЬНЫЕ ЗАДАНИЯ (переработанные)
+        // ============================================================
+
+        // 1. Раскройте скобки – полностью испанские предложения, сложные глаголы
+        const fillQuestions = [
+            { ru: 'Yo (negarse) a ir al cine.', answer: 'me niego' },
+            { ru: 'Tú (sentarse) en la silla.', answer: 'te sientas' },
+            { ru: 'Ella (despertarse) a las siete.', answer: 'se despierta' },
+            { ru: 'Nosotros (acostarse) tarde.', answer: 'nos acostamos' },
+            { ru: 'Vosotros (moverse) mucho.', answer: 'os movéis' },
+            { ru: 'Ellos (divertirse) en la fiesta.', answer: 'se divierten' },
+            { ru: 'Yo (recordar) mi infancia.', answer: 'recuerdo' },
+            { ru: 'Tú (probar) la comida.', answer: 'pruebas' },
+            { ru: 'Él (demostrar) su teoría.', answer: 'demuestra' },
+            { ru: 'Nosotros (recomendar) este libro.', answer: 'recomendamos' },
+            { ru: 'Vosotros (despedirse) de vuestros amigos.', answer: 'os despedís' },
+            { ru: 'Ellas (vestirse) rápidamente.', answer: 'se visten' },
+            { ru: 'Yo (elegir) la opción correcta.', answer: 'elijo' },
+            { ru: 'Tú (seguir) las instrucciones.', answer: 'sigues' },
+            { ru: 'Él (advertir) del peligro.', answer: 'advierte' },
+            { ru: 'Nosotros (convertirse) en profesionales.', answer: 'nos convertimos' },
+            { ru: 'Yo (ofrecer) mi ayuda.', answer: 'ofrezco' },
+            { ru: 'Tú (parecer) cansado.', answer: 'pareces' },
+            { ru: 'Ella (desaparecer) sin dejar rastro.', answer: 'desaparece' },
+            { ru: 'Nosotros (traducir) el documento.', answer: 'traducimos' },
+            { ru: 'Vosotros (introducir) los datos.', answer: 'introducís' },
+            { ru: 'Ellos (producir) mucho ruido.', answer: 'producen' },
+            { ru: 'Yo (construir) una casa.', answer: 'construyo' },
+            { ru: 'Tú (destruir) todo a tu paso.', answer: 'destruyes' },
+            { ru: 'Él (incluir) a todos.', answer: 'incluye' },
+            { ru: 'Nosotros (constituir) un equipo.', answer: 'constituimos' }
+        ];
+
+        // 2. Переведите на испанский – усложнённые русские предложения
+        const translateQuestions = [
+            { ru: 'Я отказываюсь идти в кино.', answer: 'me niego a ir al cine' },
+            { ru: 'Ты садишься на стул.', answer: 'te sientas en la silla' },
+            { ru: 'Она просыпается в семь.', answer: 'se despierta a las siete' },
+            { ru: 'Мы ложимся спать поздно.', answer: 'nos acostamos tarde' },
+            { ru: 'Вы (vosotros) много двигаетесь.', answer: 'os movéis mucho' },
+            { ru: 'Они веселятся на вечеринке.', answer: 'se divierten en la fiesta' },
+            { ru: 'Я вспоминаю своё детство.', answer: 'recuerdo mi infancia' },
+            { ru: 'Ты пробуешь еду.', answer: 'pruebas la comida' },
+            { ru: 'Он доказывает свою теорию.', answer: 'demuestra su teoría' },
+            { ru: 'Мы рекомендуем эту книгу.', answer: 'recomendamos este libro' },
+            { ru: 'Вы (vosotros) прощаетесь с друзьями.', answer: 'os despedís de vuestros amigos' },
+            { ru: 'Они одеваются быстро.', answer: 'se visten rápidamente' },
+            { ru: 'Я выбираю правильный вариант.', answer: 'elijo la opción correcta' },
+            { ru: 'Ты следуешь инструкциям.', answer: 'sigues las instrucciones' },
+            { ru: 'Он предупреждает об опасности.', answer: 'advierte del peligro' },
+            { ru: 'Мы становимся профессионалами.', answer: 'nos convertimos en profesionales' },
+            { ru: 'Я предлагаю свою помощь.', answer: 'ofrezco mi ayuda' },
+            { ru: 'Ты выглядишь уставшим.', answer: 'pareces cansado' },
+            { ru: 'Она исчезает бесследно.', answer: 'desaparece sin dejar rastro' },
+            { ru: 'Мы переводим документ.', answer: 'traducimos el documento' },
+            { ru: 'Вы (vosotros) вводите данные.', answer: 'introducís los datos' },
+            { ru: 'Они производят много шума.', answer: 'producen mucho ruido' },
+            { ru: 'Я строю дом.', answer: 'construyo una casa' },
+            { ru: 'Ты разрушаешь всё на своём пути.', answer: 'destruyes todo a tu paso' },
+            { ru: 'Он включает всех.', answer: 'incluye a todos' },
+            { ru: 'Мы составляем команду.', answer: 'constituimos un equipo' }
+        ];
+
+        // ============================================================
+        //  РЕНДЕРИНГ УПРАЖНЕНИЙ (слово → перевод) – без изменений
+        // ============================================================
+
+        function renderWordExercise(containerId, items, groupName = '') {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+
+            const title = document.createElement('div');
+            title.className = 'exercise-title';
+            title.textContent = groupName ? `Переведите глаголы (${groupName})` : 'Переведите глаголы';
+            container.appendChild(title);
+
+            const questionsContainer = document.createElement('div');
+            questionsContainer.className = 'questions-container';
+            container.appendChild(questionsContainer);
+
+            items.forEach((item, idx) => {
+                const allOptions = [item.correct, ...item.distractors];
+                for (let i = allOptions.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [allOptions[i], allOptions[j]] = [allOptions[j], allOptions[i]];
+                }
+                const correctIndex = allOptions.indexOf(item.correct);
+
+                const block = document.createElement('div');
+                block.className = 'question-block';
+                block.dataset.index = idx;
+
+                const qText = document.createElement('span');
+                qText.className = 'q-text';
+                qText.textContent = `🇪🇸 ${item.word}`;
+                block.appendChild(qText);
+
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+                const nameAttr = `${containerId}-w${idx}`;
+                allOptions.forEach((opt, optIndex) => {
+                    const label = document.createElement('label');
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = nameAttr;
+                    radio.value = optIndex;
+                    label.appendChild(radio);
+                    label.appendChild(document.createTextNode(opt));
+                    optionsDiv.appendChild(label);
+                });
+                block.appendChild(optionsDiv);
+
+                const resultSpan = document.createElement('span');
+                resultSpan.className = 'result-icon';
+                block.appendChild(resultSpan);
+
+                const hintSpan = document.createElement('span');
+                hintSpan.className = 'explanation';
+                hintSpan.textContent = `✓ ${item.correct}`;
+                hintSpan.style.display = 'none';
+                block.appendChild(hintSpan);
+
+                block.dataset.correct = correctIndex;
+                questionsContainer.appendChild(block);
+            });
+
+            const checkBtn = document.createElement('button');
+            checkBtn.className = 'btn-check';
+            checkBtn.textContent = 'Проверить';
+            container.appendChild(checkBtn);
+
+            const resetBtn = document.createElement('button');
+            resetBtn.className = 'btn-check reset';
+            resetBtn.textContent = 'Сбросить';
+            container.appendChild(resetBtn);
+
+            const stats = document.createElement('div');
+            stats.className = 'exercise-stats';
+            container.appendChild(stats);
+
+            function checkExercise() {
+                const blocks = questionsContainer.querySelectorAll('.question-block');
+                let correct = 0;
+                blocks.forEach((block) => {
+                    const selected = block.querySelector('input[type="radio"]:checked');
+                    const resultIcon = block.querySelector('.result-icon');
+                    const hint = block.querySelector('.explanation');
+                    const correctIdx = parseInt(block.dataset.correct);
+                    block.classList.remove('correct', 'wrong');
+                    block.querySelectorAll('label').forEach(l => l.style.backgroundColor = '');
+
+                    if (selected) {
+                        const val = parseInt(selected.value);
+                        if (val === correctIdx) {
+                            block.classList.add('correct');
+                            resultIcon.textContent = '✅';
+                            correct++;
+                        } else {
+                            block.classList.add('wrong');
+                            resultIcon.textContent = '❌';
+                            const allRadios = block.querySelectorAll('input[type="radio"]');
+                            allRadios.forEach((r, i) => {
+                                if (i === correctIdx) {
+                                    r.closest('label').style.backgroundColor = '#d4edda';
+                                }
+                            });
+                        }
+                        hint.style.display = 'inline-block';
+                    } else {
+                        resultIcon.textContent = '⚠️';
+                        block.classList.add('wrong');
+                    }
+                });
+                stats.textContent = `✅ Правильно: ${correct} из ${blocks.length}`;
+            }
+
+            function resetExercise() {
+                const blocks = questionsContainer.querySelectorAll('.question-block');
+                blocks.forEach(block => {
+                    block.classList.remove('correct', 'wrong');
+                    block.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+                    block.querySelector('.result-icon').textContent = '';
+                    const hint = block.querySelector('.explanation');
+                    hint.style.display = 'none';
+                    block.querySelectorAll('label').forEach(l => l.style.backgroundColor = '');
+                });
+                stats.textContent = '';
+            }
+
+            checkBtn.addEventListener('click', checkExercise);
+            resetBtn.addEventListener('click', resetExercise);
+        }
+
+        // ============================================================
+        //  РЕНДЕРИНГ ЗАДАНИЙ С ПОЛЯМИ ВВОДА (fill и translate) – с мягкой проверкой и кнопкой "Показать ответ"
+        // ============================================================
+        function renderInputExercise(containerId, items, type = 'fill') {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+
+            const title = document.createElement('div');
+            title.className = 'exercise-title';
+            title.textContent = type === 'fill' ? 'Completa los verbos' : 'Traduce al español';
+            container.appendChild(title);
+
+            const questionsContainer = document.createElement('div');
+            questionsContainer.className = 'questions-container';
+            container.appendChild(questionsContainer);
+
+            items.forEach((item, index) => {
+                const block = document.createElement('div');
+                block.className = 'question-block';
+                block.dataset.index = index;
+
+                const qText = document.createElement('span');
+                qText.className = 'q-text';
+                qText.textContent = `${index+1}. ${item.ru}`;
+                block.appendChild(qText);
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'input-answer';
+                input.placeholder = 'Escribe tu respuesta...';
+                block.appendChild(input);
+
+                const btnCheck = document.createElement('button');
+                btnCheck.className = 'btn-check small';
+                btnCheck.textContent = 'Проверить';
+                block.appendChild(btnCheck);
+
+                const btnShow = document.createElement('button');
+                btnShow.className = 'btn-check small show-answer';
+                btnShow.textContent = 'Показать ответ';
+                block.appendChild(btnShow);
+
+                const resultSpan = document.createElement('span');
+                resultSpan.className = 'result-icon';
+                block.appendChild(resultSpan);
+
+                const hint = document.createElement('span');
+                hint.className = 'answer-hint';
+                hint.textContent = `Правильный ответ: ${item.answer}`;
+                block.appendChild(hint);
+
+                questionsContainer.appendChild(block);
+
+                // Функция проверки (мягкая)
+                function checkInput() {
+                    const userAnswer = input.value.trim().toLowerCase().replace(/\s+/g, ' ');
+                    const correctAnswer = item.answer.toLowerCase().replace(/\s+/g, ' ');
+                    const isCorrect = userAnswer === correctAnswer;
+
+                    input.classList.remove('correct', 'wrong');
+                    resultSpan.textContent = '';
+
+                    if (isCorrect) {
+                        input.classList.add('correct');
+                        resultSpan.textContent = '✅';
+                        hint.style.display = 'none';
+                    } else {
+                        input.classList.add('wrong');
+                        resultSpan.textContent = '❌';
+                        // Показываем подсказку с правильным ответом
+                        hint.style.display = 'inline-block';
+                    }
+                }
+
+                btnCheck.addEventListener('click', checkInput);
+
+                btnShow.addEventListener('click', function() {
+                    // Вставляем правильный ответ в поле и помечаем как правильный (зелёный)
+                    input.value = item.answer;
+                    input.classList.remove('wrong');
+                    input.classList.add('correct');
+                    resultSpan.textContent = '✅';
+                    hint.style.display = 'none';
+                });
+
+                // Также можно проверять по нажатию Enter
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        checkInput();
+                    }
+                });
+            });
+        }
+
+        // ============================================================
+        //  ЗАПУСК РЕНДЕРИНГОВ
+        // ============================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Упражнения для групп (слово → перевод)
+            renderWordExercise('ex-group1a', wordsGroup1a, 'e → ie');
+            renderWordExercise('ex-group1b', wordsGroup1b, 'o → ue');
+            renderWordExercise('ex-group1c', wordsGroup1c, 'e → i');
+            renderWordExercise('ex-group3', wordsGroup3, 'e → ie / e → i');
+            renderWordExercise('ex-group4', wordsGroup4, 'o → ue / o → u');
+            renderWordExercise('ex-group5a', wordsGroup5a, 'c → zc');
+            renderWordExercise('ex-group5b', wordsGroup5b, 'c → zc / c → j');
+            renderWordExercise('ex-group6', wordsGroup6, 'i → y');
+
+            // Финальные задания
+            renderInputExercise('ex-fill', fillQuestions, 'fill');
+            renderInputExercise('ex-translate', translateQuestions, 'translate');
+        });
+    </script>
+</body>
+</html>
