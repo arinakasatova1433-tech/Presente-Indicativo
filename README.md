@@ -14,3 +14,5 @@ TranejerTodoenUno https://arinakasatova1433-tech.github.io/Presente-Indicativo/T
 TrenajerTodoenUnoCompleto https://arinakasatova1433-tech.github.io/Presente-Indicativo/TrenajerTodoenUnoCompleto.html
 
 SemiReg https://arinakasatova1433-tech.github.io/Presente-Indicativo/SemiReg.html
+
+https://arinakasatova1433-tech.github.io/Presente-Indicativo/deepseek_html_20260910_432ba4.html
