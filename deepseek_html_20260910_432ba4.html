@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Símbolos en las Obras de Dalí</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@300;400;600&display=swap');
+
+        :root {
+            --dali-blue: #1a3a5c;
+            --dali-gold: #d4af37;
+            --dali-red: #c0392b;
+            --dali-bg: #f4f1ea;
+            --dali-dark: #2c3e50;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--dali-bg);
+            color: var(--dali-dark);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 20%),
+                              radial-gradient(circle at 90% 80%, rgba(26, 58, 92, 0.05) 0%, transparent 20%);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid var(--dali-gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: "🎨";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 80px;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dali-blue);
+            text-align: center;
+            font-size: 2.2em;
+            border-bottom: 3px double var(--dali-gold);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .intro {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.05em;
+        }
+
+        .symbol-block {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            transition: box-shadow 0.3s;
+        }
+
+        .symbol-block:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .symbol-title {
+            font-weight: bold;
+            color: var(--dali-blue);
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--dali-gold);
+            display: inline-block;
+            padding-bottom: 3px;
+        }
+
+        .fill-text {
+            font-size: 1.05em;
+            line-height: 2.2;
+        }
+
+        .drop-zone {
+            display: inline-block;
+            min-width: 90px;
+            height: 28px;
+            border-bottom: 2px dashed var(--dali-blue);
+            margin: 0 5px;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            background: #fff;
+            padding: 0 8px;
+            transition: all 0.2s;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .drop-zone:hover {
+            background: #f0f4f8;
+        }
+
+        .drop-zone.filled {
+            border-bottom: 2px solid var(--dali-gold);
+            background: #fff3cd;
+            font-weight: bold;
+            color: var(--dali-blue);
+        }
+
+        .word-bank {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-top: 12px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .word-chip {
+            background: var(--dali-blue);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .word-chip:hover {
+            background: var(--dali-gold);
+            color: var(--dali-blue);
+            transform: translateY(-2px);
+        }
+
+        .word-chip.used {
+            opacity: 0.3;
+            pointer-events: none;
+            transform: scale(0.95);
+        }
+
+        .reset-btn {
+            display: block;
+            margin: 30px auto 0;
+            background: transparent;
+            border: 2px solid var(--dali-red);
+            color: var(--dali-red);
+            padding: 10px 25px;
+            font-size: 0.95em;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .reset-btn:hover {
+            background: var(--dali-red);
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.6em; }
+            .fill-text { font-size: 0.95em; line-height: 2; }
+            .drop-zone { min-width: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Los Símbolos en las Obras de Dalí</h1>
+    <p class="intro">Вставьте пропущенные слова. Нажмите на слово внизу, чтобы оно встало в нужный пропуск. Если ошиблись — нажмите на пропуск, чтобы очистить.</p>
+
+    <!-- Блок 1: Слоны -->
+    <div class="symbol-block">
+        <div class="symbol-title">🐘 Los Elefantes Patudos</div>
+        <div class="fill-text">
+            Se representan con <span class="drop-zone" onclick="clearZone(this)"></span> finas y largas, con muchas <span class="drop-zone" onclick="clearZone(this)"></span>, y normalmente cargan con un elemento <span class="drop-zone" onclick="clearZone(this)"></span> (como, por ejemplo, una piedra). Los elefantes patudos representan el <span class="drop-zone" onclick="clearZone(this)"></span> y también son un símbolo de <span class="drop-zone" onclick="clearZone(this)"></span>.
+        </div>
+        <div class="word-bank">
+            <span class="word-chip" onclick="fillZone(this, 'patas')">patas</span>
+            <span class="word-chip" onclick="fillZone(this, 'articulaciones')">articulaciones</span>
+            <span class="word-chip" onclick="fillZone(this, 'pesado')">pesado</span>
+            <span class="word-chip" onclick="fillZone(this, 'futuro')">futuro</span>
+            <span class="word-chip" onclick="fillZone(this, 'fuerza')">fuerza</span>
+        </div>
+    </div>
+
+    <!-- Блок 2: Муравьи -->
+    <div class="symbol-block">
+        <div class="symbol-title">🐜 Las Hormigas</div>
+        <div class="fill-text">
+            Las hormigas simbolizan la <span class="drop-zone" onclick="clearZone(this)"></span> y la descomposición de los cuerpos. Cuando era <span class="drop-zone" onclick="clearZone(this)"></span>, Dalí vio un insecto <span class="drop-zone" onclick="clearZone(this)"></span> por las hormigas y esta <span class="drop-zone" onclick="clearZone(this)"></span> se quedó en su cabeza.
+        </div>
+        <div class="word-bank">
+            <span class="word-chip" onclick="fillZone(this, 'muerte')">muerte</span>
+            <span class="word-chip" onclick="fillZone(this, 'pequeño')">pequeño</span>
+            <span class="word-chip" onclick="fillZone(this, 'devorado')">devorado</span>
+            <span class="word-chip" onclick="fillZone(this, 'imagen')">imagen</span>
+        </div>
+    </div>
+
+    <!-- Блок 3: Часы -->
+    <div class="symbol-block">
+        <div class="symbol-title">🕰️ Los Relojes Blandos</div>
+        <div class="fill-text">
+            Los relojes <span class="drop-zone" onclick="clearZone(this)"></span> en muchas obras de Dalí y nos <span class="drop-zone" onclick="clearZone(this)"></span> que el tiempo está presente en todas partes. Es más, el tiempo está tan presente que se <span class="drop-zone" onclick="clearZone(this)"></span> a sí mismo. La inspiración para este concepto <span class="drop-zone" onclick="clearZone(this)"></span> de un sueño que tuvo Dalí en el que un queso Camembert se <span class="drop-zone" onclick="clearZone(this)"></span> por el calor.
+        </div>
+        <div class="word-bank">
+            <span class="word-chip" onclick="fillZone(this, 'aparecen')">aparecen</span>
+            <span class="word-chip" onclick="fillZone(this, 'recuerdan')">recuerdan</span>
+            <span class="word-chip" onclick="fillZone(this, 'devora')">devora</span>
+            <span class="word-chip" onclick="fillZone(this, 'viene')">viene</span>
+            <span class="word-chip" onclick="fillZone(this, 'derretía')">derretía</span>
+        </div>
+    </div>
+
+    <!-- Блок 4: Глаза -->
+    <div class="symbol-block">
+        <div class="symbol-title">👁️ Los Ojos</div>
+        <div class="fill-text">
+            Los ojos son un motivo muy <span class="drop-zone" onclick="clearZone(this)"></span> en las obras de los/as artistas surrealistas. Es un instrumento para mostrar las "cosas <span class="drop-zone" onclick="clearZone(this)"></span>" al espectador. El ojo nos invita a mirar más <span class="drop-zone" onclick="clearZone(this)"></span> de lo que vemos a simple <span class="drop-zone" onclick="clearZone(this)"></span>.
+        </div>
+        <div class="word-bank">
+            <span class="word-chip" onclick="fillZone(this, 'común')">común</span>
+            <span class="word-chip" onclick="fillZone(this, 'invisibles')">invisibles</span>
+            <span class="word-chip" onclick="fillZone(this, 'allá')">allá</span>
+            <span class="word-chip" onclick="fillZone(this, 'vista')">vista</span>
+        </div>
+    </div>
+
+    <!-- Блок 5: Яйца -->
+    <div class="symbol-block">
+        <div class="symbol-title">🥚 Los Huevos</div>
+        <div class="fill-text">
+            El huevo representa un <span class="drop-zone" onclick="clearZone(this)"></span>: exterior <span class="drop-zone" onclick="clearZone(this)"></span>, interior <span class="drop-zone" onclick="clearZone(this)"></span>. Dalí relaciona la imagen del huevo con el <span class="drop-zone" onclick="clearZone(this)"></span> de su madre. Un huevo que se rompe simboliza, por supuesto, su <span class="drop-zone" onclick="clearZone(this)"></span>.
+        </div>
+        <div class="word-bank">
+            <span class="word-chip" onclick="fillZone(this, 'contraste')">contraste</span>
+            <span class="word-chip" onclick="fillZone(this, 'duro')">duro</span>
+            <span class="word-chip" onclick="fillZone(this, 'blando')">blando</span>
+            <span class="word-chip" onclick="fillZone(this, 'vientre')">vientre</span>
+            <span class="word-chip" onclick="fillZone(this, 'muerte')">muerte</span>
+        </div>
+    </div>
+
+    <!-- Блок 6: Ящики -->
+    <div class="symbol-block">
+        <div class="symbol-title">📦 Los Cajones de Madera</div>
+        <div class="fill-text">
+            Los cajones de madera simbolizan la <span class="drop-zone" onclick="clearZone(this)"></span> femenina oculta. Dalí los representa <span class="drop-zone" onclick="clearZone(this)"></span>, dando a entender que los secretos que hay dentro están a la <span class="drop-zone" onclick="clearZone(this)"></span> de todos y que no hay que tenerles <span class="drop-zone" onclick="clearZone(this)"></span>.
+        </div>
+        <div class="word-bank">
+            <span class="word-chip" onclick="fillZone(this, 'sexualidad')">sexualidad</span>
+            <span class="word-chip" onclick="fillZone(this, 'abiertos')">abiertos</span>
+            <span class="word-chip" onclick="fillZone(this, 'vista')">vista</span>
+            <span class="word-chip" onclick="fillZone(this, 'miedo')">miedo</span>
+        </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetAll()">🔄 Reiniciar todo</button>
+
+</div>
+
+<script>
+    function fillZone(chipElement, word) {
+        const parentBlock = chipElement.closest('.symbol-block');
+        const emptyZone = parentBlock.querySelector('.drop-zone:not(.filled)');
+        
+        if (emptyZone) {
+            emptyZone.textContent = word;
+            emptyZone.classList.add('filled');
+            chipElement.classList.add('used');
+        }
+    }
+
+    function clearZone(zoneElement) {
+        if (!zoneElement.classList.contains('filled')) return;
+        
+        const parentBlock = zoneElement.closest('.symbol-block');
+        const word = zoneElement.textContent;
+        
+        zoneElement.textContent = '';
+        zoneElement.classList.remove('filled');
+        
+        const chips = parentBlock.querySelectorAll('.word-chip');
+        chips.forEach(chip => {
+            if (chip.textContent.trim() === word) {
+                chip.classList.remove('used');
+            }
+        });
+    }
+
+    function resetAll() {
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            zone.textContent = '';
+            zone.classList.remove('filled');
+        });
+        document.querySelectorAll('.word-chip').forEach(chip => {
+            chip.classList.remove('used');
+        });
+    }
+</script>
+
+</body>
+</html>
