@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Si te vas a... Colombia - Actividades</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.8em;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .task {
+            background-color: #f9f9f9;
+            border-left: 5px solid #007bff;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        .task-title {
+            font-weight: bold;
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
+        .task p {
+            margin: 5px 0;
+        }
+        .quiz-question {
+            margin-bottom: 15px;
+        }
+        .quiz-options label {
+            display: block;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .btn-check {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        .btn-check:hover {
+            background-color: #0056b3;
+        }
+        .btn-show {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .btn-show:hover {
+            background-color: #218838;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .correct { color: green; }
+        .incorrect { color: red; }
+        .answer-box {
+            display: none;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            color: #155724;
+            font-size: 0.95em;
+        }
+        .answer-box.show {
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        .btn-telegram {
+            background-color: #0088cc;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 15px;
+            display: inline-block;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn-telegram:hover {
+            background-color: #006699;
+        }
+        .audio-instruction {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #856404;
+        }
+        .video-plate {
+            background-color: #e5a923;
+            color: white;
+            font-weight: bold;
+            padding: 10px 15px;
+            display: inline-block;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-family: sans-serif;
+            text-transform: uppercase;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            font-size: 0.95em;
+        }
+        .timestamp {
+            color: #6c757d;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        hr {
+            margin: 40px 0;
+            border: 1px dashed #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>11. SI TE VAS A... COLOMBIA</h1>
+
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/U9J13LLa3zs" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <!-- A. -->
+    <div class="task">
+        <p><strong>A.</strong> Antes de ver el vídeo, escribe todo lo que sabes sobre Colombia (su gente, comida, música, fiestas, lugares...). No hace falta que sea perfecto, solo escribe tus ideas previas.</p>
+        <textarea rows="5" placeholder="Escribe aquí lo que sabes sobre Colombia..."></textarea>
+        <div style="margin-top: 15px;">
+            <a href="https://t.me/TU_USUARIO_DE_TELEGRAM" target="_blank" class="btn-telegram">📸 Enviar captura a mi Telegram</a>
+            <p style="font-size: 0.85em; color: #666; margin-top: 5px;">(Haz una captura de pantalla de lo que escribiste y envíamela por Telegram)</p>
+        </div>
+    </div>
+
+    <!-- B. -->
+    <div class="task">
+        <p><strong>B.</strong> Mira el vídeo completo y responde correctamente a estas preguntas sobre Colombia. (Hay 6 preguntas, todas las respuestas están en el vídeo). Al comprobar, se iluminará en <span style="color:green;font-weight:bold;">verde</span> la respuesta correcta y en <span style="color:red;font-weight:bold;">rojo</span> la incorrecta que hayas marcado.</p>
+        
+        <div class="quiz-question">
+            <p>1. Según el vídeo, ¿cómo son los colombianos cuando reciben a alguien en su casa?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="b1" value="a"> a) Son muy fríos y distantes.</label>
+                <label><input type="radio" name="b1" value="b"> b) Son muy hospitalarios y amables.</label>
+                <label><input type="radio" name="b1" value="c"> c) Prefieren que la gente no vaya a su casa.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>2. ¿Qué palabra usa la gente del vídeo para definir a los colombianos que les gusta mucho salir de fiesta?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="b2" value="a"> a) Trabajadores.</label>
+                <label><input type="radio" name="b2" value="b"> b) Rumberos.</label>
+                <label><input type="radio" name="b2" value="c"> c) Tranquilos.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>3. Según el vídeo, ¿qué es un "corrientazo"?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="b3" value="a"> a) Un plato típico de la costa.</label>
+                <label><input type="radio" name="b3" value="b"> b) Un menú económico de mediodía.</label>
+                <label><input type="radio" name="b3" value="c"> c) Una corriente de aire fuerte.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>4. ¿Qué significa "levantar" en Colombia, según la placa del vídeo?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="b4" value="a"> a) Levantar pesas.</label>
+                <label><input type="radio" name="b4" value="b"> b) Conquistar a alguien / Ligar.</label>
+                <label><input type="radio" name="b4" value="c"> c) Levantarse temprano.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>5. Según el vídeo, ¿qué es la "berraquera"?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="b5" value="a"> a) Tener muchas ganas de salir adelante.</label>
+                <label><input type="radio" name="b5" value="b"> b) Tener mucho sueño.</label>
+                <label><input type="radio" name="b5" value="c"> c) Estar muy enojado.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>6. ¿A quién le dicen "gringo" en Colombia, según el vídeo?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="b6" value="a"> a) A una persona de Estados Unidos.</label>
+                <label><input type="radio" name="b6" value="b"> b) A una persona rubia.</label>
+                <label><input type="radio" name="b6" value="c"> c) A un turista europeo.</label>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkB()">Comprobar respuestas</button>
+        <div id="b-feedback" class="feedback"></div>
+    </div>
+
+    <!-- C. -->
+    <div class="task">
+        <p><strong>C.</strong> Vuelve a ver el vídeo y completa la tabla con la información que dan sobre estos temas. Si no estás seguro/a, pulsa "Mostrar respuesta" para ver las palabras exactas del vídeo.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Tema</th>
+                    <th>Lo que dice el vídeo</th>
+                    <th>Respuesta del vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>La gastronomía</strong></td>
+                    <td><textarea rows="2" placeholder="Escribe aquí..."></textarea></td>
+                    <td>
+                        <button class="btn-show" onclick="toggleAnswer('c1')">Mostrar respuesta</button>
+                        <div id="c1" class="answer-box">
+                            <strong>Corrientazo</strong> = menú de mediodía. También hablan de la comida típica y lo importante que es comer bien.
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>La música</strong></td>
+                    <td><textarea rows="2" placeholder="Escribe aquí..."></textarea></td>
+                    <td>
+                        <button class="btn-show" onclick="toggleAnswer('c2')">Mostrar respuesta</button>
+                        <div id="c2" class="answer-box">
+                            La música es muy importante. Les gusta el <strong>ritmo caribeño</strong> y bailar. Son <strong>rumberos</strong>.
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Las fiestas y costumbres</strong></td>
+                    <td><textarea rows="2" placeholder="Escribe aquí..."></textarea></td>
+                    <td>
+                        <button class="btn-show" onclick="toggleAnswer('c3')">Mostrar respuesta</button>
+                        <div id="c3" class="answer-box">
+                            Les encanta la fiesta, bailar y salir. Son <strong>rumberos</strong>. También usan expresiones como <strong>"¡Hola, mijito!"</strong> para saludar con cariño.
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>El mundo del trabajo</strong></td>
+                    <td><textarea rows="2" placeholder="Escribe aquí..."></textarea></td>
+                    <td>
+                        <button class="btn-show" onclick="toggleAnswer('c4')">Mostrar respuesta</button>
+                        <div id="c4" class="answer-box">
+                            El trabajo es importante, pero también lo es disfrutar de la vida. Tienen <strong>berraquera</strong> (ganas de salir adelante) y van <strong>a ritmo caribeño</strong> (sin prisa, disfrutando).
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- D. -->
+    <div class="task">
+        <p><strong>D.</strong> Indica si estas afirmaciones son verdaderas (V) o falsas (F) según el vídeo. Escribe V o F en el espacio.</p>
+        <ol>
+            <li>Los colombianos son personas perezosas. <input type="text" id="d1" placeholder="V/F" style="width: 50px;"></li>
+            <li>La gente de Colombia es muy hospitalaria. <input type="text" id="d2" placeholder="V/F" style="width: 50px;"></li>
+            <li>El baile es importante para socializar. <input type="text" id="d3" placeholder="V/F" style="width: 50px;"></li>
+            <li>En Colombia se consume bastante carne. <input type="text" id="d4" placeholder="V/F" style="width: 50px;"></li>
+            <li>Los colombianos tienen "berraquera", es decir, ganas de salir adelante. <input type="text" id="d5" placeholder="V/F" style="width: 50px;"></li>
+            <li>Un "corrientazo" es un menú caro y elegante. <input type="text" id="d6" placeholder="V/F" style="width: 50px;"></li>
+        </ol>
+        <button class="btn-check" onclick="checkD()">Comprobar</button>
+        <div id="d-feedback" class="feedback"></div>
+    </div>
+
+    <!-- E. ПЕРЕДЕЛАНО: УБРАНЫ 5-9, ДОБАВЛЕНЫ excesivo, cariñoso, cilantro, aclarar, nunca puede faltar -->
+    <div class="task">
+        <p><strong>E. (Vocabulario)</strong> Estas son palabras y expresiones que aparecen en el vídeo. Elige la opción correcta para cada una.</p>
+        
+        <div class="quiz-question">
+            <p>1. En el vídeo dicen: <em>"No todos <strong>sabemos bailar</strong>"</em>. ¿Qué expresa <strong>saber + infinitivo</strong>?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="e1" value="a"> a) Habilidad o capacidad (уметь что-то делать).</label>
+                <label><input type="radio" name="e1" value="b"> b) Obligación.</label>
+                <label><input type="radio" name="e1" value="c"> c) Un deseo.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>2. En el vídeo aparece la palabra <strong>"apenas"</strong>. ¿Qué significa?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="e2" value="a"> a) Casi no, solo un poco (едва, только-только).</label>
+                <label><input type="radio" name="e2" value="b"> b) Mucho, en gran cantidad.</label>
+                <label><input type="radio" name="e2" value="c"> c) Siempre, todo el tiempo.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>3. ¿Cuál de estas frases usa correctamente <strong>"apenas"</strong>?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="e3" value="a"> a) Apenas me levanto y ya tengo que trabajar.</label>
+                <label><input type="radio" name="e3" value="b"> b) Apenas mucho trabajo hoy.</label>
+                <label><input type="radio" name="e3" value="c"> c) Apenas siempre voy a la fiesta.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>4. En el vídeo dicen: <em>"Somos muy <strong>hospitalarios</strong>"</em>. ¿Qué significa este adjetivo?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="e4" value="a"> a) Que recibe bien a los visitantes, amable y generoso.</label>
+                <label><input type="radio" name="e4" value="b"> b) Que vive en un hospital.</label>
+                <label><input type="radio" name="e4" value="c"> c) Que está siempre enfermo.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>5. La palabra <strong>"excesivo"</strong> significa...</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="e5" value="a"> a) Que es demasiado, más de lo normal (чрезмерный).</label>
+                <label><input type="radio" name="e5" value="b"> b) Que es muy poco.</label>
+                <label><input type="radio" name="e5" value="c"> c) Que es exacto.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>6. La palabra <strong>"cariñoso"</strong> describe a una persona que...</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="e6" value="a"> a) Demuestra afecto y ternura (ласковый, нежный).</label>
+                <label><input type="radio" name="e6" value="b"> b) Es muy seria y fría.</label>
+                <label><input type="radio" name="e6" value="c"> c) Es muy trabajadora.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>7. El <strong>"cilantro"</strong> es...</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="e7" value="a"> a) Una hierba aromática muy usada en la cocina (кинза, кориандр).</label>
+                <label><input type="radio" name="e7" value="b"> b) Un tipo de carne.</label>
+                <label><input type="radio" name="e7" value="c"> c) Una fruta tropical.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>8. El verbo <strong>"aclarar"</strong> significa...</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="e8" value="a"> a) Explicar algo para que se entienda mejor (уточнять, пояснять).</label>
+                <label><input type="radio" name="e8" value="b"> b) Oscurecer algo.</label>
+                <label><input type="radio" name="e8" value="c"> c) Lavar la ropa.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>9. La expresión <strong>"nunca puede faltar"</strong> significa que algo...</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="e9" value="a"> a) Es esencial, siempre tiene que estar presente (никогда не может отсутствовать).</label>
+                <label><input type="radio" name="e9" value="b"> b) Es opcional, puede estar o no.</label>
+                <label><input type="radio" name="e9" value="c"> c) Nunca se usa.</label>
+            </div>
+        </div>
+
+        <div class="quiz-question">
+            <p>10. En el vídeo dicen <strong>"compartir con la familia"</strong>. ¿Qué significa <strong>"compartir"</strong>?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="e10" value="a"> a) Pasar tiempo juntos, disfrutar en común (делиться, проводить время вместе).</label>
+                <label><input type="radio" name="e10" value="b"> b) Dividir la comida en trozos.</label>
+                <label><input type="radio" name="e10" value="c"> c) Comprar algo nuevo.</label>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkE()">Comprobar vocabulario</button>
+        <div id="e-feedback" class="feedback"></div>
+    </div>
+
+    <hr>
+
+    <!-- F. -->
+    <div class="task">
+        <p><strong>F. (Slang y "viveza")</strong> En el vídeo aparecen muchas palabras y expresiones colombianas, casi siempre acompañadas de placas amarillas explicativas. Aquí tienes las palabras que salen en el vídeo. Mira de nuevo los fragmentos indicados y elige el significado correcto.</p>
+        
+        <div style="text-align: center; margin: 20px 0;">
+            <div class="video-plate">¡HOLA, MIJITO!</div>
+            <p class="timestamp">[~0:10]</p>
+        </div>
+        <div class="quiz-question">
+            <p>1. ¿Qué significa <strong>"mijito"</strong> en este contexto?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="q4" value="a"> a) Una forma cariñosa de decir "mi hijito" o "mi niño".</label>
+                <label><input type="radio" name="q4" value="b"> b) Un plato típico colombiano.</label>
+                <label><input type="radio" name="q4" value="c"> c) Un tipo de baile.</label>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <div class="video-plate">GRINGO</div>
+            <p class="timestamp">[~1:30]</p>
+        </div>
+        <div class="quiz-question">
+            <p>2. Según el vídeo, ¿a quién se le llama <strong>"gringo"</strong>?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="q5" value="a"> a) A cualquier persona rubia.</label>
+                <label><input type="radio" name="q5" value="b"> b) A una persona de Estados Unidos.</label>
+                <label><input type="radio" name="q5" value="c"> c) A un turista europeo.</label>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <div class="video-plate">BERRAQUERA</div>
+            <p class="timestamp">[~2:12]</p>
+        </div>
+        <div class="quiz-question">
+            <p>3. ¿Qué significa <strong>"berraquera"</strong>?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="q6" value="a"> a) Tener muchas ganas de salir adelante, fuerza y valentía.</label>
+                <label><input type="radio" name="q6" value="b"> b) Tener mucho sueño.</label>
+                <label><input type="radio" name="q6" value="c"> c) Estar muy enojado.</label>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <div class="video-plate">SOMOS RUMBEROS</div>
+            <p class="timestamp">[~1:20]</p>
+        </div>
+        <div class="quiz-question">
+            <p>4. Si los colombianos dicen <strong>"somos rumberos"</strong>, significa que...</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="q7" value="a"> a) Les gusta mucho la fiesta y bailar.</label>
+                <label><input type="radio" name="q7" value="b"> b) Hacen mucho ruido.</label>
+                <label><input type="radio" name="q7" value="c"> c) Comen mucho.</label>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <div class="video-plate">LEVANTAR</div>
+            <p class="timestamp">[~0:45]</p>
+        </div>
+        <div class="quiz-question">
+            <p>5. Según la placa del video, ¿qué significa <strong>"levantar"</strong>?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="q8" value="a"> a) Levantar pesas en el gimnasio.</label>
+                <label><input type="radio" name="q8" value="b"> b) Conquistar a alguien / Ligar.</label>
+                <label><input type="radio" name="q8" value="c"> c) Levantarse de la cama por la mañana.</label>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <div class="video-plate">IR A RITMO CARIBEÑO</div>
+            <p class="timestamp">[~3:00]</p>
+        </div>
+        <div class="quiz-question">
+            <p>6. ¿Qué quiere decir <strong>"ir a ritmo caribeño"</strong>?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="q9" value="a"> a) Caminar muy rápido.</label>
+                <label><input type="radio" name="q9" value="b"> b) Hacer las cosas con calma, sin prisa, disfrutando.</label>
+                <label><input type="radio" name="q9" value="c"> c) Bailar todo el tiempo.</label>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <div class="video-plate">CORRIENTAZO</div>
+            <p class="timestamp">[~2:50]</p>
+        </div>
+        <div class="quiz-question">
+            <p>7. ¿Qué es un <strong>"corrientazo"</strong>?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="q10" value="a"> a) Un menú económico de mediodía.</label>
+                <label><input type="radio" name="q10" value="b"> b) Un tipo de café.</label>
+                <label><input type="radio" name="q10" value="c"> c) Un baile típico.</label>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="checkSlang()">Comprobar slang</button>
+        <div id="slang-feedback" class="feedback"></div>
+    </div>
+
+    <!-- G. -->
+    <div class="task">
+        <p><strong>G. (Escucha activa)</strong> En el vídeo, las personas hablan de su vida cotidiana. Escucha de nuevo y elige la opción que mejor resuma lo que dice la gente sobre el <strong>trabajo</strong> en Colombia. <span class="timestamp">[~3:30 - 4:00]</span></p>
+        <div class="quiz-question">
+            <div class="quiz-options">
+                <label><input type="radio" name="q11" value="a"> a) Los colombianos prefieren no trabajar y descansar mucho.</label>
+                <label><input type="radio" name="q11" value="b"> b) El trabajo es importante, pero también lo es disfrutar y compartir con la familia.</label>
+                <label><input type="radio" name="q11" value="c"> c) Nadie trabaja porque todo el mundo baila todo el día.</label>
+            </div>
+        </div>
+        <button class="btn-check" onclick="checkWork()">Comprobar</button>
+        <div id="work-feedback" class="feedback"></div>
+    </div>
+
+    <!-- H. -->
+    <div class="task">
+        <p><strong>H. (Expresión Oral)</strong> Imagina que eres de cualquier país o ciudad del mundo que tú elijas. Preséntate a la clase y describe brevemente tu país/ciudad: su gente, su comida, su música y una costumbre típica. Usa al menos 3 expresiones que hayas aprendido en este vídeo (por ejemplo: "somos rumberos", "tenemos berraquera", "un corrientazo", "apenas"...).</p>
+        
+        <div class="audio-instruction">
+            🎤 <strong>Importante:</strong> Grábate en audio (puedes usar la grabadora de voz de tu teléfono) y envíame el archivo de audio por Telegram.
+        </div>
+        <div style="margin-top: 15px;">
+            <a href="https://t.me/TU_USUARIO_DE_TELEGRAM" target="_blank" class="btn-telegram">🎤 Enviar audio a mi Telegram</a>
+        </div>
+    </div>
+
+    <!-- I. -->
+    <div class="task">
+        <p><strong>I.</strong> ¿Cuál crees que es el propósito del vídeo? Escribe tu opinión personal y compártela conmigo. Después, haz una captura de pantalla de lo que escribiste y envíamela por Telegram.</p>
+        <textarea rows="5" placeholder="Escribe aquí tu opinión sobre el propósito del vídeo..."></textarea>
+        <div style="margin-top: 15px;">
+            <a href="https://t.me/TU_USUARIO_DE_TELEGRAM" target="_blank" class="btn-telegram">📸 Enviar captura a mi Telegram</a>
+            <p style="font-size: 0.85em; color: #666; margin-top: 5px;">(Haz una captura de pantalla de tu texto y envíamela por Telegram)</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function checkB() {
+        const answers = { b1: 'b', b2: 'b', b3: 'b', b4: 'b', b5: 'a', b6: 'a' };
+        let score = 0;
+        let total = 6;
+
+        for (let key in answers) {
+            const options = document.querySelectorAll(`input[name="${key}"]`);
+            options.forEach(opt => {
+                const label = opt.closest('label');
+                label.style.color = '';
+                label.style.fontWeight = '';
+                if (opt.checked) {
+                    if (opt.value === answers[key]) {
+                        label.style.color = 'green';
+                        label.style.fontWeight = 'bold';
+                        score++;
+                    } else {
+                        label.style.color = 'red';
+                        label.style.fontWeight = 'bold';
+                    }
+                }
+                if (opt.value === answers[key] && !opt.checked) {
+                    label.style.color = 'green';
+                    label.style.fontWeight = 'bold';
+                }
+            });
+        }
+
+        const feedbackDiv = document.getElementById('b-feedback');
+        if (score === total) {
+            feedbackDiv.innerHTML = `<span class="correct">¡Perfecto! Has acertado todas (${score}/${total}).</span>`;
+        } else {
+            feedbackDiv.innerHTML = `<span class="incorrect">Has acertado ${score} de ${total}. Las respuestas correctas están en verde.</span>`;
+        }
+    }
+
+    function toggleAnswer(id) {
+        const el = document.getElementById(id);
+        el.classList.toggle('show');
+    }
+
+    function checkD() {
+        const answers = { d1: 'f', d2: 'v', d3: 'v', d4: 'v', d5: 'v', d6: 'f' };
+        let score = 0;
+        let total = 6;
+        for (let id in answers) {
+            const input = document.getElementById(id);
+            const value = input.value.trim().toLowerCase();
+            if (value === answers[id]) {
+                score++;
+                input.style.borderColor = "green";
+            } else {
+                input.style.borderColor = "red";
+            }
+        }
+        const feedbackDiv = document.getElementById('d-feedback');
+        if (score === total) {
+            feedbackDiv.innerHTML = `<span class="correct">¡Excelente! Todas correctas (${score}/${total}).</span>`;
+        } else {
+            feedbackDiv.innerHTML = `<span class="incorrect">Tienes ${score} de ${total} correctas. Revisa las respuestas marcadas en rojo.</span>`;
+        }
+    }
+
+    function checkE() {
+        const answers = { 
+            e1: 'a', e2: 'a', e3: 'a', e4: 'a',
+            e5: 'a', e6: 'a', e7: 'a', e8: 'a', e9: 'a', e10: 'a'
+        };
+        let score = 0;
+        let total = 10;
+        for (let key in answers) {
+            const selected = document.querySelector(`input[name="${key}"]:checked`);
+            if (selected && selected.value === answers[key]) score++;
+        }
+        const feedbackDiv = document.getElementById('e-feedback');
+        if (score === total) {
+            feedbackDiv.innerHTML = `<span class="correct">¡Excelente! Has ampliado tu vocabulario correctamente (${score}/${total}).</span>`;
+        } else {
+            feedbackDiv.innerHTML = `<span class="incorrect">Has acertado ${score} de ${total}. ¡Sigue practicando!</span>`;
+        }
+    }
+
+    function checkSlang() {
+        const answers = { 
+            q4: 'a', q5: 'b', q6: 'a', 
+            q7: 'a', q8: 'b', q9: 'b', q10: 'a' 
+        };
+        let score = 0;
+        let total = 7;
+        for (let key in answers) {
+            const selected = document.querySelector(`input[name="${key}"]:checked`);
+            if (selected && selected.value === answers[key]) score++;
+        }
+        const feedbackDiv = document.getElementById('slang-feedback');
+        if (score === total) {
+            feedbackDiv.innerHTML = `<span class="correct">¡Perfecto! Dominas el slang colombiano del video (${score}/${total}).</span>`;
+        } else {
+            feedbackDiv.innerHTML = `<span class="incorrect">Has acertado ${score} de ${total}. Vuelve a ver el video y presta atención a las placas amarillas.</span>`;
+        }
+    }
+
+    function checkWork() {
+        const selected = document.querySelector('input[name="q11"]:checked');
+        const feedbackDiv = document.getElementById('work-feedback');
+        if (selected && selected.value === 'b') {
+            feedbackDiv.innerHTML = `<span class="correct">¡Correcto! El vídeo muestra que el trabajo es importante, pero la vida social y familiar también.</span>`;
+        } else {
+            feedbackDiv.innerHTML = `<span class="incorrect">No es del todo correcto. Vuelve a escuchar la parte sobre el trabajo.</span>`;
+        }
+    }
+</script>
+
+</body>
+</html>
