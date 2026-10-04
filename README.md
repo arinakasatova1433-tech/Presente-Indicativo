@@ -18,3 +18,6 @@ SemiReg https://arinakasatova1433-tech.github.io/Presente-Indicativo/SemiReg.htm
 https://arinakasatova1433-tech.github.io/Presente-Indicativo/deepseek_html_20260910_432ba4.html
 
 Colombia https://arinakasatova1433-tech.github.io/Presente-Indicativo/Colombia.html
+
+pautina https://arinakasatova1433-tech.github.io/Presente-Indicativo/pautina.html
+
