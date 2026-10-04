@@ -19,5 +19,5 @@ https://arinakasatova1433-tech.github.io/Presente-Indicativo/deepseek_html_20260
 
 Colombia https://arinakasatova1433-tech.github.io/Presente-Indicativo/Colombia.html
 
-pautina https://arinakasatova1433-tech.github.io/Presente-Indicativo/pautina.html
+pautina https://arinakasatova1433-tech.github.io/Presente-Indicativo/Pautina.html
 
