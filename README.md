@@ -21,3 +21,6 @@ Colombia https://arinakasatova1433-tech.github.io/Presente-Indicativo/Colombia.h
 
 pautina https://arinakasatova1433-tech.github.io/Presente-Indicativo/Pautina.html
 
+ArtSustAdj_AtaqueTitanos https://arinakasatova1433-tech.github.io/Presente-Indicativo/ArtSustAdj_AtaqueTitanos.html
+
+
