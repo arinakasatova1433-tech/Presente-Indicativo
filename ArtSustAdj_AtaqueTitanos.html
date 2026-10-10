@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ataque de los titanes | Español</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-sand: #f5f0e6;
+            --bg-panel: #ffffff;
+            --text-dark: #2c3e2c;
+            --text-muted: #6b7c6b;
+            --accent-green: #4a5d4a;
+            --accent-green-light: #6b8e6b;
+            --accent-gold: #c8a780;
+            --accent-gold-dark: #a8885a;
+            --accent-red: #bf2f1f;
+            --border-light: #d9d0c0;
+            --success: #4a7c4a;
+            --error: #c0392b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--bg-sand);
+            background-image: radial-gradient(circle at 10% 20%, rgba(200, 167, 128, 0.15) 0%, transparent 50%),
+                              radial-gradient(circle at 90% 80%, rgba(74, 93, 74, 0.1) 0%, transparent 50%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex; justify-content: center; align-items: flex-start;
+            padding: 20px;
+        }
+        .wings-deco {
+            position: fixed; top: 20px; right: 20px;
+            font-family: 'Cinzel', serif; color: var(--accent-gold-dark);
+            font-size: 1.1rem; letter-spacing: 3px; opacity: 0.6;
+            pointer-events: none; border: 2px solid var(--accent-gold);
+            padding: 8px 20px; transform: rotate(3deg);
+            background: rgba(255,255,255,0.5); border-radius: 4px;
+        }
+        .app-container {
+            background: var(--bg-panel);
+            border: 3px solid var(--accent-green);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(44, 62, 44, 0.15), 0 0 0 6px var(--bg-sand), 0 0 0 8px var(--accent-gold);
+            width: 100%; max-width: 1000px; padding: 45px;
+            position: relative; overflow: hidden;
+        }
+        .app-container::before, .app-container::after {
+            content: ''; position: absolute; top: 0; bottom: 0; width: 15px;
+            background: repeating-linear-gradient(180deg, var(--accent-green) 0px, var(--accent-green) 10px, var(--accent-gold) 10px, var(--accent-gold) 20px);
+            opacity: 0.3;
+        }
+        .app-container::before { left: 0; }
+        .app-container::after { right: 0; }
+        
+        /* Шапка с двумя языками */
+        header { text-align: center; margin-bottom: 30px; border-bottom: 3px solid var(--accent-gold); padding-bottom: 20px; }
+        header h1 {
+            font-family: 'Cinzel', serif; font-size: 2.6rem; font-weight: 900;
+            color: var(--accent-green); text-transform: uppercase; letter-spacing: 5px;
+            text-shadow: 2px 2px 0 rgba(200, 167, 128, 0.4); margin-bottom: 15px;
+        }
+        header h1 span { color: var(--accent-red); text-shadow: 1px 1px 0 var(--accent-gold); }
+        header p.slogan-es {
+            font-size: 1.15rem; color: var(--accent-gold-dark);
+            letter-spacing: 3px; text-transform: uppercase;
+            font-weight: 700; font-style: italic; margin-bottom: 5px;
+        }
+        header p.slogan-ru {
+            font-size: 0.95rem; color: var(--text-muted);
+            letter-spacing: 1px; text-transform: none;
+            font-weight: 400; font-style: italic;
+        }
+        
+        .nav-tabs { display: flex; justify-content: center; gap: 12px; margin-bottom: 35px; flex-wrap: wrap; }
+        .nav-tabs button {
+            background: var(--bg-sand); border: 2px solid var(--accent-green); color: var(--accent-green);
+            padding: 14px 20px; font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.85rem;
+            cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1.5px;
+            flex: 1; min-width: 140px; border-radius: 6px;
+        }
+        .nav-tabs button:hover { background: var(--accent-green-light); border-color: var(--accent-gold); color: white; transform: translateY(-2px); }
+        .nav-tabs button.active { background: var(--accent-green); border-color: var(--accent-gold); color: white; box-shadow: 0 6px 20px rgba(74, 93, 74, 0.4); transform: translateY(-2px); }
+        .game-section { display: none; animation: fadeIn 0.4s ease; }
+        .game-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .game-title { font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--accent-green); margin-bottom: 10px; text-align: center; text-transform: uppercase; border-bottom: 2px dashed var(--accent-gold); padding-bottom: 10px; margin-top: 25px; }
+        .game-desc { text-align: center; color: var(--text-muted); margin-bottom: 20px; font-size: 1rem; font-style: italic; }
+        .score-board { text-align: center; font-weight: 700; color: var(--text-dark); margin-bottom: 20px; font-size: 1.05rem; background: var(--bg-sand); padding: 12px; border-radius: 8px; border: 2px solid var(--accent-gold); }
+        .score-board span { color: var(--accent-red); font-size: 1.3rem; }
+        
+        /* Антонимы */
+        .antonym-pool {
+            display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+            margin-bottom: 20px; padding: 25px; background: var(--bg-sand);
+            border: 2px dashed var(--accent-green); border-radius: 12px; min-height: 120px;
+        }
+        .antonym-word {
+            background: var(--bg-panel); border: 2px solid var(--accent-gold); color: var(--accent-green);
+            padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: 700;
+            transition: all 0.2s; user-select: none; text-align: center; line-height: 1.2;
+        }
+        .antonym-word small { display: block; font-size: 0.75rem; font-weight: 400; color: var(--text-muted); font-style: italic; }
+        .antonym-word:hover { background: var(--accent-green); color: white; border-color: var(--accent-green); transform: scale(1.05); }
+        .antonym-word:hover small { color: rgba(255,255,255,0.7); }
+        .antonym-word.selected { background: var(--accent-red); border-color: var(--accent-red); color: white; transform: scale(1.1); box-shadow: 0 0 15px rgba(191, 47, 31, 0.5); }
+        .antonym-word.selected small { color: rgba(255,255,255,0.85); }
+        .antonym-word.matched { display: none; }
+        .antonym-word.error { animation: shake 0.3s; border-color: var(--error); background: #fce4e4; }
+        @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+        .matched-list {
+            background: #f0f7f0; border: 2px solid var(--success); border-radius: 12px;
+            padding: 15px 20px; margin-bottom: 20px; min-height: 40px;
+        }
+        .matched-list h4 { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--success); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        .matched-list ul { list-style: none; }
+        .matched-list li {
+            padding: 8px 12px; border-bottom: 1px dashed #c8d8c8;
+            font-size: 1rem; color: var(--text-dark);
+        }
+        .matched-list li:last-child { border-bottom: none; }
+        .matched-list li strong { color: var(--accent-green); }
+        .matched-list .empty-msg { color: var(--text-muted); font-style: italic; font-size: 0.9rem; }
+        
+        /* Кнопки */
+        .surrender-btn {
+            display: block; margin: 15px auto; background: #8a8a8a; color: white;
+            border: none; padding: 10px 30px; border-radius: 6px; cursor: pointer;
+            font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; font-size: 0.85rem; transition: all 0.3s;
+        }
+        .surrender-btn:hover { background: #666; transform: scale(1.05); }
+        .surrender-btn-small {
+            background: #8a8a8a; color: white; border: none; padding: 10px 15px;
+            border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+            font-weight: 700; transition: all 0.3s; white-space: nowrap;
+        }
+        .surrender-btn-small:hover { background: #666; transform: scale(1.05); }
+        
+        /* Ввод */
+        .input-list { display: flex; flex-direction: column; gap: 14px; }
+        .input-item {
+            display: grid; grid-template-columns: 1.2fr 1fr 1fr 100px 100px; gap: 10px; align-items: center;
+            background: var(--bg-sand); padding: 14px; border-radius: 8px;
+            border-left: 5px solid var(--accent-green); border-right: 2px solid var(--accent-gold);
+        }
+        .input-item.two-col { grid-template-columns: 1.5fr 1fr 100px 100px; }
+        .input-prompt { font-weight: 700; color: var(--accent-green); font-size: 1rem; }
+        .input-prompt small { display: block; font-weight: 400; font-size: 0.8rem; color: var(--text-muted); font-style: italic; }
+        .input-field {
+            background: var(--bg-panel); border: 2px solid var(--border-light); color: var(--text-dark);
+            padding: 10px; border-radius: 6px; font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1rem; width: 100%; transition: all 0.3s;
+        }
+        .input-field:focus { outline: none; border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(200, 167, 128, 0.3); }
+        .input-field.correct { border-color: var(--success); background: #f0f7f0; }
+        .input-field.incorrect { border-color: var(--error); background: #fdf0f0; }
+        
+        .check-btn {
+            background: var(--accent-red); color: white; border: none;
+            padding: 10px 15px; border-radius: 6px; cursor: pointer;
+            font-family: 'Roboto Condensed', sans-serif; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; font-size: 0.85rem;
+            white-space: nowrap;
+        }
+        .check-btn:hover { background: #a02020; transform: scale(1.03); }
+        
+        .reset-btn {
+            display: block; margin: 25px auto 0; background: transparent;
+            border: 2px solid var(--accent-gold); color: var(--accent-gold-dark);
+            padding: 10px 30px; border-radius: 6px; cursor: pointer;
+            font-family: 'Cinzel', serif; font-weight: 700; transition: all 0.3s;
+            text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem;
+        }
+        .reset-btn:hover { background: var(--accent-gold); color: white; }
+        .success-message {
+            text-align: center; color: var(--success); font-weight: 700;
+            margin-top: 20px; font-size: 1.1rem; font-family: 'Cinzel', serif;
+            display: none; padding: 15px; background: #f0f7f0; border-radius: 8px; border: 2px solid var(--success);
+        }
+        
+        /* Задание 4 - фото */
+        .photo-wide {
+            width: 100%; max-width: 900px; margin: 0 auto 20px;
+            border: 4px solid var(--accent-gold); border-radius: 10px;
+            background: #e0d8c8; display: block;
+        }
+        .photo-wide img { width: 100%; height: auto; display: block; border-radius: 6px; }
+        .three-fields { display: flex; flex-direction: column; gap: 14px; margin-top: 15px; }
+        .field-row {
+            display: grid; grid-template-columns: 60px 1fr auto; gap: 12px; align-items: center;
+            background: var(--bg-sand); padding: 14px; border-radius: 8px;
+            border-left: 5px solid var(--accent-green); border-right: 2px solid var(--accent-gold);
+        }
+        .field-number {
+            font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.3rem;
+            color: var(--accent-gold-dark); text-align: center;
+        }
+        .send-btn {
+            display: block; margin: 25px auto 0; background: var(--accent-green); color: white;
+            border: 2px solid var(--accent-gold); padding: 14px 30px; border-radius: 6px;
+            cursor: pointer; font-family: 'Cinzel', serif; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .send-btn:hover { background: var(--accent-green-light); transform: scale(1.03); box-shadow: 0 4px 15px rgba(74, 93, 74, 0.3); }
+        
+        @media (max-width: 900px) {
+            .input-item, .input-item.two-col { grid-template-columns: 1fr; gap: 10px; }
+            .check-btn, .surrender-btn-small { width: 100%; }
+        }
+        @media (max-width: 768px) {
+            .app-container { padding: 25px; }
+            header h1 { font-size: 1.8rem; letter-spacing: 3px; }
+            .nav-tabs button { font-size: 0.7rem; padding: 10px; min-width: 110px; }
+            .field-row { grid-template-columns: 1fr; gap: 10px; }
+            .field-number { text-align: left; }
+            .wings-deco { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wings-deco">⚔️ ALA DE LA LIBERTAD</div>
+
+<div class="app-container">
+    <header>
+        <h1>Ataque de los <span>titanes</span></h1>
+        <p class="slogan-es">Si no luchas, no puedes ganar</p>
+        <p class="slogan-ru">Если не бороться, нельзя победить</p>
+    </header>
+
+    <nav class="nav-tabs">
+        <button class="tab active" data-target="game-antonyms">1. Противоположности</button>
+        <button class="tab" data-target="game-phrases">2. Фразы и Мн. Число</button>
+        <button class="tab" data-target="game-translation">3. Перевод и Мн. Число</button>
+        <button class="tab" data-target="game-describe">4. Описание фото</button>
+    </nav>
+
+    <main>
+        <!-- ИГРА 1: АНТОНИМЫ + ПЕРЕВОД -->
+        <section id="game-antonyms" class="game-section active">
+            <h2 class="game-title">1.1 Соедини антонимы</h2>
+            <p class="game-desc">Нажмите на слово, затем на его противоположность. Снизу будет формироваться список выученных пар с переводом.</p>
+            <div class="score-board">Найдено пар: <span id="antonym-score">0</span> / 12</div>
+            <div class="antonym-pool" id="antonym-container"></div>
+            <div class="matched-list" id="matched-list">
+                <h4>📖 Изученные пары</h4>
+                <ul id="matched-ul"><li class="empty-msg">Пока ничего не найдено...</li></ul>
+            </div>
+            <button class="surrender-btn" onclick="surrenderAntonyms()">Сдаюсь</button>
+            <button class="reset-btn" onclick="resetAntonyms()">Сбросить</button>
+
+            <h2 class="game-title" style="margin-top: 40px;">1.2 Проверь перевод</h2>
+            <p class="game-desc">Напишите испанское прилагательное по его русскому переводу.</p>
+            <div class="score-board">Правильно: <span id="translate-score">0</span> / 24</div>
+            <div class="input-list" id="translate-container"></div>
+            <button class="surrender-btn" onclick="surrenderTranslations()">Сдаюсь</button>
+            <button class="reset-btn" onclick="resetTranslations()">Сбросить</button>
+            <div class="success-message" id="antonym-success">✨ ¡Tatakae! Все пары и переводы освоены! ✨</div>
+        </section>
+
+        <!-- ИГРА 2: ФРАЗЫ -->
+        <section id="game-phrases" class="game-section">
+            <h2 class="game-title">2. Составь словосочетание</h2>
+            <p class="game-desc">Образуйте словосочетание в единственном числе, а затем во множественном.</p>
+            <div class="score-board">Правильно: <span id="phrases-score">0</span> / 18</div>
+            <div class="input-list" id="phrases-container"></div>
+            <button class="reset-btn" onclick="resetPhrases()">Сбросить</button>
+            <div class="success-message" id="phrases-success">✨ ¡Eres un soldado de élite! ✨</div>
+        </section>
+
+        <!-- ИГРА 3: ПЕРЕВОД -->
+        <section id="game-translation" class="game-section">
+            <h2 class="game-title">3. Перевод и Множественное число</h2>
+            <p class="game-desc">Переведите фразу на испанский (ед. число), затем поставьте её во множественное число.</p>
+            <div class="score-board">Правильно: <span id="translation-score">0</span> / 18</div>
+            <div class="input-list" id="translation-container"></div>
+            <button class="reset-btn" onclick="resetTranslation()">Сбросить</button>
+            <div class="success-message" id="translation-success">✨ ¡El muro ha caído! ¡Felicidades! ✨</div>
+        </section>
+
+        <!-- ИГРА 4: ОПИСАНИЕ ФОТО -->
+        <section id="game-describe" class="game-section">
+            <h2 class="game-title">4. Describe la foto</h2>
+            <p class="game-desc">Посмотрите на фото и опишите каждую из трёх частей картинки, используя словосочетания (прилагательное + существительное).</p>
+            <div class="score-board">Правильно: <span id="describe-score">0</span> / 3</div>
+
+            <div id="screenshot-area">
+                <div class="photo-wide">
+                    <img src="https://drive.google.com/thumbnail?id=1sL3UBepBOcsfPveM92LErWAr2TnV_fhd&sz=w1600" alt="Foto">
+                </div>
+                <div class="three-fields">
+                    <div class="field-row">
+                        <div class="field-number">1</div>
+                        <input type="text" class="input-field" id="desc-1" placeholder="Опишите левую часть...">
+                        <button class="check-btn" onclick="checkDescription(1)">Проверить</button>
+                    </div>
+                    <div class="field-row">
+                        <div class="field-number">2</div>
+                        <input type="text" class="input-field" id="desc-2" placeholder="Опишите центральную часть...">
+                        <button class="check-btn" onclick="checkDescription(2)">Проверить</button>
+                    </div>
+                    <div class="field-row">
+                        <div class="field-number">3</div>
+                        <input type="text" class="input-field" id="desc-3" placeholder="Опишите правую часть...">
+                        <button class="check-btn" onclick="checkDescription(3)">Проверить</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="success-message" id="describe-success">✨ ¡Increíble! Has descrito las fotos perfectamente ✨</div>
+            <button class="send-btn" onclick="sendToTeacher()">📸 Отправить преподавателю</button>
+            <button class="reset-btn" onclick="resetDescribe()">Сбросить</button>
+        </section>
+    </main>
+</div>
+
+<script>
+    // ==========================================
+    // 1.1 АНТОНИМЫ
+    // ==========================================
+    const antonymData = [
+        { word: 'alto', ru: 'высокий', antonym: 'bajo', antonymRu: 'низкий' },
+        { word: 'antipático', ru: 'неприятный', antonym: 'simpático', antonymRu: 'приятный' },
+        { word: 'inteligente', ru: 'умный', antonym: 'tonto', antonymRu: 'глупый' },
+        { word: 'bueno', ru: 'хороший', antonym: 'malo', antonymRu: 'плохой' },
+        { word: 'fuerte', ru: 'сильный', antonym: 'débil', antonymRu: 'слабый' },
+        { word: 'guapo', ru: 'красивый', antonym: 'feo', antonymRu: 'некрасивый' },
+        { word: 'joven', ru: 'молодой', antonym: 'viejo', antonymRu: 'старый' },
+        { word: 'delgado', ru: 'худой', antonym: 'gordo', antonymRu: 'толстый' },
+        { word: 'barato', ru: 'дешёвый', antonym: 'caro', antonymRu: 'дорогой' },
+        { word: 'fácil', ru: 'лёгкий', antonym: 'difícil', antonymRu: 'трудный' },
+        { word: 'interesante', ru: 'интересный', antonym: 'aburrido', antonymRu: 'скучный' },
+        { word: 'serio', ru: 'серьёзный', antonym: 'alegre', antonymRu: 'весёлый' }
+    ];
+
+    let antonymScore = 0;
+    let selectedWord = null;
+    let selectedElement = null;
+    const matchedPairs = [];
+
+    function renderAntonyms() {
+        const container = document.getElementById('antonym-container');
+        container.innerHTML = '';
+        let allWords = [];
+        antonymData.forEach(pair => {
+            allWords.push({ word: pair.word, ru: pair.ru, key: pair.word });
+            allWords.push({ word: pair.antonym, ru: pair.antonymRu, key: pair.antonym });
+        });
+        allWords.sort(() => Math.random() - 0.5);
+
+        allWords.forEach(item => {
+            const btn = document.createElement('div');
+            btn.className = 'antonym-word';
+            btn.innerHTML = `${item.word}<small>${item.ru}</small>`;
+            btn.dataset.word = item.word;
+            btn.onclick = () => selectAntonym(btn);
+            container.appendChild(btn);
+        });
+    }
+
+    function selectAntonym(element) {
+        if (element.classList.contains('matched')) return;
+
+        if (!selectedWord) {
+            selectedWord = element.dataset.word;
+            selectedElement = element;
+            element.classList.add('selected');
+        } else {
+            if (selectedElement === element) {
+                selectedElement.classList.remove('selected');
+                selectedWord = null;
+                selectedElement = null;
+                return;
+            }
+
+            const secondWord = element.dataset.word;
+            const pair = antonymData.find(p =>
+                (p.word === selectedWord && p.antonym === secondWord) ||
+                (p.antonym === selectedWord && p.word === secondWord)
+            );
+
+            if (pair) {
+                selectedElement.classList.remove('selected');
+                selectedElement.classList.add('matched');
+                element.classList.add('matched');
+                antonymScore++;
+                document.getElementById('antonym-score').textContent = antonymScore;
+                addToMatchedList(pair);
+                selectedWord = null;
+                selectedElement = null;
+
+                if (antonymScore === antonymData.length) {
+                    document.getElementById('antonym-success').style.display = 'block';
+                }
+            } else {
+                element.classList.add('error');
+                selectedElement.classList.add('error');
+                setTimeout(() => {
+                    element.classList.remove('error');
+                    if (selectedElement) selectedElement.classList.remove('error', 'selected');
+                    selectedWord = null;
+                    selectedElement = null;
+                }, 500);
+            }
+        }
+    }
+
+    function addToMatchedList(pair) {
+        matchedPairs.push(pair);
+        const ul = document.getElementById('matched-ul');
+        const placeholder = ul.querySelector('.empty-msg');
+        if (placeholder) placeholder.remove();
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${pair.word}</strong> (${pair.ru}) ↔ <strong>${pair.antonym}</strong> (${pair.antonymRu})`;
+        ul.appendChild(li);
+    }
+
+    function surrenderAntonyms() {
+        antonymData.forEach(pair => {
+            if (!matchedPairs.find(p => p.word === pair.word)) {
+                document.querySelectorAll('.antonym-word').forEach(el => {
+                    if (!el.classList.contains('matched') && (el.dataset.word === pair.word || el.dataset.word === pair.antonym)) {
+                        el.classList.add('matched');
+                    }
+                });
+                addToMatchedList(pair);
+                antonymScore++;
+            }
+        });
+        document.getElementById('antonym-score').textContent = antonymScore;
+        if (antonymScore === antonymData.length) {
+            document.getElementById('antonym-success').style.display = 'block';
+        }
+    }
+
+    function resetAntonyms() {
+        antonymScore = 0;
+        selectedWord = null;
+        selectedElement = null;
+        matchedPairs.length = 0;
+        document.getElementById('antonym-score').textContent = '0';
+        document.getElementById('antonym-success').style.display = 'none';
+        document.getElementById('matched-ul').innerHTML = '<li class="empty-msg">Пока ничего не найдено...</li>';
+        renderAntonyms();
+    }
+
+    // ==========================================
+    // 1.2 ПРОВЕРКА ПЕРЕВОДА
+    // ==========================================
+    const allAdjectives = [
+        { es: 'alto', ru: 'высокий' }, { es: 'bajo', ru: 'низкий' },
+        { es: 'antipático', ru: 'неприятный' }, { es: 'simpático', ru: 'приятный' },
+        { es: 'inteligente', ru: 'умный' }, { es: 'tonto', ru: 'глупый' },
+        { es: 'bueno', ru: 'хороший' }, { es: 'malo', ru: 'плохой' },
+        { es: 'fuerte', ru: 'сильный' }, { es: 'débil', ru: 'слабый' },
+        { es: 'guapo', ru: 'красивый' }, { es: 'feo', ru: 'некрасивый' },
+        { es: 'joven', ru: 'молодой' }, { es: 'viejo', ru: 'старый' },
+        { es: 'delgado', ru: 'худой' }, { es: 'gordo', ru: 'толстый' },
+        { es: 'barato', ru: 'дешёвый' }, { es: 'caro', ru: 'дорогой' },
+        { es: 'fácil', ru: 'лёгкий' }, { es: 'difícil', ru: 'трудный' },
+        { es: 'interesante', ru: 'интересный' }, { es: 'aburrido', ru: 'скучный' },
+        { es: 'serio', ru: 'серьёзный' }, { es: 'alegre', ru: 'весёлый' }
+    ];
+
+    let translateScore = 0;
+
+    function renderTranslations() {
+        const container = document.getElementById('translate-container');
+        container.innerHTML = '';
+        allAdjectives.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'input-item two-col';
+            div.innerHTML = `
+                <div class="input-prompt">${item.ru}</div>
+                <input type="text" class="input-field" id="tr-${index}" placeholder="По-испански...">
+                <button class="check-btn" onclick="checkTranslationSingle(${index})">Проверить</button>
+                <button class="surrender-btn-small" onclick="surrenderTranslationWord(${index})">Сдаюсь</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function normalize(text) {
+        return text.trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    function checkTranslationSingle(index) {
+        const input = document.getElementById(`tr-${index}`);
+        const correct = normalize(allAdjectives[index].es);
+        if (normalize(input.value) === correct) {
+            input.classList.add('correct');
+            input.classList.remove('incorrect');
+            if (!input.dataset.scored) {
+                translateScore++;
+                document.getElementById('translate-score').textContent = translateScore;
+                input.dataset.scored = 'true';
+            }
+        } else {
+            input.classList.add('incorrect');
+            input.classList.remove('correct');
+        }
+    }
+
+    function surrenderTranslationWord(index) {
+        const input = document.getElementById(`tr-${index}`);
+        input.value = allAdjectives[index].es;
+        input.classList.add('correct');
+        input.classList.remove('incorrect');
+        if (!input.dataset.scored) {
+            translateScore++;
+            document.getElementById('translate-score').textContent = translateScore;
+            input.dataset.scored = 'true';
+        }
+    }
+
+    function surrenderTranslations() {
+        allAdjectives.forEach((item, index) => {
+            surrenderTranslationWord(index);
+        });
+    }
+
+    function resetTranslations() {
+        translateScore = 0;
+        document.getElementById('translate-score').textContent = '0';
+        renderTranslations();
+    }
+
+    // ==========================================
+    // 2. ФРАЗЫ
+    // ==========================================
+    const phrasesData = [
+        { adj: 'triste', noun: 'día', sing: 'un día triste', plur: 'unos días tristes' },
+        { adj: 'rico', noun: 'mujer', sing: 'una mujer rica', plur: 'unas mujeres ricas' },
+        { adj: 'pequeño', noun: 'familia', sing: 'una familia pequeña', plur: 'unas familias pequeñas' },
+        { adj: 'joven', noun: 'peluquera', sing: 'una peluquera joven', plur: 'unas peluqueras jóvenes' },
+        { adj: 'alegre', noun: 'secretaria', sing: 'una secretaria alegre', plur: 'unas secretarias alegres' },
+        { adj: 'fácil', noun: 'problema', sing: 'un problema fácil', plur: 'unos problemas fáciles' },
+        { adj: 'pobre', noun: 'camarero', sing: 'un camarero pobre', plur: 'unos camareros pobres' },
+        { adj: 'corto', noun: 'día', sing: 'un día corto', plur: 'unos días cortos' },
+        { adj: 'bonito', noun: 'noche', sing: 'una noche bonita', plur: 'unas noches bonitas' },
+        { adj: 'bajo', noun: 'futbolista', sing: 'un futbolista bajo', plur: 'unos futbolistas bajos' },
+        { adj: 'largo', noun: 'historia', sing: 'una historia larga', plur: 'unas historias largas' },
+        { adj: 'hermoso', noun: 'flor', sing: 'una flor hermosa', plur: 'unas flores hermosas' },
+        { adj: 'grande', noun: 'ciudad', sing: 'una ciudad grande', plur: 'unas ciudades grandes' },
+        { adj: 'rápido', noun: 'coche', sing: 'un coche rápido', plur: 'unos coches rápidos' },
+        { adj: 'caro', noun: 'casa', sing: 'una casa cara', plur: 'unas casas caras' },
+        { adj: 'difícil', noun: 'idioma', sing: 'un idioma difícil', plur: 'unos idiomas difíciles' },
+        { adj: 'serio', noun: 'revista', sing: 'una revista seria', plur: 'unas revistas serias' },
+        { adj: 'perezoso', noun: 'jefe', sing: 'un jefe perezoso', plur: 'unos jefes perezosos' }
+    ];
+
+    let phrasesScore = 0;
+
+    function renderPhrases() {
+        const container = document.getElementById('phrases-container');
+        container.innerHTML = '';
+        phrasesData.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'input-item';
+            div.innerHTML = `
+                <div class="input-prompt">${item.adj} / ${item.noun}</div>
+                <input type="text" class="input-field" id="ph-sing-${index}" placeholder="Ед. число...">
+                <input type="text" class="input-field" id="ph-plur-${index}" placeholder="Мн. число...">
+                <button class="check-btn" onclick="checkPhrase(${index})">Проверить</button>
+                <button class="surrender-btn-small" onclick="surrenderPhrase(${index})">Сдаюсь</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function checkPhrase(index) {
+        const singInput = document.getElementById(`ph-sing-${index}`);
+        const plurInput = document.getElementById(`ph-plur-${index}`);
+        const correctSing = normalize(phrasesData[index].sing);
+        const correctPlur = normalize(phrasesData[index].plur);
+        let isCorrect = true;
+
+        if (normalize(singInput.value) === correctSing) {
+            singInput.classList.add('correct'); singInput.classList.remove('incorrect');
+        } else {
+            singInput.classList.add('incorrect'); singInput.classList.remove('correct');
+            isCorrect = false;
+        }
+        if (normalize(plurInput.value) === correctPlur) {
+            plurInput.classList.add('correct'); plurInput.classList.remove('incorrect');
+        } else {
+            plurInput.classList.add('incorrect'); plurInput.classList.remove('correct');
+            isCorrect = false;
+        }
+
+        if (isCorrect && !singInput.dataset.scored) {
+            phrasesScore++;
+            document.getElementById('phrases-score').textContent = phrasesScore;
+            singInput.dataset.scored = 'true';
+            plurInput.dataset.scored = 'true';
+            if (phrasesScore === phrasesData.length) {
+                document.getElementById('phrases-success').style.display = 'block';
+            }
+        }
+    }
+
+    function surrenderPhrase(index) {
+        const singInput = document.getElementById(`ph-sing-${index}`);
+        const plurInput = document.getElementById(`ph-plur-${index}`);
+        singInput.value = phrasesData[index].sing;
+        plurInput.value = phrasesData[index].plur;
+        singInput.classList.add('correct'); singInput.classList.remove('incorrect');
+        plurInput.classList.add('correct'); plurInput.classList.remove('incorrect');
+        if (!singInput.dataset.scored) {
+            phrasesScore++;
+            document.getElementById('phrases-score').textContent = phrasesScore;
+            singInput.dataset.scored = 'true';
+            plurInput.dataset.scored = 'true';
+            if (phrasesScore === phrasesData.length) {
+                document.getElementById('phrases-success').style.display = 'block';
+            }
+        }
+    }
+
+    function resetPhrases() {
+        phrasesScore = 0;
+        document.getElementById('phrases-score').textContent = '0';
+        document.getElementById('phrases-success').style.display = 'none';
+        renderPhrases();
+    }
+
+    // ==========================================
+    // 3. ПЕРЕВОД
+    // ==========================================
+    const translationData = [
+        { ru: 'старый город', sing: 'una ciudad vieja', plur: 'unas ciudades viejas' },
+        { ru: 'дешевый дом', sing: 'una casa barata', plur: 'unas casas baratas' },
+        { ru: 'грустная служащая', sing: 'una secretaria triste', plur: 'unas secretarias tristes' },
+        { ru: 'старая медсестра', sing: 'una enfermera vieja', plur: 'unas enfermeras viejas' },
+        { ru: 'трудный язык', sing: 'un idioma difícil', plur: 'unos idiomas difíciles' },
+        { ru: 'тяжелая ситуация', sing: 'una situación difícil', plur: 'unas situaciones difíciles' },
+        { ru: 'серьезный журнал', sing: 'una revista seria', plur: 'unas revistas serias' },
+        { ru: 'скучный день', sing: 'un día aburrido', plur: 'unos días aburridos' },
+        { ru: 'большая книга', sing: 'un libro grande', plur: 'unos libros grandes' },
+        { ru: 'маленькая машина', sing: 'un coche pequeño', plur: 'unos coches pequeños' },
+        { ru: 'богатая семья', sing: 'una familia rica', plur: 'unas familias ricas' },
+        { ru: 'интересная жизнь', sing: 'una vida interesante', plur: 'unas vidas interesantes' },
+        { ru: 'умная книга', sing: 'un libro inteligente', plur: 'unos libros inteligentes' },
+        { ru: 'хорошая работа', sing: 'un trabajo bueno', plur: 'unos trabajos buenos' },
+        { ru: 'худая актриса', sing: 'una actriz delgada', plur: 'unas actrices delgadas' },
+        { ru: 'грустная песня', sing: 'una canción triste', plur: 'unas canciones tristes' },
+        { ru: 'богатая страна', sing: 'un país rico', plur: 'unos países ricos' },
+        { ru: 'ленивый шеф', sing: 'un jefe perezoso', plur: 'unos jefes perezosos' }
+    ];
+
+    let translationScore = 0;
+
+    function renderTranslation() {
+        const container = document.getElementById('translation-container');
+        container.innerHTML = '';
+        translationData.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'input-item';
+            div.innerHTML = `
+                <div class="input-prompt">${item.ru}</div>
+                <input type="text" class="input-field" id="tr-sing-${index}" placeholder="Ед. число...">
+                <input type="text" class="input-field" id="tr-plur-${index}" placeholder="Мн. число...">
+                <button class="check-btn" onclick="checkTranslation(${index})">Проверить</button>
+                <button class="surrender-btn-small" onclick="surrenderTranslationSingle(${index})">Сдаюсь</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function checkTranslation(index) {
+        const singInput = document.getElementById(`tr-sing-${index}`);
+        const plurInput = document.getElementById(`tr-plur-${index}`);
+        const correctSing = normalize(translationData[index].sing);
+        const correctPlur = normalize(translationData[index].plur);
+        let isCorrect = true;
+
+        if (normalize(singInput.value) === correctSing) {
+            singInput.classList.add('correct'); singInput.classList.remove('incorrect');
+        } else {
+            singInput.classList.add('incorrect'); singInput.classList.remove('correct');
+            isCorrect = false;
+        }
+        if (normalize(plurInput.value) === correctPlur) {
+            plurInput.classList.add('correct'); plurInput.classList.remove('incorrect');
+        } else {
+            plurInput.classList.add('incorrect'); plurInput.classList.remove('correct');
+            isCorrect = false;
+        }
+
+        if (isCorrect && !singInput.dataset.scored) {
+            translationScore++;
+            document.getElementById('translation-score').textContent = translationScore;
+            singInput.dataset.scored = 'true';
+            plurInput.dataset.scored = 'true';
+            if (translationScore === translationData.length) {
+                document.getElementById('translation-success').style.display = 'block';
+            }
+        }
+    }
+
+    function surrenderTranslationSingle(index) {
+        const singInput = document.getElementById(`tr-sing-${index}`);
+        const plurInput = document.getElementById(`tr-plur-${index}`);
+        singInput.value = translationData[index].sing;
+        plurInput.value = translationData[index].plur;
+        singInput.classList.add('correct'); singInput.classList.remove('incorrect');
+        plurInput.classList.add('correct'); plurInput.classList.remove('incorrect');
+        if (!singInput.dataset.scored) {
+            translationScore++;
+            document.getElementById('translation-score').textContent = translationScore;
+            singInput.dataset.scored = 'true';
+            plurInput.dataset.scored = 'true';
+            if (translationScore === translationData.length) {
+                document.getElementById('translation-success').style.display = 'block';
+            }
+        }
+    }
+
+    function resetTranslation() {
+        translationScore = 0;
+        document.getElementById('translation-score').textContent = '0';
+        document.getElementById('translation-success').style.display = 'none';
+        renderTranslation();
+    }
+
+    // ==========================================
+    // 4. ОПИСАНИЕ ФОТО
+    // ==========================================
+    const photoKeywords = {
+        1: ['chico', 'joven', 'alto', 'guapo', 'valiente', 'soldado', 'hombre', 'fuerte', 'serio', 'pelo', 'chica', 'mujer', 'hermosa', 'triste', 'guapa', 'seria'],
+        2: ['ciudad', 'pueblo', 'grande', 'hermoso', 'bonito', 'gente', 'calle', 'casa', 'viejo', 'mucho', 'alta'],
+        3: ['chica', 'mujer', 'hermosa', 'triste', 'joven', 'guapa', 'pelo', 'soldado', 'fuerte', 'seria', 'chico', 'hombre']
+    };
+
+    let describeScore = 0;
+
+    function checkDescription(photoId) {
+        const input = document.getElementById(`desc-${photoId}`);
+        const text = normalize(input.value);
+        if (text.length < 3) {
+            input.classList.add('incorrect'); input.classList.remove('correct');
+            return;
+        }
+        const words = text.split(' ');
+        const keywords = photoKeywords[photoId];
+        const hasKeyword = words.some(word => keywords.includes(word));
+        if (words.length >= 2 && hasKeyword) {
+            input.classList.add('correct'); input.classList.remove('incorrect');
+            if (!input.dataset.scored) {
+                describeScore++;
+                document.getElementById('describe-score').textContent = describeScore;
+                input.dataset.scored = 'true';
+                if (describeScore === 3) {
+                    document.getElementById('describe-success').style.display = 'block';
+                }
+            }
+        } else {
+            input.classList.add('incorrect'); input.classList.remove('correct');
+        }
+    }
+
+    function resetDescribe() {
+        describeScore = 0;
+        document.getElementById('describe-score').textContent = '0';
+        document.getElementById('describe-success').style.display = 'none';
+        for (let i = 1; i <= 3; i++) {
+            const input = document.getElementById(`desc-${i}`);
+            input.value = '';
+            input.classList.remove('correct', 'incorrect');
+            delete input.dataset.scored;
+        }
+    }
+
+    function sendToTeacher() {
+        const area = document.getElementById('screenshot-area');
+        const header = document.createElement('div');
+        header.style.cssText = 'text-align:center; padding:15px; font-family:Georgia,serif; font-size:20px; color:#2c3e2c;';
+        header.innerHTML = '<strong>Mis frases en español — Ataque de los titanes</strong>';
+        area.insertBefore(header, area.firstChild);
+
+        html2canvas(area, { backgroundColor: '#ffffff', scale: 2 }).then(canvas => {
+            area.removeChild(header);
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'mis-frases-espanol.png';
+                link.href = url;
+                link.click();
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+                alert('📸 Скриншот сохранён! Отправьте файл "mis-frases-espanol.png" вашему преподавателю.');
+            }, 'image/png');
+        });
+    }
+
+    // ==========================================
+    // НАВИГАЦИЯ
+    // ==========================================
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.game-section').forEach(s => s.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById(tab.getAttribute('data-target')).classList.add('active');
+        });
+    });
+
+    // ИНИЦИАЛИЗАЦИЯ
+    renderAntonyms();
+    renderTranslations();
+    renderPhrases();
+    renderTranslation();
+</script>
+
+</body>
+</html>
