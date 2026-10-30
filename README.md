@@ -15,7 +15,7 @@ TrenajerTodoenUnoCompleto https://arinakasatova1433-tech.github.io/Presente-Indi
 
 SemiReg https://arinakasatova1433-tech.github.io/Presente-Indicativo/SemiReg.html
 
-https://arinakasatova1433-tech.github.io/Presente-Indicativo/deepseek_html_20260910_432ba4.html
+SimbolosDali https://arinakasatova1433-tech.github.io/Presente-Indicativo/SimbolosDali.html
 
 Colombia https://arinakasatova1433-tech.github.io/Presente-Indicativo/Colombia.html
 
