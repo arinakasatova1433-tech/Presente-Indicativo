@@ -25,6 +25,8 @@ ArtSustAdj_AtaqueTitanos https://arinakasatova1433-tech.github.io/Presente-Indic
 
 SER_ESTAR https://arinakasatova1433-tech.github.io/Presente-Indicativo/SER_ESTAR.html
 
-https://arinakasatova1433-tech.github.io/Presente-Indicativo/
+TENER https://arinakasatova1433-tech.github.io/Presente-Indicativo/
 
-https://arinakasatova1433-tech.github.io/Presente-Indicativo/
+PrimerasPalabras https://arinakasatova1433-tech.github.io/Presente-Indicativo/
+
+PREGUNTAS https://arinakasatova1433-tech.github.io/Presente-Indicativo/
