@@ -23,4 +23,8 @@ pautina https://arinakasatova1433-tech.github.io/Presente-Indicativo/Pautina.htm
 
 ArtSustAdj_AtaqueTitanos https://arinakasatova1433-tech.github.io/Presente-Indicativo/ArtSustAdj_AtaqueTitanos.html
 
+SER_ESTAR https://arinakasatova1433-tech.github.io/Presente-Indicativo/SER_ESTAR.html
 
+https://arinakasatova1433-tech.github.io/Presente-Indicativo/
+
+https://arinakasatova1433-tech.github.io/Presente-Indicativo/
