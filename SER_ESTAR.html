@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SER / ESTAR</title>
+    <style>
+        :root {
+            --primary: #8ab4c8;       /* Приглушенный голубой */
+            --primary-dark: #6a99b0;
+            --secondary: #a3c9a6;     /* Приглушенный светло-зеленый */
+            --danger: #d48c8c;        /* Мягкий красный для ошибок */
+            --bg: #f4f7f6;            /* Светлый фон */
+            --text: #3a4a4d;          /* Темно-серый текст */
+            --card-bg: #ffffff;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 { margin-top: 0; color: var(--primary-dark); text-align: center; font-weight: 600; }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: #fff;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+        .tab-btn.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .game-container {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            box-sizing: border-box;
+            min-height: 400px;
+        }
+        .game-container.active { display: block; }
+
+        /* --- Карточки --- */
+        .flashcard-wrapper {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped { transform: rotateY(180deg); }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: var(--card-bg);
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 24px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .card-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        button.action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button.action-btn:hover { background: var(--primary-dark); }
+        button.action-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* --- Тест --- */
+        .quiz-content { text-align: center; }
+        .quiz-question { font-size: 22px; margin-bottom: 20px; font-weight: bold; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; max-width: 400px; margin: 0 auto; }
+        .quiz-option {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+        .quiz-option:hover { border-color: var(--primary); }
+        .quiz-option.correct { background: #d4edda; border-color: #28a745; }
+        .quiz-option.wrong { background: #f8d7da; border-color: #dc3545; }
+        .quiz-input { padding: 12px; font-size: 16px; width: 80%; max-width: 300px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 10px; outline: none; }
+        .quiz-input:focus { border-color: var(--primary); }
+        .quiz-feedback { margin-top: 15px; font-size: 18px; font-weight: bold; height: 24px; }
+        .quiz-header { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: bold; color: #666; }
+
+        /* --- Шарики (Соединить) --- */
+        .balls-header { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 18px; font-weight: bold; color: var(--primary-dark); }
+        .balls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .ball {
+            background: var(--secondary);
+            color: #fff;
+            padding: 15px 10px;
+            border-radius: 50px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            user-select: none;
+            transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+        }
+        .ball.spanish { background: var(--primary); }
+        .ball.selected { transform: scale(1.05); box-shadow: 0 0 15px var(--primary-dark); }
+        .ball.matched { opacity: 0; pointer-events: none; transform: scale(0); transition: 0.4s; }
+
+        /* --- Бласт --- */
+        .blast-area {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #eef2f5;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #ddd;
+        }
+        .blast-target {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        .blast-ball {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+            padding: 5px;
+            box-sizing: border-box;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s;
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.15);
+        }
+        .blast-ball:active { transform: scale(0.9); }
+        .blast-hud { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: bold; font-size: 18px; color: var(--primary-dark); }
+        .blast-start-btn { display: block; margin: 150px auto 0; font-size: 20px; padding: 15px 30px; }
+        .blast-over { text-align: center; margin-top: 120px; }
+    </style>
+</head>
+<body>
+
+    <h1>SER / ESTAR</h1>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('flashcards')">Карточки</button>
+        <button class="tab-btn" onclick="switchTab('quiz')">Тест</button>
+        <button class="tab-btn" onclick="switchTab('balls')">Шарики</button>
+        <button class="tab-btn" onclick="switchTab('blast')">Бласт</button>
+    </div>
+
+    <!-- КАРТОЧКИ -->
+    <div id="flashcards" class="game-container active">
+        <div class="flashcard-wrapper" onclick="flipCard()">
+            <div class="flashcard" id="fc">
+                <div class="card-face card-front" id="fc-front">Загрузка...</div>
+                <div class="card-face card-back" id="fc-back">...</div>
+            </div>
+        </div>
+        <div class="card-controls">
+            <button class="action-btn" onclick="prevCard()">← Назад</button>
+            <span id="fc-counter" style="align-self:center; font-weight:bold;">1 / 32</span>
+            <button class="action-btn" onclick="nextCard()">Вперед →</button>
+        </div>
+    </div>
+
+    <!-- ТЕСТ -->
+    <div id="quiz" class="game-container">
+        <div class="quiz-header">
+            <span id="quiz-progress">Вопрос 1 / 10</span>
+            <span id="quiz-score">Счет: 0</span>
+        </div>
+        <div class="quiz-content">
+            <div class="quiz-question" id="quiz-question">...</div>
+            <div id="quiz-options" class="quiz-options"></div>
+            <div id="quiz-input-area" style="display:none;">
+                <input type="text" id="quiz-input" class="quiz-input" placeholder="Введите перевод...">
+                <button class="action-btn" onclick="submitQuizInput()">Проверить</button>
+            </div>
+            <div class="quiz-feedback" id="quiz-feedback"></div>
+            <button class="action-btn" id="quiz-next-btn" style="display:none; margin-top:20px;" onclick="nextQuizQuestion()">Далее</button>
+        </div>
+    </div>
+
+    <!-- ШАРИКИ -->
+    <div id="balls" class="game-container">
+        <div class="balls-header">
+            <span>Соединено пар: <span id="balls-matched">0</span></span>
+            <span style="color: var(--danger);">Осталось: <span id="balls-timer">01:00</span></span>
+        </div>
+        <p style="text-align:center; color:#666; margin-top:0;">Нажми на испанское слово, затем на его перевод (или наоборот).</p>
+        <div class="balls-grid" id="balls-grid"></div>
+        <div style="text-align:center; margin-top:20px;">
+            <button class="action-btn" onclick="initBallsGame()">Начать заново</button>
+        </div>
+    </div>
+
+    <!-- БЛАСТ -->
+    <div id="blast" class="game-container">
+        <div class="blast-hud">
+            <span>Счет: <span id="blast-score">0</span></span>
+            <span>Цель: <span id="blast-progress">0/10</span></span>
+            <span>Время: <span id="blast-timer">03:00</span></span>
+            <span>Жизни: <span id="blast-lives">3</span></span>
+        </div>
+        <div class="blast-area" id="blast-area">
+            <button class="action-btn blast-start-btn" id="blast-start-btn" onclick="startBlast()">Играть</button>
+        </div>
+    </div>
+
+    <script>
+        // --- ДАННЫЕ ---
+        const words = [
+            { es: "estar en casa", ru: "быть дома" },
+            { es: "estar triste", ru: "быть грустным" },
+            { es: "estar alegre", ru: "быть веселым" },
+            { es: "estar cansado", ru: "быть уставшим" },
+            { es: "estar ocupado", ru: "быть занятым" },
+            { es: "estar libre", ru: "быть свободным" },
+            { es: "estar bien", ru: "чувствовать себя хорошо" },
+            { es: "estar mal", ru: "чувствовать себя плохо" },
+            { es: "estar enfermo", ru: "быть больным" },
+            { es: "Está bien", ru: "Это хорошо" },
+            { es: "está mal", ru: "Это плохо" },
+            { es: "estar seguro", ru: "быть уверенным" },
+            { es: "estar tumbado", ru: "лежать" },
+            { es: "estar sentado", ru: "сидеть" },
+            { es: "estar de pie", ru: "стоять на ногах" },
+            { es: "estar de acuerdo", ru: "быть согласным" },
+            { es: "estar casado/a", ru: "быть женатым/замужем" },
+            { es: "estar vestido", ru: "быть одетым" },
+            { es: "estar separado/a", ru: "живущий отдельно" },
+            { es: "estar divorciado/a", ru: "быть в разводе" },
+            { es: "ser viudo/a", ru: "вдовец/вдова" },
+            { es: "ser soltero/a", ru: "холост/не замужем" },
+            { es: "estar tranquilo", ru: "быть спокойным" },
+            { es: "estar contento", ru: "быть довольным" },
+            { es: "estar enfadado", ru: "сердиться" },
+            { es: "estar asombrado", ru: "поразиться" },
+            { es: "estar nervioso", ru: "быть нервным" },
+            { es: "estar lleno de", ru: "быть полным чего-то" },
+            { es: "estar listo", ru: "быть готовым" },
+            { es: "estar preocupado", ru: "быть обеспокоенным" }
+        ];
+
+        // Перемешивание массива
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // Переключение вкладок
+        function switchTab(tabId) {
+            document.querySelectorAll('.game-container').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabId === 'flashcards') initFlashcards();
+            if (tabId === 'quiz') initQuiz();
+            if (tabId === 'balls') initBallsGame();
+            if (tabId === 'blast') resetBlast();
+        }
+
+        // --- 1. КАРТОЧКИ ---
+        let currentCardIndex = 0;
+        let isFlipped = false;
+
+        function initFlashcards() {
+            currentCardIndex = 0;
+            isFlipped = false;
+            updateCard();
+        }
+
+        function updateCard() {
+            const card = document.getElementById('fc');
+            if (isFlipped) {
+                card.classList.remove('flipped');
+                isFlipped = false;
+            }
+            setTimeout(() => {
+                document.getElementById('fc-front').textContent = words[currentCardIndex].es;
+                document.getElementById('fc-back').textContent = words[currentCardIndex].ru;
+                document.getElementById('fc-counter').textContent = `${currentCardIndex + 1} / ${words.length}`;
+            }, isFlipped ? 300 : 0);
+        }
+
+        function flipCard() {
+            const card = document.getElementById('fc');
+            card.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % words.length;
+            updateCard();
+        }
+
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + words.length) % words.length;
+            updateCard();
+        }
+
+        // --- 2. ТЕСТ ---
+        let quizQuestions = [];
+        let quizIndex = 0;
+        let quizScore = 0;
+        let quizMode = 'choice';
+
+        function initQuiz() {
+            quizQuestions = shuffle([...words]).slice(0, 10);
+            quizIndex = 0;
+            quizScore = 0;
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            if (quizIndex >= quizQuestions.length) {
+                document.getElementById('quiz-question').textContent = `Тест завершен! Твой счет: ${quizScore} из ${quizQuestions.length}`;
+                document.getElementById('quiz-options').innerHTML = '';
+                document.getElementById('quiz-input-area').style.display = 'none';
+                document.getElementById('quiz-next-btn').style.display = 'none';
+                document.getElementById('quiz-feedback').textContent = '';
+                return;
+            }
+
+            document.getElementById('quiz-progress').textContent = `Вопрос ${quizIndex + 1} / ${quizQuestions.length}`;
+            document.getElementById('quiz-score').textContent = `Счет: ${quizScore}`;
+            document.getElementById('quiz-feedback').textContent = '';
+            document.getElementById('quiz-next-btn').style.display = 'none';
+
+            const q = quizQuestions[quizIndex];
+            quizMode = Math.floor(Math.random() * 3); 
+            
+            const optionsDiv = document.getElementById('quiz-options');
+            const inputArea = document.getElementById('quiz-input-area');
+            const inputField = document.getElementById('quiz-input');
+            optionsDiv.innerHTML = '';
+            inputField.value = '';
+            inputField.disabled = false;
+
+            if (quizMode === 0) { 
+                document.getElementById('quiz-question').textContent = q.es;
+                inputArea.style.display = 'none';
+                optionsDiv.style.display = 'flex';
+                
+                let wrongOptions = words.filter(w => w.ru !== q.ru);
+                wrongOptions = shuffle(wrongOptions).slice(0, 3);
+                let allOptions = shuffle([q, ...wrongOptions]);
+
+                allOptions.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quiz-option';
+                    btn.textContent = opt.ru;
+                    btn.onclick = () => checkQuizChoice(btn, opt.ru === q.ru);
+                    optionsDiv.appendChild(btn);
+                });
+
+            } else if (quizMode === 1) { 
+                document.getElementById('quiz-question').textContent = `Переведи на русский: ${q.es}`;
+                optionsDiv.style.display = 'none';
+                inputArea.style.display = 'block';
+                inputField.focus();
+
+            } else { 
+                document.getElementById('quiz-question').textContent = `Переведи на испанский: ${q.ru}`;
+                optionsDiv.style.display = 'none';
+                inputArea.style.display = 'block';
+                inputField.focus();
+            }
+        }
+
+        function checkQuizChoice(btn, isCorrect) {
+            document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+            if (isCorrect) {
+                btn.classList.add('correct');
+                quizScore++;
+                document.getElementById('quiz-feedback').style.color = 'green';
+                document.getElementById('quiz-feedback').textContent = 'Правильно!';
+            } else {
+                btn.classList.add('wrong');
+                document.getElementById('quiz-feedback').style.color = 'var(--danger)';
+                document.getElementById('quiz-feedback').textContent = `Ошибка. Правильно: ${quizQuestions[quizIndex].ru}`;
+                document.querySelectorAll('.quiz-option').forEach(b => {
+                    if (b.textContent === quizQuestions[quizIndex].ru) b.classList.add('correct');
+                });
+            }
+            document.getElementById('quiz-score').textContent = `Счет: ${quizScore}`;
+            document.getElementById('quiz-next-btn').style.display = 'inline-block';
+        }
+
+        function submitQuizInput() {
+            const input = document.getElementById('quiz-input').value.trim().toLowerCase();
+            const q = quizQuestions[quizIndex];
+            const correctAnswer = (quizMode === 1) ? q.ru.toLowerCase() : q.es.toLowerCase();
+            
+            if (!input) return;
+
+            document.getElementById('quiz-input').disabled = true;
+            const feedback = document.getElementById('quiz-feedback');
+
+            if (input === correctAnswer) {
+                feedback.style.color = 'green';
+                feedback.textContent = 'Правильно!';
+                quizScore++;
+            } else {
+                feedback.style.color = 'var(--danger)';
+                feedback.textContent = `Ошибка. Правильно: ${quizMode === 1 ? q.ru : q.es}`;
+            }
+            document.getElementById('quiz-score').textContent = `Счет: ${quizScore}`;
+            document.getElementById('quiz-next-btn').style.display = 'inline-block';
+        }
+
+        document.getElementById('quiz-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') submitQuizInput();
+        });
+
+        function nextQuizQuestion() {
+            quizIndex++;
+            loadQuizQuestion();
+        }
+
+        // --- 3. ШАРИКИ ---
+        let selectedBall = null;
+        let matchedPairs = 0;
+        let totalPairs = 8;
+        let ballsTimerInterval;
+        let ballsTimeLeft = 60; 
+
+        function initBallsGame() {
+            clearInterval(ballsTimerInterval);
+            ballsTimeLeft = 60;
+            document.getElementById('balls-timer').textContent = "01:00";
+            document.getElementById('balls-matched').textContent = "0";
+            
+            const grid = document.getElementById('balls-grid');
+            grid.innerHTML = '';
+            selectedBall = null;
+            matchedPairs = 0;
+
+            let gameWords = shuffle([...words]).slice(0, totalPairs);
+            
+            let balls = [];
+            gameWords.forEach((w, index) => {
+                balls.push({ id: index, text: w.es, type: 'es', pairId: index });
+                balls.push({ id: index, text: w.ru, type: 'ru', pairId: index });
+            });
+
+            balls = shuffle(balls);
+
+            balls.forEach(b => {
+                const div = document.createElement('div');
+                div.className = `ball ${b.type === 'es' ? 'spanish' : ''}`;
+                div.textContent = b.text;
+                div.dataset.pairId = b.pairId;
+                div.dataset.type = b.type;
+                div.onclick = () => handleBallClick(div);
+                grid.appendChild(div);
+            });
+
+            // Запускаем таймер
+            ballsTimerInterval = setInterval(() => {
+                ballsTimeLeft--;
+                let m = Math.floor(ballsTimeLeft / 60);
+                let s = ballsTimeLeft % 60;
+                document.getElementById('balls-timer').textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                
+                if (ballsTimeLeft <= 0) {
+                    clearInterval(ballsTimerInterval);
+                    endBallsGame();
+                }
+            }, 1000);
+        }
+
+        function handleBallClick(ball) {
+            if (ball.classList.contains('matched')) return;
+
+            if (!selectedBall) {
+                selectedBall = ball;
+                ball.classList.add('selected');
+            } else {
+                if (selectedBall === ball) {
+                    selectedBall.classList.remove('selected');
+                    selectedBall = null;
+                    return;
+                }
+
+                if (selectedBall.dataset.type === ball.dataset.type) {
+                    selectedBall.classList.remove('selected');
+                    selectedBall = ball;
+                    ball.classList.add('selected');
+                    return;
+                }
+
+                if (selectedBall.dataset.pairId === ball.dataset.pairId) {
+                    selectedBall.classList.remove('selected');
+                    selectedBall.classList.add('matched');
+                    ball.classList.add('matched');
+                    selectedBall = null;
+                    matchedPairs++;
+                    document.getElementById('balls-matched').textContent = matchedPairs;
+                    
+                    if (matchedPairs === totalPairs) {
+                        clearInterval(ballsTimerInterval);
+                        setTimeout(() => alert(`Отлично! Все пары соединены за ${60 - ballsTimeLeft} секунд!`), 300);
+                    }
+                } else {
+                    const first = selectedBall;
+                    first.classList.remove('selected');
+                    first.style.backgroundColor = 'var(--danger)';
+                    ball.style.backgroundColor = 'var(--danger)';
+                    
+                    setTimeout(() => {
+                        first.style.backgroundColor = '';
+                        ball.style.backgroundColor = '';
+                    }, 500);
+                    
+                    selectedBall = null;
+                }
+            }
+        }
+
+        function endBallsGame() {
+            const grid = document.getElementById('balls-grid');
+            const matched = matchedPairs;
+            
+            // Делаем все шарики неактивными
+            document.querySelectorAll('.ball').forEach(b => b.style.pointerEvents = 'none');
+            
+            setTimeout(() => {
+                alert(`Время вышло! Ты соединил ${matched} из ${totalPairs} пар.`);
+                grid.innerHTML = ''; // Очищаем
+            }, 100);
+        }
+
+        // --- 4. БЛАСТ ---
+        let blastScore = 0;
+        let blastLives = 3;
+        let blastCorrectCount = 0;
+        let blastActive = false;
+        let blastTargetWord = null;
+        let blastBalls = [];
+        let blastInterval, blastSpawnInterval, blastTimerInterval;
+        let blastSpeed = 1.5;
+        let blastTimeLeft = 180; // 3 минуты = 180 секунд
+
+        function resetBlast() {
+            clearInterval(blastInterval);
+            clearInterval(blastSpawnInterval);
+            clearInterval(blastTimerInterval);
+            blastActive = false;
+            
+            document.getElementById('blast-area').innerHTML = '<button class="action-btn blast-start-btn" id="blast-start-btn" onclick="startBlast()">Играть</button>';
+            document.getElementById('blast-score').textContent = '0';
+            document.getElementById('blast-lives').textContent = '3';
+            document.getElementById('blast-progress').textContent = '0/10';
+            document.getElementById('blast-timer').textContent = '03:00';
+        }
+
+        function startBlast() {
+            clearInterval(blastInterval);
+            clearInterval(blastSpawnInterval);
+            clearInterval(blastTimerInterval);
+
+            blastScore = 0;
+            blastLives = 3;
+            blastCorrectCount = 0;
+            blastTimeLeft = 180;
+            blastActive = true;
+            blastSpeed = 1.5;
+            
+            document.getElementById('blast-score').textContent = blastScore;
+            document.getElementById('blast-lives').textContent = blastLives;
+            document.getElementById('blast-progress').textContent = '0/10';
+            document.getElementById('blast-timer').textContent = '03:00';
+            
+            const area = document.getElementById('blast-area');
+            area.innerHTML = '';
+            blastBalls = [];
+            
+            nextBlastTarget();
+
+            // Спавн шариков
+            blastSpawnInterval = setInterval(() => {
+                if (!blastActive) return;
+                spawnBlastBall();
+            }, 1200);
+
+            // Игровой цикл
+            blastInterval = setInterval(() => {
+                if (!blastActive) return;
+                moveBlastBalls();
+            }, 30);
+
+            // Таймер
+            blastTimerInterval = setInterval(() => {
+                if (!blastActive) return;
+                blastTimeLeft--;
+                let m = Math.floor(blastTimeLeft / 60);
+                let s = blastTimeLeft % 60;
+                document.getElementById('blast-timer').textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                
+                if (blastTimeLeft <= 0) {
+                    gameOverBlast(true); // true = время вышло
+                }
+            }, 1000);
+        }
+
+        function nextBlastTarget() {
+            const target = words[Math.floor(Math.random() * words.length)];
+            blastTargetWord = target;
+
+            let targetDiv = document.querySelector('.blast-target');
+            if (!targetDiv) {
+                targetDiv = document.createElement('div');
+                targetDiv.className = 'blast-target';
+                document.getElementById('blast-area').appendChild(targetDiv);
+            }
+            targetDiv.textContent = target.es;
+        }
+
+        function spawnBlastBall() {
+            const area = document.getElementById('blast-area');
+            const ball = document.createElement('div');
+            ball.className = 'blast-ball';
+            
+            let isCorrect = Math.random() > 0.5;
+            let text = '';
+            
+            if (isCorrect) {
+                text = blastTargetWord.ru;
+            } else {
+                let wrongWords = words.filter(w => w.ru !== blastTargetWord.ru);
+                text = wrongWords[Math.floor(Math.random() * wrongWords.length)].ru;
+            }
+            
+            ball.textContent = text;
+            
+            // Приглушенные цвета
+            const colors = ['#8ab4c8', '#a3c9a6', '#d4b8a8', '#c8b8d4', '#d4d4a8'];
+            ball.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            const areaWidth = area.clientWidth;
+            const size = 80;
+            const x = Math.random() * (areaWidth - size);
+            const y = area.clientHeight;
+            
+            ball.style.left = `${x}px`;
+            ball.style.top = `${y}px`;
+            
+            const ballObj = {
+                el: ball,
+                x: x,
+                y: y,
+                speed: blastSpeed + Math.random() * 0.5,
+                isCorrect: isCorrect,
+                text: text
+            };
+            
+            ball.onclick = () => handleBlastClick(ballObj);
+            
+            area.appendChild(ball);
+            blastBalls.push(ballObj);
+        }
+
+        function moveBlastBalls() {
+            for (let i = blastBalls.length - 1; i >= 0; i--) {
+                let b = blastBalls[i];
+                b.y -= b.speed;
+                b.el.style.top = `${b.y}px`;
+                
+                if (b.y < -100) {
+                    b.el.remove();
+                    blastBalls.splice(i, 1);
+                    
+                    if (b.isCorrect) {
+                        loseBlastLife();
+                    }
+                }
+            }
+        }
+
+        function handleBlastClick(ballObj) {
+            if (!blastActive) return;
+            
+            ballObj.el.remove();
+            blastBalls = blastBalls.filter(b => b !== ballObj);
+
+            if (ballObj.isCorrect) {
+                blastScore += 10;
+                blastCorrectCount++;
+                document.getElementById('blast-score').textContent = blastScore;
+                document.getElementById('blast-progress').textContent = `${blastCorrectCount}/10`;
+                
+                if (blastCorrectCount >= 10) {
+                    gameOverBlast(false); // Победа по очкам
+                    return;
+                }
+
+                nextBlastTarget();
+                if (blastScore % 50 === 0) blastSpeed += 0.3;
+            } else {
+                loseBlastLife();
+            }
+        }
+
+        function loseBlastLife() {
+            blastLives--;
+            document.getElementById('blast-lives').textContent = blastLives;
+            if (blastLives <= 0) {
+                gameOverBlast(false);
+            }
+        }
+
+        function gameOverBlast(isTimeOut) {
+            blastActive = false;
+            clearInterval(blastInterval);
+            clearInterval(blastSpawnInterval);
+            clearInterval(blastTimerInterval);
+            
+            const area = document.getElementById('blast-area');
+            let title = isTimeOut ? "Время вышло!" : (blastLives <= 0 ? "Жизни закончились!" : "Победа!");
+            let color = isTimeOut || blastLives <= 0 ? "var(--danger)" : "var(--secondary)";
+            
+            area.innerHTML = `
+                <div class="blast-over">
+                    <h2 style="color:${color}; margin-bottom:10px;">${title}</h2>
+                    <p style="font-size:20px; margin-bottom: 5px;">Правильных ответов: <b>${blastCorrectCount}</b></p>
+                    <p style="font-size:20px; margin-bottom: 20px;">Счет: <b>${blastScore}</b></p>
+                    <button class="action-btn" onclick="startBlast()">Играть снова</button>
+                </div>
+            `;
+        }
+
+        // Инициализация первой вкладки при загрузке
+        window.onload = () => {
+            initFlashcards();
+        };
+
+    </script>
+</body>
+</html>
