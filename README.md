@@ -30,3 +30,5 @@ TENER https://arinakasatova1433-tech.github.io/Presente-Indicativo/TENER.html
 PrimerasPalabras https://arinakasatova1433-tech.github.io/Presente-Indicativo/PrimerasPalabras.html
 
 PREGUNTAS https://arinakasatova1433-tech.github.io/Presente-Indicativo/Preguntas.html
+
+HlopushkiOtono https://arinakasatova1433-tech.github.io/Presente-Indicativo/HlopushkiOtono.html
