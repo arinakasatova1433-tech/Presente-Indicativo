@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍁 Осенний Квиз-Хлопушки (Сетка)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Neucha', cursive, sans-serif;
+            /* Красивый осенний градиент */
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: #3e2723;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Легкий узор поверх градиента */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.2) 20%, transparent 20%);
+            background-size: 30px 30px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        header {
+            text-align: center;
+            margin-top: 20px;
+            background-color: rgba(255, 250, 240, 0.95);
+            padding: 15px 40px;
+            border-radius: 20px;
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3);
+            border: 2px dashed #d35400;
+            z-index: 10;
+            position: relative;
+        }
+
+        h1 {
+            margin: 0;
+            color: #d35400;
+            font-size: 2.2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        p.subtitle {
+            margin: 5px 0 0 0;
+            color: #556b2f;
+            font-size: 1.2rem;
+        }
+
+        /* Контейнер для сетки */
+        .field-container {
+            position: relative;
+            width: 95vw;
+            max-width: 1000px;
+            margin-top: 30px;
+            background: rgba(255, 250, 240, 0.85);
+            border-radius: 30px;
+            border: 3px solid #c28b5e;
+            box-shadow: 0 10px 30px rgba(139, 69, 19, 0.2);
+            padding: 20px;
+            z-index: 5;
+            /* Центрируем сетку */
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Сетка */
+        .field {
+            display: grid;
+            /* 7 колонок на десктопе, чтобы 28 элементов легли в 4 ряда */
+            grid-template-columns: repeat(7, 1fr); 
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .item {
+            font-size: 3.5rem;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.3s, filter 0.2s;
+            user-select: none;
+            /* Анимация покачивания */
+            animation: float 3s ease-in-out infinite alternate;
+            line-height: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Небольшое случайное смещение для "живости" */
+            transform-origin: center;
+        }
+
+        /* Разные задержки анимации, чтобы качались вразнобой */
+        .item:nth-child(even) { animation-duration: 3.5s; animation-delay: 0.5s; }
+        .item:nth-child(3n) { animation-duration: 4s; animation-delay: 1s; }
+        .item:nth-child(4n) { animation-duration: 2.8s; animation-delay: 0.2s; }
+        .item:nth-child(5n) { animation-duration: 3.2s; animation-delay: 1.5s; }
+
+        @keyframes float {
+            from { transform: translateY(0) rotate(-6deg); }
+            to { transform: translateY(-12px) rotate(6deg); }
+        }
+
+        .item:hover {
+            transform: scale(1.3) !important;
+            filter: drop-shadow(0 0 15px #f39c12);
+            animation-play-state: paused;
+            z-index: 10;
+        }
+
+        .item.popped {
+            transform: scale(1.5) !important;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Модальное окно */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(62, 39, 35, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: #fffaf0;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border: 3px solid #8b4513;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-question {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            color: #3e2723;
+        }
+
+        .btn-show-options {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.3s, transform 0.1s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-show-options:hover {
+            background-color: #d35400;
+        }
+        
+        .btn-show-options:active {
+            transform: scale(0.95);
+        }
+
+        .options-container {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .options-container.show {
+            display: flex;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .option-btn {
+            background-color: #fdf5e6;
+            border: 2px solid #d2b48c;
+            padding: 12px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            color: #3e2723;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background-color: #f5deb3;
+            border-color: #8b4513;
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .feedback {
+            font-size: 1.1rem;
+            margin-top: 15px;
+            font-weight: bold;
+            display: none;
+            text-align: left;
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .lucky-card {
+            font-size: 1.8rem;
+            color: #d35400;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .lucky-emoji {
+            font-size: 5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #8b4513;
+            background: none;
+            border: none;
+            font-weight: bold;
+        }
+
+        .modal-close:hover {
+            color: #d35400;
+        }
+
+        .score-board {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            font-size: 1.6rem;
+            color: #556b2f;
+            background: white;
+            padding: 10px 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            font-weight: bold;
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Адаптивность для планшетов и телефонов */
+        @media (max-width: 850px) {
+            .field { grid-template-columns: repeat(5, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .field { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+            .item { font-size: 2.8rem; }
+            .modal-content { padding: 20px; }
+            .modal-question { font-size: 1.3rem; }
+            h1 { font-size: 1.8rem; }
+        }
+        @media (max-width: 400px) {
+            .field { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🍁 Осенние Хлопушки 🍂</h1>
+        <p class="subtitle">Нажимай на каштаны, тыквы и листья!</p>
+    </header>
+
+    <div class="field-container">
+        <div class="field" id="field"></div>
+    </div>
+
+    <div class="score-board">
+        Счет: <span id="score">0</span> / 24
+    </div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content" id="modal-content">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div id="modal-inner-content"></div>
+        </div>
+    </div>
+
+<script>
+    // --- БАЗА ВОПРОСОВ (24 штуки, по 3 на каждую из 8 тем) ---
+    const questionsDB = [
+        // 1. Чтение и скороговорки
+        { type: "q", text: "Lee: «Tres tristes tigres comen trigo en un trigal». ¿Qué comen los tigres?", options: ["Trigo", "Carne", "Manzanas"], correct: 0, exp: "Trigo (пшеница). Три грустных тигра едят пшеницу." },
+        { type: "q", text: "Lee: «El perro de San Roque no tiene rabo». ¿Quién no tiene rabo?", options: ["San Roque", "El perro", "El gato"], correct: 1, exp: "El perro (собака). У собаки Сан-Роке нет хвоста." },
+        { type: "q", text: "Lee: «Como poco coco como, poco coco compro». ¿Qué compra?", options: ["Coco", "Cacao", "Café"], correct: 0, exp: "Coco (кокос). Классическая скороговорка." },
+
+        // 2. Артикли, род и число
+        { type: "q", text: "Elige el artículo correcto: ___ chaquetas son nuevas.", options: ["El", "La", "Las"], correct: 2, exp: "Las chaquetas. Chaqueta — женский род, мн. число (куртки)." },
+        { type: "q", text: "Elige el artículo correcto: ___ problema es difícil.", options: ["El", "La", "Los"], correct: 0, exp: "El problema. Слова на -ma греческого происхождения — мужского рода." },
+        { type: "q", text: "Elige el artículo correcto: ___ flores son bonitas.", options: ["El", "La", "Las"], correct: 2, exp: "Las flores. Flor — женский род, мн. число (цветы)." },
+
+        // 3. Согласование прилагательных
+        { type: "q", text: "Elige la opción correcta:", options: ["Unos abrigos rojo", "Unos abrigos rojos", "Unas abrigos rojos"], correct: 1, exp: "Unos abrigos rojos. Abrigo — мужской род (пальто)." },
+        { type: "q", text: "Elige la opción correcta:", options: ["Una falda negra", "Un falda negro", "Unas falda negra"], correct: 0, exp: "Una falda negra. Falda — женский род (юбка)." },
+        { type: "q", text: "Elige la opción correcta:", options: ["Unos zapatos cómodas", "Unos zapatos cómodos", "Unas zapatos cómodos"], correct: 1, exp: "Unos zapatos cómodos. Zapato — мужской род (удобные туфли)." },
+
+        // 4. Ser / Estar / Hay
+        { type: "q", text: "En otoño, ___ muchas hojas en el suelo.", options: ["es", "están", "hay"], correct: 2, exp: "Hay. Констатация наличия (много листьев)." },
+        { type: "q", text: "Mi abrigo ___ en el armario.", options: ["es", "está", "hay"], correct: 1, exp: "Está. Местоположение конкретного предмета (пальто в шкафу)." },
+        { type: "q", text: "Hoy ___ un día muy frío.", options: ["es", "está", "hay"], correct: 0, exp: "Es. Характеристика дня (сегодня холодный день)." },
+
+        // 5. Личные данные и TENER
+        { type: "q", text: "Completa: Yo ___ veinte años.", options: ["tienes", "tengo", "tiene"], correct: 1, exp: "Tengo. Yo tengo veinte años (Мне 20 лет)." },
+        { type: "q", text: "Completa: ¿Tú ___ hermanos?", options: ["tienes", "tengo", "tiene"], correct: 0, exp: "Tienes. Tú tienes hermanos (У тебя есть братья/сестры)." },
+        { type: "q", text: "Completa: Él ___ el pelo castaño.", options: ["tiene", "tienes", "tengo"], correct: 0, exp: "Tiene. Él tiene el pelo castaño (У него каштановые волосы)." },
+
+        // 6. También / Tampoco
+        { type: "q", text: "No me gusta el frío y a mi amiga ___ le gusta el frío.", options: ["también", "tampoco"], correct: 1, exp: "Tampoco. Согласие с отрицанием (ей ТОЖЕ не нравится)." },
+        { type: "q", text: "Me encanta el café y a ti ___ te gusta.", options: ["también", "tampoco"], correct: 0, exp: "También. Согласие с утверждением (тебе ТОЖЕ нравится)." },
+        { type: "q", text: "No tengo tiempo y mi hermano ___ tiene tiempo.", options: ["también", "tampoco"], correct: 1, exp: "Tampoco. Согласие с отрицанием (у брата ТОЖЕ нет времени)." },
+
+        // 7. Правильные глаголы
+        { type: "q", text: "Todos los días yo ___ un café por la mañana.", options: ["tomas", "tomo", "toman"], correct: 1, exp: "Tomo. Глагол tomar, 1-е лицо ед. числа." },
+        { type: "q", text: "Nosotros ___ español en la escuela.", options: ["estudian", "estudiamos", "estudio"], correct: 1, exp: "Estudiamos. Глагол estudiar, 1-е лицо мн. числа." },
+        { type: "q", text: "Ellos ___ en una oficina.", options: ["trabajan", "trabajamos", "trabajas"], correct: 0, exp: "Trabajan. Глагол trabajar, 3-е лицо мн. числа." },
+
+        // 8. Погода
+        { type: "q", text: "¿Qué tiempo hace hoy? Hace mucho ___.", options: ["viento", "sol", "frío"], correct: 0, exp: "Viento. Hace viento (ветрено)." },
+        { type: "q", text: "En verano hace mucho ___.", options: ["frío", "calor", "viento"], correct: 1, exp: "Calor. Hace calor (жарко)." },
+        { type: "q", text: "Cuando llueve, decimos que hace mal ___.", options: ["tiempo", "sol", "día"], correct: 0, exp: "Tiempo. Hace mal tiempo (плохая погода)." }
+    ];
+
+    const luckyItems = [
+        { emoji: "🍀", text: "¡Suerte! ¡Has encontrado un trébol!" },
+        { emoji: "🌟", text: "¡Increíble! ¡Una estrella de otoño!" },
+        { emoji: "🍄", text: "¡Hongos mágicos! ¡Punto extra!" },
+        { emoji: "🍁", text: "¡Hoja dorada! ¡Te has librado de la pregunta!" }
+    ];
+
+    let score = 0;
+    let answered = 0;
+    const totalQuestions = questionsDB.length; // 24
+
+    const field = document.getElementById('field');
+    const modal = document.getElementById('modal');
+    const modalInner = document.getElementById('modal-inner-content');
+    const scoreSpan = document.getElementById('score');
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function initGame() {
+        field.innerHTML = '';
+        score = 0;
+        answered = 0;
+        scoreSpan.innerText = score;
+        
+        let pool = shuffleArray([...questionsDB]); // 24 вопроса
+        for(let i=0; i<4; i++) pool.push({ type: 'lucky' }); // 4 пустышки
+        
+        shuffleArray(pool); // Перемешиваем всё вместе (28 элементов)
+
+        pool.forEach((itemData, index) => {
+            const el = document.createElement('div');
+            el.className = 'item';
+            
+            let emoji = '🌰';
+            if (itemData.type === 'lucky') {
+                const lucky = luckyItems[Math.floor(Math.random() * luckyItems.length)];
+                emoji = lucky.emoji;
+                el.dataset.luckyText = lucky.text;
+                el.dataset.luckyEmoji = lucky.emoji;
+            } else {
+                const icons = ['🌰', '🎃', '🍂', '🍁'];
+                emoji = icons[index % icons.length];
+            }
+            el.innerText = emoji;
+
+            el.onclick = () => popItem(el, itemData);
+            field.appendChild(el);
+        });
+    }
+
+    function popItem(element, itemData) {
+        element.classList.add('popped');
+        
+        setTimeout(() => {
+            element.style.display = 'none';
+            answered++;
+            
+            if (itemData.type === 'lucky') {
+                showLuckyModal(element.dataset.luckyEmoji, element.dataset.luckyText);
+            } else {
+                showQuestionModal(itemData);
+            }
+            
+            if (answered === totalQuestions + 4) { // 28
+                setTimeout(showGameEnd, 500);
+            }
+        }, 300);
+    }
+
+    function showLuckyModal(emoji, text) {
+        modalInner.innerHTML = `
+            <div class="lucky-emoji">${emoji || '🍀'}</div>
+            <div class="lucky-card">${text || '¡Suerte!'}</div>
+            <p style="font-size: 1.2rem; color: #666;">Вам повезло! Вопрос не задается. 😊</p>
+            <button class="btn-show-options" onclick="closeModal()">Продолжить</button>
+        `;
+        modal.classList.add('active');
+    }
+
+    function showQuestionModal(question) {
+        modalInner.innerHTML = `
+            <div class="modal-question">${question.text}</div>
+            <button class="btn-show-options" id="btn-show" onclick="revealOptions()">Показать варианты ответа</button>
+            <div class="options-container" id="options-container">
+                ${question.options.map((opt, i) => 
+                    `<button class="option-btn" onclick="checkAnswer(this, ${i}, ${question.correct}, '${question.exp}')">${opt}</button>`
+                ).join('')}
+            </div>
+            <div class="feedback" id="feedback"></div>
+        `;
+        modal.classList.add('active');
+    }
+
+    function revealOptions() {
+        document.getElementById('btn-show').style.display = 'none';
+        document.getElementById('options-container').classList.add('show');
+    }
+
+    function checkAnswer(btn, selectedIndex, correctIndex, exp) {
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(b => b.disabled = true);
+
+        const feedback = document.getElementById('feedback');
+        
+        if (selectedIndex === correctIndex) {
+            btn.classList.add('correct');
+            feedback.innerHTML = `✅ ${exp}`;
+            score++;
+            scoreSpan.innerText = score;
+        } else {
+            btn.classList.add('incorrect');
+            buttons[correctIndex].classList.add('correct');
+            feedback.innerHTML = `❌ Incorrecto. ${exp}`;
+        }
+        feedback.classList.add('show');
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'btn-show-options';
+        closeBtn.style.marginTop = '20px';
+        closeBtn.innerText = 'Cerrar';
+        closeBtn.onclick = closeModal;
+        modalInner.appendChild(closeBtn);
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+    }
+
+    function showGameEnd() {
+        let message = "";
+        if (score === totalQuestions) message = "¡Perfecto! Eres una experta. 🏆";
+        else if (score >= totalQuestions * 0.7) message = "¡Muy bien! Tienes un gran nivel. 🌟";
+        else message = "¡Buen intento! Repasa un poco y vuelve a jugar. 🍁";
+
+        modalInner.innerHTML = `
+            <div class="lucky-emoji">🏆</div>
+            <h2 style="color:#d35400; font-size: 2rem;">¡Juego Terminado!</h2>
+            <p style="font-size: 1.6rem;">Твой результат: <strong>${score} / ${totalQuestions}</strong></p>
+            <p style="font-size: 1.2rem;">${message}</p>
+            <button class="btn-show-options" onclick="restartGame()">Играть снова 🔄</button>
+        `;
+        modal.classList.add('active');
+    }
+
+    function restartGame() {
+        closeModal();
+        initGame();
+    }
+
+    window.onload = () => {
+        setTimeout(initGame, 100); 
+    };
+
+</script>
+</body>
+</html>
