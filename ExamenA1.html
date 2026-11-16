@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de Español A1 - Moda y Básicos</title>
+    <style>
+        :root {
+            --primary: #d35400;
+            --secondary: #e67e22;
+            --bg: #fdfaf6;
+            --text: #333;
+            --correct: #d4edda;
+            --correct-border: #c3e6cb;
+            --wrong: #f8d7da;
+            --wrong-border: #f5c6cb;
+            --border: #f5cba7;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--primary);
+        }
+        h1 { text-align: center; color: var(--primary); }
+        .subtitle { text-align: center; color: #777; font-style: italic; margin-bottom: 30px; }
+        h2 { color: var(--secondary); border-bottom: 2px solid var(--border); padding-bottom: 5px; margin-top: 40px; font-size: 1.3em; }
+        .block-desc { font-size: 0.9em; color: #666; margin-bottom: 15px; }
+        .question { margin-bottom: 15px; padding: 10px; border-radius: 6px; background: #fafbfc; border: 1px solid #eee; transition: background 0.3s; }
+        .question p { margin: 0 0 10px 0; font-weight: 500; }
+        .options { display: flex; flex-wrap: wrap; gap: 10px; }
+        
+        .option-btn {
+            background: #fff;
+            border: 2px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.2s;
+        }
+        .option-btn:hover:not(:disabled) { border-color: var(--secondary); }
+        .option-btn.correct { background-color: var(--correct); border-color: var(--correct-border); font-weight: bold; }
+        .option-btn.wrong { background-color: var(--wrong); border-color: var(--wrong-border); }
+        
+        /* Стили для заблокированных кнопок */
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+        
+        details { margin-top: 20px; background: #f9f4ec; padding: 10px 15px; border-radius: 8px; border-left: 4px solid var(--secondary); }
+        summary { cursor: pointer; font-weight: bold; color: var(--primary); }
+        details ul { margin-top: 10px; padding-left: 20px; font-size: 0.9em; }
+        
+        .vocab-box { background: #fdf2e9; padding: 20px; border-radius: 8px; border: 1px dashed var(--secondary); margin-top: 30px; }
+        .vocab-box h3 { margin-top: 0; color: var(--primary); }
+        .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .vocab-grid ul { margin: 0; padding-left: 20px; }
+
+        .color-sample {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            border-radius: 3px;
+            vertical-align: middle;
+            border: 1px solid #999;
+        }
+
+        .result-section {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #fff3cd;
+            border-radius: 8px;
+            border: 2px solid #ffeeba;
+        }
+        .result-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .result-btn:hover { background-color: #e67e22; }
+        .final-score-display {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🇪🇸 Examen de Español A1</h1>
+    <div class="subtitle">Gramática y vocabulario (Анастасия и Марина)</div>
+
+    <!-- БЛОК 1 -->
+    <h2>1. Presentarte y responder</h2>
+    <div class="block-desc">Выберите правильный ответ на вопрос.</div>
+    
+    <div class="question" data-answer="Bien, gracias.">
+        <p>1. ¿Cómo estás?</p>
+        <div class="options">
+            <button class="option-btn">Bien, gracias.</button>
+            <button class="option-btn">Me llamo Ana.</button>
+            <button class="option-btn">Soy de Rusia.</button>
+        </div>
+    </div>
+    <div class="question" data-answer="González.">
+        <p>2. ¿Cuál es tu apellido?</p>
+        <div class="options">
+            <button class="option-btn">Tengo 20 años.</button>
+            <button class="option-btn">González.</button>
+            <button class="option-btn">Estoy bien.</button>
+        </div>
+    </div>
+    <div class="question" data-answer="Estudiante.">
+        <p>3. ¿A qué te dedicas?</p>
+        <div class="options">
+            <button class="option-btn">En Moscú.</button>
+            <button class="option-btn">Estudiante.</button>
+            <button class="option-btn">Sí, soy rusa.</button>
+        </div>
+    </div>
+    <div class="question" data-answer="16.">
+        <p>4. ¿Cuántos años tienes?</p>
+        <div class="options">
+            <button class="option-btn">Muy bien.</button>
+            <button class="option-btn">16.</button>
+            <button class="option-btn">De España.</button>
+        </div>
+    </div>
+    <div class="question" data-answer="No, soy mexicano.">
+        <p>5. ¿Eres español?</p>
+        <div class="options">
+            <button class="option-btn">Sí, tengo 18.</button>
+            <button class="option-btn">No, soy mexicano.</button>
+            <button class="option-btn">Me llamo Pedro.</button>
+        </div>
+    </div>
+    <div class="question" data-answer="En el centro de la ciudad.">
+        <p>6. ¿Dónde vives?</p>
+        <div class="options">
+            <button class="option-btn">Estoy cansado.</button>
+            <button class="option-btn">En el centro de la ciudad.</button>
+            <button class="option-btn">Estudio español.</button>
+        </div>
+    </div>
+    <details>
+        <summary>Ver soluciones explicadas</summary>
+        <ul>
+            <li>¿Cómo estás? → <b>Bien, gracias.</b> (вопрос о состоянии)</li>
+            <li>¿Cuál es tu apellido? → <b>González.</b> (вопрос о фамилии)</li>
+            <li>¿A qué te dedicas? → <b>Estudiante.</b> (вопрос о профессии)</li>
+            <li>¿Cuántos años tienes? → <b>16.</b> (вопрос о возрасте)</li>
+            <li>¿Eres español? → <b>No, soy mexicano.</b> (исправление национальности)</li>
+            <li>¿Dónde vives? → <b>En el centro de la ciudad.</b> (вопрос о месте)</li>
+        </ul>
+    </details>
+
+    <!-- БЛОК 2 -->
+    <h2>2. Presente: personas y actividades</h2>
+    <div class="block-desc">Выберите правильную форму глагола в настоящем времени.</div>
+    
+    <div class="question" data-answer="estudia">
+        <p>1. El estudiante ___ en la escuela.</p>
+        <div class="options">
+            <button class="option-btn">estudio</button>
+            <button class="option-btn">estudia</button>
+            <button class="option-btn">estudian</button>
+        </div>
+    </div>
+    <div class="question" data-answer="enseña">
+        <p>2. El profesor ___ español en una escuela.</p>
+        <div class="options">
+            <button class="option-btn">enseño</button>
+            <button class="option-btn">enseñan</button>
+            <button class="option-btn">enseña</button>
+        </div>
+    </div>
+    <div class="question" data-answer="trabaja">
+        <p>3. La vendedora ___ en una tienda.</p>
+        <div class="options">
+            <button class="option-btn">trabaja</button>
+            <button class="option-btn">trabajan</button>
+            <button class="option-btn">trabajo</button>
+        </div>
+    </div>
+    <div class="question" data-answer="cocinan">
+        <p>4. Los cocineros ___ en el restaurante.</p>
+        <div class="options">
+            <button class="option-btn">cocina</button>
+            <button class="option-btn">cocinan</button>
+            <button class="option-btn">cocino</button>
+        </div>
+    </div>
+    <div class="question" data-answer="repara">
+        <p>5. El mecánico ___ mi coche.</p>
+        <div class="options">
+            <button class="option-btn">reparan</button>
+            <button class="option-btn">reparo</button>
+            <button class="option-btn">repara</button>
+        </div>
+    </div>
+    <div class="question" data-answer="vamos">
+        <p>6. Nosotros ___ al cine esta tarde.</p>
+        <div class="options">
+            <button class="option-btn">van</button>
+            <button class="option-btn">vamos</button>
+            <button class="option-btn">voy</button>
+        </div>
+    </div>
+    <div class="question" data-answer="comen">
+        <p>7. Los hipopótamos ___ plantas.</p>
+        <div class="options">
+            <button class="option-btn">come</button>
+            <button class="option-btn">comen</button>
+            <button class="option-btn">comemos</button>
+        </div>
+    </div>
+    <div class="question" data-answer="cura">
+        <p>8. El médico ___ a los enfermos.</p>
+        <div class="options">
+            <button class="option-btn">cura</button>
+            <button class="option-btn">curan</button>
+            <button class="option-btn">curo</button>
+        </div>
+    </div>
+    <div class="question" data-answer="escribe">
+        <p>9. La secretaria ___ muchas cartas.</p>
+        <div class="options">
+            <button class="option-btn">escriben</button>
+            <button class="option-btn">escribo</button>
+            <button class="option-btn">escribe</button>
+        </div>
+    </div>
+    <div class="question" data-answer="duermen">
+        <p>10. Los pequeños ___ en la cama.</p>
+        <div class="options">
+            <button class="option-btn">duermen</button>
+            <button class="option-btn">duerme</button>
+            <button class="option-btn">dormimos</button>
+        </div>
+    </div>
+    <details>
+        <summary>Ver soluciones explicadas</summary>
+        <ul>
+            <li>El estudiante <b>estudia</b></li>
+            <li>El profesor <b>enseña</b></li>
+            <li>La vendedora <b>trabaja</b></li>
+            <li>Los cocineros <b>cocinan</b></li>
+            <li>El mecánico <b>repara</b></li>
+            <li>Nosotros <b>vamos</b></li>
+            <li>Los hipopótamos <b>comen</b></li>
+            <li>El médico <b>cura</b></li>
+            <li>La secretaria <b>escribe</b></li>
+            <li>Los pequeños <b>duermen</b></li>
+        </ul>
+    </details>
+
+    <!-- БЛОК 3 -->
+    <h2>3. Ser o estar</h2>
+    <div class="block-desc">Выберите Ser или Estar в правильной форме.</div>
+    
+    <div class="question" data-answer="estamos">
+        <p>1. Ahora (nosotros) ___ cansados.</p>
+        <div class="options">
+            <button class="option-btn">somos</button>
+            <button class="option-btn">estamos</button>
+            <button class="option-btn">estáis</button>
+        </div>
+    </div>
+    <div class="question" data-answer="es">
+        <p>2. Hoy ___ martes.</p>
+        <div class="options">
+            <button class="option-btn">es</button>
+            <button class="option-btn">está</button>
+            <button class="option-btn">son</button>
+        </div>
+    </div>
+    <div class="question" data-answer="es">
+        <p>3. Mi perro ___ negro.</p>
+        <div class="options">
+            <button class="option-btn">está</button>
+            <button class="option-btn">es</button>
+            <button class="option-btn">están</button>
+        </div>
+    </div>
+    <div class="question" data-answer="estoy">
+        <p>4. Yo ___ en la escuela.</p>
+        <div class="options">
+            <button class="option-btn">soy</button>
+            <button class="option-btn">estoy</button>
+            <button class="option-btn">está</button>
+        </div>
+    </div>
+    <div class="question" data-answer="es">
+        <p>5. Mi casa no ___ grande.</p>
+        <div class="options">
+            <button class="option-btn">está</button>
+            <button class="option-btn">es</button>
+            <button class="option-btn">son</button>
+        </div>
+    </div>
+    <div class="question" data-answer="está">
+        <p>6. Mi hermano mayor no ___ en casa.</p>
+        <div class="options">
+            <button class="option-btn">es</button>
+            <button class="option-btn">está</button>
+            <button class="option-btn">estoy</button>
+        </div>
+    </div>
+    <div class="question" data-answer="son">
+        <p>7. Mis abuelos ___ muy amables.</p>
+        <div class="options">
+            <button class="option-btn">están</button>
+            <button class="option-btn">son</button>
+            <button class="option-btn">es</button>
+        </div>
+    </div>
+    <div class="question" data-answer="eres">
+        <p>8. Tú ___ de Colombia.</p>
+        <div class="options">
+            <button class="option-btn">estás</button>
+            <button class="option-btn">eres</button>
+            <button class="option-btn">soy</button>
+        </div>
+    </div>
+    <div class="question" data-answer="son">
+        <p>9. Las chicas ___ altas y morenas.</p>
+        <div class="options">
+            <button class="option-btn">son</button>
+            <button class="option-btn">están</button>
+            <button class="option-btn">está</button>
+        </div>
+    </div>
+    <div class="question" data-answer="estoy">
+        <p>10. Ahora (yo) ___ en la escuela.</p>
+        <div class="options">
+            <button class="option-btn">soy</button>
+            <button class="option-btn">estoy</button>
+            <button class="option-btn">está</button>
+        </div>
+    </div>
+    <details>
+        <summary>Ver soluciones explicadas</summary>
+        <ul>
+            <li>(nosotros) <b>estamos</b> cansados (состояние)</li>
+            <li>Hoy <b>es</b> martes (день недели)</li>
+            <li>Mi perro <b>es</b> negro (характеристика)</li>
+            <li>Yo <b>estoy</b> en la escuela (местонахождение)</li>
+            <li>Mi casa no <b>es</b> grande (характеристика)</li>
+            <li>Mi hermano no <b>está</b> en casa (местонахождение)</li>
+            <li>Mis abuelos <b>son</b> amables (характеристика)</li>
+            <li>Tú <b>eres</b> de Colombia (происхождение)</li>
+            <li>Las chicas <b>son</b> altas (характеристика)</li>
+            <li>Ahora (yo) <b>estoy</b> en la escuela (местонахождение)</li>
+        </ul>
+    </details>
+
+    <!-- БЛОК 4 -->
+    <h2>4. Colores: mira la muestra y concuerda</h2>
+    <div class="block-desc">Выберите цвет, который подходит по роду и числу.</div>
+    
+    <div class="question" data-answer="roja">
+        <p>1. La rosa es ___. <span class="color-sample" style="background:red;"></span></p>
+        <div class="options">
+            <button class="option-btn">rojo</button>
+            <button class="option-btn">roja</button>
+            <button class="option-btn">rojas</button>
+        </div>
+    </div>
+    <div class="question" data-answer="azul">
+        <p>2. El cielo es ___. <span class="color-sample" style="background:blue;"></span></p>
+        <div class="options">
+            <button class="option-btn">azul</button>
+            <button class="option-btn">azula</button>
+            <button class="option-btn">azules</button>
+        </div>
+    </div>
+    <div class="question" data-answer="amarillo">
+        <p>3. El sol del dibujo es ___. <span class="color-sample" style="background:yellow;"></span></p>
+        <div class="options">
+            <button class="option-btn">amarilla</button>
+            <button class="option-btn">amarillo</button>
+            <button class="option-btn">amarillos</button>
+        </div>
+    </div>
+    <div class="question" data-answer="blanca">
+        <p>4. La nube del dibujo es ___. <span class="color-sample" style="background:white;"></span></p>
+        <div class="options">
+            <button class="option-btn">blanco</button>
+            <button class="option-btn">blancas</button>
+            <button class="option-btn">blanca</button>
+        </div>
+    </div>
+    <div class="question" data-answer="verdes">
+        <p>5. Mis libros son ___. <span class="color-sample" style="background:green;"></span></p>
+        <div class="options">
+            <button class="option-btn">verde</button>
+            <button class="option-btn">verdes</button>
+            <button class="option-btn">verda</button>
+        </div>
+    </div>
+    <div class="question" data-answer="blanco">
+        <p>6. Tu gato del dibujo es ___. <span class="color-sample" style="background:white;"></span></p>
+        <div class="options">
+            <button class="option-btn">blanca</button>
+            <button class="option-btn">blanco</button>
+            <button class="option-btn">blancos</button>
+        </div>
+    </div>
+    <div class="question" data-answer="negras">
+        <p>7. Las mesas son ___. <span class="color-sample" style="background:black;"></span></p>
+        <div class="options">
+            <button class="option-btn">negro</button>
+            <button class="option-btn">negra</button>
+            <button class="option-btn">negras</button>
+        </div>
+    </div>
+    <div class="question" data-answer="rojos">
+        <p>8. Los cuadernos son ___. <span class="color-sample" style="background:red;"></span></p>
+        <div class="options">
+            <button class="option-btn">rojos</button>
+            <button class="option-btn">rojas</button>
+            <button class="option-btn">rojo</button>
+        </div>
+    </div>
+    <details>
+        <summary>Ver soluciones explicadas</summary>
+        <ul>
+            <li>La rosa es <b>roja</b></li>
+            <li>El cielo es <b>azul</b></li>
+            <li>El sol es <b>amarillo</b></li>
+            <li>La nube es <b>blanca</b></li>
+            <li>Mis libros son <b>verdes</b></li>
+            <li>Tu gato es <b>blanco</b></li>
+            <li>Las mesas son <b>negras</b></li>
+            <li>Los cuadernos son <b>rojos</b></li>
+        </ul>
+    </details>
+
+    <!-- БЛОК 5 -->
+    <h2>5. Presente: formas irregulares</h2>
+    <div class="block-desc">Выберите правильную форму неправильного глагола.</div>
+    
+    <div class="question" data-answer="haces">
+        <p>1. Hola, Pepe, ¿qué ___ esta tarde?</p>
+        <div class="options">
+            <button class="option-btn">hace</button>
+            <button class="option-btn">haces</button>
+            <button class="option-btn">hacen</button>
+        </div>
+    </div>
+    <div class="question" data-answer="pone">
+        <p>2. Mi madre ___ las flores en su mesa.</p>
+        <div class="options">
+            <button class="option-btn">pone</button>
+            <button class="option-btn">pones</button>
+            <button class="option-btn">ponen</button>
+        </div>
+    </div>
+    <div class="question" data-answer="prefiere">
+        <p>3. Luisa ___ el café al té.</p>
+        <div class="options">
+            <button class="option-btn">prefiero</button>
+            <button class="option-btn">prefieren</button>
+            <button class="option-btn">prefiere</button>
+        </div>
+    </div>
+    <div class="question" data-answer="duermen">
+        <p>4. Los gatos ___ más de 10 horas.</p>
+        <div class="options">
+            <button class="option-btn">duermen</button>
+            <button class="option-btn">duerme</button>
+            <button class="option-btn">dormimos</button>
+        </div>
+    </div>
+    <div class="question" data-answer="jugamos">
+        <p>5. (Nosotros) ___ mucho con PlayStation.</p>
+        <div class="options">
+            <button class="option-btn">juegan</button>
+            <button class="option-btn">jugamos</button>
+            <button class="option-btn">juego</button>
+        </div>
+    </div>
+    <div class="question" data-answer="pueden">
+        <p>6. (Ustedes) no ___ levantarse tan temprano.</p>
+        <div class="options">
+            <button class="option-btn">pueden</button>
+            <button class="option-btn">puede</button>
+            <button class="option-btn">podemos</button>
+        </div>
+    </div>
+    <div class="question" data-answer="van">
+        <p>7. El fin de semana (ellos) ___ a la playa.</p>
+        <div class="options">
+            <button class="option-btn">vamos</button>
+            <button class="option-btn">van</button>
+            <button class="option-btn">va</button>
+        </div>
+    </div>
+    <div class="question" data-answer="conozco">
+        <p>8. (Yo) no ___ a esta chica.</p>
+        <div class="options">
+            <button class="option-btn">conoce</button>
+            <button class="option-btn">conozco</button>
+            <button class="option-btn">conocen</button>
+        </div>
+    </div>
+    <div class="question" data-answer="empieza">
+        <p>9. La película ___ a las ocho en punto.</p>
+        <div class="options">
+            <button class="option-btn">empiezo</button>
+            <button class="option-btn">empiezan</button>
+            <button class="option-btn">empieza</button>
+        </div>
+    </div>
+    <div class="question" data-answer="sé">
+        <p>10. (Yo) no ___ nada de mi amiga.</p>
+        <div class="options">
+            <button class="option-btn">sé</button>
+            <button class="option-btn">sabe</button>
+            <button class="option-btn">sabes</button>
+        </div>
+    </div>
+    <details>
+        <summary>Ver soluciones explicadas</summary>
+        <ul>
+            <li>¿qué <b>haces</b> (tú)?</li>
+            <li>Mi madre <b>pone</b></li>
+            <li>Luisa <b>prefiere</b></li>
+            <li>Los gatos <b>duermen</b></li>
+            <li>(Nosotros) <b>jugamos</b></li>
+            <li>(Ustedes) <b>pueden</b></li>
+            <li>(Ellos) <b>van</b></li>
+            <li>(Yo) <b>conozco</b></li>
+            <li>La película <b>empieza</b></li>
+            <li>(Yo) <b>sé</b></li>
+        </ul>
+    </details>
+
+    <!-- БЛОК 6 -->
+    <h2>6. Preposiciones en grupos cortos</h2>
+    <div class="block-desc">Вставьте подходящий предлог.</div>
+    
+    <div class="question" data-answer="de">
+        <p>1. Ahora estamos delante ___ tu casa.</p>
+        <div class="options">
+            <button class="option-btn">de</button>
+            <button class="option-btn">a</button>
+            <button class="option-btn">en</button>
+        </div>
+    </div>
+    <div class="question" data-answer="A">
+        <p>2. ___ las cinco empieza la clase de español.</p>
+        <div class="options">
+            <button class="option-btn">De</button>
+            <button class="option-btn">A</button>
+            <button class="option-btn">En</button>
+        </div>
+    </div>
+    <div class="question" data-answer="de">
+        <p>3. A las cinco empieza la clase ___ español.</p>
+        <div class="options">
+            <button class="option-btn">de</button>
+            <button class="option-btn">con</button>
+            <button class="option-btn">a</button>
+        </div>
+    </div>
+    <div class="question" data-answer="Por">
+        <p>4. ___ la tarde voy a la playa.</p>
+        <div class="options">
+            <button class="option-btn">A</button>
+            <button class="option-btn">Por</button>
+            <button class="option-btn">De</button>
+        </div>
+    </div>
+    <div class="question" data-answer="a">
+        <p>5. Por la tarde voy ___ la playa.</p>
+        <div class="options">
+            <button class="option-btn">a</button>
+            <button class="option-btn">de</button>
+            <button class="option-btn">en</button>
+        </div>
+    </div>
+    <div class="question" data-answer="con">
+        <p>6. Luisa prepara café ___ leche.</p>
+        <div class="options">
+            <button class="option-btn">de</button>
+            <button class="option-btn">con</button>
+            <button class="option-btn">por</button>
+        </div>
+    </div>
+    <div class="question" data-answer="de">
+        <p>7. José es ___ Madrid.</p>
+        <div class="options">
+            <button class="option-btn">en</button>
+            <button class="option-btn">de</button>
+            <button class="option-btn">a</button>
+        </div>
+    </div>
+    <div class="question" data-answer="en">
+        <p>8. Ellos están ___ el centro de la ciudad.</p>
+        <div class="options">
+            <button class="option-btn">en</button>
+            <button class="option-btn">de</button>
+            <button class="option-btn">a</button>
+        </div>
+    </div>
+    <details>
+        <summary>Ver soluciones explicadas</summary>
+        <ul>
+            <li>delante <b>de</b></li>
+            <li><b>A</b> las cinco</li>
+            <li>clase <b>de</b> español</li>
+            <li><b>Por</b> la tarde</li>
+            <li>ir <b>a</b> la playa</li>
+            <li>café <b>con</b> leche</li>
+            <li>ser <b>de</b> + происхождение</li>
+            <li>estar <b>en</b> el centro</li>
+        </ul>
+    </details>
+
+    <!-- БЛОК 7 -->
+    <h2>7. Días y meses</h2>
+    <div class="block-desc">Выберите правильное слово в последовательности.</div>
+    
+    <div class="question" data-answer="martes">
+        <p>1. Días de la semana: después de lunes viene ___.</p>
+        <div class="options">
+            <button class="option-btn">martes</button>
+            <button class="option-btn">miércoles</button>
+            <button class="option-btn">domingo</button>
+        </div>
+    </div>
+    <div class="question" data-answer="miércoles">
+        <p>2. Días de la semana: después de martes viene ___.</p>
+        <div class="options">
+            <button class="option-btn">jueves</button>
+            <button class="option-btn">miércoles</button>
+            <button class="option-btn">lunes</button>
+        </div>
+    </div>
+    <div class="question" data-answer="jueves">
+        <p>3. Días de la semana: después de miércoles viene ___.</p>
+        <div class="options">
+            <button class="option-btn">viernes</button>
+            <button class="option-btn">jueves</button>
+            <button class="option-btn">sábado</button>
+        </div>
+    </div>
+    <div class="question" data-answer="viernes">
+        <p>4. Días de la semana: después de jueves viene ___.</p>
+        <div class="options">
+            <button class="option-btn">viernes</button>
+            <button class="option-btn">sábado</button>
+            <button class="option-btn">domingo</button>
+        </div>
+    </div>
+    <div class="question" data-answer="sábado">
+        <p>5. Días de la semana: después de viernes viene ___.</p>
+        <div class="options">
+            <button class="option-btn">domingo</button>
+            <button class="option-btn">sábado</button>
+            <button class="option-btn">lunes</button>
+        </div>
+    </div>
+    <div class="question" data-answer="domingo">
+        <p>6. Días de la semana: después de sábado viene ___.</p>
+        <div class="options">
+            <button class="option-btn">lunes</button>
+            <button class="option-btn">domingo</button>
+            <button class="option-btn">martes</button>
+        </div>
+    </div>
+    <div class="question" data-answer="febrero">
+        <p>7. Meses del año: después de enero viene ___.</p>
+        <div class="options">
+            <button class="option-btn">marzo</button>
+            <button class="option-btn">febrero</button>
+            <button class="option-btn">abril</button>
+        </div>
+    </div>
+    <div class="question" data-answer="marzo">
+        <p>8. Meses del año: después de febrero viene ___.</p>
+        <div class="options">
+            <button class="option-btn">marzo</button>
+            <button class="option-btn">mayo</button>
+            <button class="option-btn">abril</button>
+        </div>
+    </div>
+    <div class="question" data-answer="abril">
+        <p>9. Meses del año: después de marzo viene ___.</p>
+        <div class="options">
+            <button class="option-btn">junio</button>
+            <button class="option-btn">abril</button>
+            <button class="option-btn">mayo</button>
+        </div>
+    </div>
+    <details>
+        <summary>Ver soluciones explicadas</summary>
+        <ul>
+            <li>lunes → <b>martes</b></li>
+            <li>martes → <b>miércoles</b></li>
+            <li>miércoles → <b>jueves</b></li>
+            <li>jueves → <b>viernes</b></li>
+            <li>viernes → <b>sábado</b></li>
+            <li>sábado → <b>domingo</b></li>
+            <li>enero → <b>febrero</b></li>
+            <li>febrero → <b>marzo</b></li>
+            <li>marzo → <b>abril</b></li>
+        </ul>
+    </details>
+
+    <!-- БЛОК 8 -->
+    <h2>8. Números: reconoce la escritura</h2>
+    <div class="block-desc">Выберите правильное написание числа.</div>
+    
+    <div class="question" data-answer="cinco">
+        <p>1. 5 – ___</p>
+        <div class="options">
+            <button class="option-btn">cinco</button>
+            <button class="option-btn">siete</button>
+            <button class="option-btn">nueve</button>
+        </div>
+    </div>
+    <div class="question" data-answer="siete">
+        <p>2. 7 – ___</p>
+        <div class="options">
+            <button class="option-btn">seis</button>
+            <button class="option-btn">siete</button>
+            <button class="option-btn">ocho</button>
+        </div>
+    </div>
+    <div class="question" data-answer="seis">
+        <p>3. 6 – ___</p>
+        <div class="options">
+            <button class="option-btn">seis</button>
+            <button class="option-btn">cinco</button>
+            <button class="option-btn">diez</button>
+        </div>
+    </div>
+    <div class="question" data-answer="doce">
+        <p>4. 12 – ___</p>
+        <div class="options">
+            <button class="option-btn">once</button>
+            <button class="option-btn">doce</button>
+            <button class="option-btn">trece</button>
+        </div>
+    </div>
+    <div class="question" data-answer="once">
+        <p>5. 11 – ___</p>
+        <div class="options">
+            <button class="option-btn">doce</button>
+            <button class="option-btn">once</button>
+            <button class="option-btn">diez</button>
+        </div>
+    </div>
+    <div class="question" data-answer="quince">
+        <p>6. 15 – ___</p>
+        <div class="options">
+            <button class="option-btn">quince</button>
+            <button class="option-btn">catorce</button>
+            <button class="option-btn">dieciséis</button>
+        </div>
+    </div>
+    <div class="question" data-answer="veinte">
+        <p>7. 20 – ___</p>
+        <div class="options">
+            <button class="option-btn">treinta</button>
+            <button class="option-btn">veinte</button>
+            <button class="option-btn">diecinueve</button>
+        </div>
+    </div>
+    <div class="question" data-answer="cincuenta">
+        <p>8. 50 – ___</p>
+        <div class="options">
+            <button class="option-btn">cincuenta</button>
+            <button class="option-btn">sesenta</button>
+            <button class="option-btn">cuarenta</button>
+        </div>
+    </div>
+    <div class="question" data-answer="sesenta y siete">
+        <p>9. 67 – ___</p>
+        <div class="options">
+            <button class="option-btn">sesenta y siete</button>
+            <button class="option-btn">setenta y seis</button>
+            <button class="option-btn">sesenta y seis</button>
+        </div>
+    </div>
+    <div class="question" data-answer="noventa y nueve">
+        <p>10. 99 – ___</p>
+        <div class="options">
+            <button class="option-btn">noventa y nueve</button>
+            <button class="option-btn">ochenta y nueve</button>
+            <button class="option-btn">cien</button>
+        </div>
+    </div>
+    <details>
+        <summary>Ver soluciones explicadas</summary>
+        <ul>
+            <li>5 – <b>cinco</b></li>
+            <li>7 – <b>siete</b></li>
+            <li>6 – <b>seis</b></li>
+            <li>12 – <b>doce</b></li>
+            <li>11 – <b>once</b></li>
+            <li>15 – <b>quince</b></li>
+            <li>20 – <b>veinte</b></li>
+            <li>50 – <b>cincuenta</b></li>
+            <li>67 – <b>sesenta y siete</b></li>
+            <li>99 – <b>noventa y nueve</b></li>
+        </ul>
+    </details>
+
+    <!-- СВЯЗЬ С ТЕМОЙ ОДЕЖДЫ -->
+    <div class="vocab-box">
+        <h3>👗 Repaso de la ropa (Осенний бонус)</h3>
+        <p>Вставьте подходящее слово из списка в предложения ниже:</p>
+        <p style="font-size: 0.9em; font-weight: bold; color: #555;">Слова: <i>abrigo, bufanda, jersey, botas</i></p>
+        
+        <div class="question" data-answer="abrigo">
+            <p>1. Cuando hace frío en otoño, yo llevo un ___ largo.</p>
+            <div class="options">
+                <button class="option-btn">bufanda</button>
+                <button class="option-btn">abrigo</button>
+                <button class="option-btn">jersey</button>
+            </div>
+        </div>
+        <div class="question" data-answer="bufanda">
+            <p>2. Mi madre tiene una ___ de color burdeos para el cuello.</p>
+            <div class="options">
+                <button class="option-btn">bufanda</button>
+                <button class="option-btn">abrigo</button>
+                <button class="option-btn">botas</button>
+            </div>
+        </div>
+        <div class="question" data-answer="botas">
+            <p>3. En otoño llueve mucho, por eso llevamos ___ resistentes al agua.</p>
+            <div class="options">
+                <button class="option-btn">jerseys</button>
+                <button class="option-btn">bufandas</button>
+                <button class="option-btn">botas</button>
+            </div>
+        </div>
+        <div class="question" data-answer="jersey">
+            <p>4. Ella lleva un ___ de lana muy cómodo y clásico.</p>
+            <div class="options">
+                <button class="option-btn">abrigo</button>
+                <button class="option-btn">jersey</button>
+                <button class="option-btn">botas</button>
+            </div>
+        </div>
+        <div class="question" data-answer="llevar">
+            <p>5. Me gusta ___ ropa cómoda y elegante en el trabajo.</p>
+            <div class="options">
+                <button class="option-btn">llevar</button>
+                <button class="option-btn">ponerse</button>
+                <button class="option-btn">comprar</button>
+            </div>
+        </div>
+        <div class="question" data-answer="comprar">
+            <p>6. El sábado nosotras vamos a ___ ropa nueva en Zara.</p>
+            <div class="options">
+                <button class="option-btn">quedar</button>
+                <button class="option-btn">comprar</button>
+                <button class="option-btn">llevar</button>
+            </div>
+        </div>
+
+        <details>
+            <summary>Ver soluciones explicadas (Одежда)</summary>
+            <ul>
+                <li>llevo un <b>abrigo</b> largo (пальто)</li>
+                <li>una <b>bufanda</b> de color burdeos (шарф)</li>
+                <li>llevamos <b>botas</b> resistentes al agua (ботинки)</li>
+                <li>un <b>jersey</b> de lana (свитер)</li>
+                <li>Me gusta <b>llevar</b> ropa (носить)</li>
+                <li>vamos a <b>comprar</b> ropa (покупать)</li>
+            </ul>
+        </details>
+    </div>
+
+    <!-- СЕКЦИЯ РЕЗУЛЬТАТА -->
+    <div class="result-section">
+        <h3>¿Cómo has hecho el examen?</h3>
+        <p>Нажмите кнопку ниже, чтобы увидеть ваш результат.</p>
+        <button class="result-btn" onclick="calculateScore()">Проверить результат</button>
+        
+        <div id="final-score" class="final-score-display">
+            <!-- Сюда выведется текст -->
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Логика для интерактивных кнопок в вопросах
+    document.querySelectorAll('.question').forEach(questionBlock => {
+        const correctAnswer = questionBlock.getAttribute('data-answer');
+        const buttons = questionBlock.querySelectorAll('.option-btn');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Если кнопка уже заблокирована, ничего не делаем
+                if (this.disabled) return;
+
+                // Проверяем ответ
+                if (this.textContent.trim() === correctAnswer) {
+                    this.classList.add('correct');
+                } else {
+                    this.classList.add('wrong');
+                }
+
+                // Блокируем ВСЕ кнопки в этом вопросе после первого клика
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                });
+            });
+        });
+    });
+
+    // Логика для подсчета итогового результата
+    function calculateScore() {
+        const allQuestions = document.querySelectorAll('.question');
+        let correctCount = 0;
+        let answeredCount = 0; // Считаем только те вопросы, где был дан ответ
+
+        allQuestions.forEach(question => {
+            const correctAnswer = question.getAttribute('data-answer');
+            // Ищем кнопку, которая была нажата (получила класс correct или wrong)
+            const selectedButton = question.querySelector('.option-btn.correct, .option-btn.wrong');
+            
+            if (selectedButton) {
+                answeredCount++;
+                if (selectedButton.classList.contains('correct')) {
+                    correctCount++;
+                }
+            }
+        });
+
+        // Если вопросы остались без ответа, мы считаем процент от ВСЕХ вопросов,
+        // чтобы оценка была честной (за пропуски баллы не начисляются)
+        const totalQuestions = allQuestions.length; 
+        const percentage = Math.round((correctCount / totalQuestions) * 100);
+
+        const scoreDisplay = document.getElementById('final-score');
+        
+        // Фраза показывается ВСЕГДА, как вы и просили
+        scoreDisplay.innerHTML = `
+            <div style="font-size: 1.5em; margin-bottom: 10px;">¡Eres genial! ¡Enhorabuena!</div>
+            <div style="color: #555;">Правильных ответов: ${correctCount} из ${totalQuestions}</div>
+            <div style="font-size: 1.8em; color: #d35400; margin-top: 5px;">${percentage}%</div>
+            ${answeredCount < totalQuestions ? `<div style="font-size: 0.9em; color: #888; margin-top: 5px;">(Вы ответили на ${answeredCount} из ${totalQuestions} вопросов)</div>` : ''}
+        `;
+        scoreDisplay.style.display = 'block';
+        
+        // Прокрутка к результату
+        scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+</script>
+
+</body>
+</html>
