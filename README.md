@@ -35,3 +35,6 @@ HlopushkiOtono https://arinakasatova1433-tech.github.io/Presente-Indicativo/Hlop
 
 Ropa https://arinakasatova1433-tech.github.io/Presente-Indicativo/Ropa.html
 
+ExamenA1 https://arinakasatova1433-tech.github.io/Presente-Indicativo/ExamenA1.html
+
+
