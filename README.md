@@ -37,4 +37,6 @@ Ropa https://arinakasatova1433-tech.github.io/Presente-Indicativo/Ropa.html
 
 ExamenA1 https://arinakasatova1433-tech.github.io/Presente-Indicativo/ExamenA1.html
 
+ChekListVerbosA1 https://arinakasatova1433-tech.github.io/Presente-Indicativo/ChekListVerbosA1.html
+
 
