@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чек-лист глаголов A1</title>
+    <style>
+        :root {
+            --bg-color: #e8f5e9; /* Насыщенный салатовый фон */
+            --card-bg: #ffffff;
+            --primary: #d35400; /* Рыжий (акцент) */
+            --accent-light: #c8e6c9; /* Светло-салатовый для таблиц */
+            --accent-medium: #a5d6a7; /* Средний салатовый */
+            --accent-dark: #81c784; /* Темный салатовый для границ */
+            --text: #2e3d2e; /* Темно-зеленоватый текст для мягкости */
+            --border: #c8e6c9;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-top: 6px solid var(--primary);
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-style: italic;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent-medium);
+            padding-bottom: 5px;
+            margin-top: 35px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-icon {
+            font-size: 1.2em;
+        }
+        .intro-text {
+            background: #f1f8e9;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-dark);
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            color: #444;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: var(--accent-light); /* Салатовый фон для заголовков */
+            color: #2e7d32; /* Темно-зеленый текст */
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        tr:hover {
+            background-color: #f9fdf9;
+        }
+        td:first-child {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        /* Стили для чекбоксов */
+        .checkbox-cell {
+            text-align: center;
+            width: 60px;
+        }
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent-dark);
+        }
+        .checked-row {
+            background-color: #e8f5e9 !important;
+            opacity: 0.8;
+        }
+        .checked-row td:first-child {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .note-box {
+            background: #f1f8e9;
+            border: 2px dashed var(--accent-dark);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 40px;
+        }
+        .note-box h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        .note-box ul {
+            margin-bottom: 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #888;
+            border-top: 1px solid var(--accent-light);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📋 Чек-лист глаголов A1</h1>
+    <div class="subtitle">Для отметок об освоении</div>
+
+    <div class="intro-text">
+        <strong>Как пользоваться:</strong> Отмечайте галочкой те глаголы, которые уже уверенно используются в речи (в Presente de Indicativo). 
+        Глаголы сгруппированы по функциям. Обратите внимание на пометки в колонке «Особенности».
+    </div>
+
+    <!-- 1. БАЗОВЫЕ -->
+    <h2><span class="section-icon">🌿</span> 1. Базовые глаголы (личная информация)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Глагол</th>
+                <th style="width: 30%;">Значение</th>
+                <th>Особенности / Комментарий</th>
+                <th class="checkbox-cell">✔️</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ser</td>
+                <td>быть (сущность)</td>
+                <td>Национальность, профессия, характеристика</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Estar</td>
+                <td>быть (состояние/место)</td>
+                <td>Местоположение, временное состояние</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Tener</td>
+                <td>иметь</td>
+                <td>Возраст, possession, физические черты</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Llamar</td>
+                <td>звонить / называть</td>
+                <td>—</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Vivir</td>
+                <td>жить</td>
+                <td>Правильный глагол</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Hablar</td>
+                <td>говорить</td>
+                <td>Правильный глагол</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 2. ПОВСЕДНЕВНЫЕ -->
+    <h2><span class="section-icon">🌿</span> 2. Глаголы повседневной рутины</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Глагол</th>
+                <th style="width: 30%;">Значение</th>
+                <th>Особенности / Комментарий</th>
+                <th class="checkbox-cell">✔️</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Desayunar</td>
+                <td>завтракать</td>
+                <td>Правильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Comer</td>
+                <td>есть (обед)</td>
+                <td>Правильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Cenar</td>
+                <td>ужинать</td>
+                <td>Правильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Trabajar</td>
+                <td>работать</td>
+                <td>Правильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Estudiar</td>
+                <td>учиться</td>
+                <td>Правильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 3. ВКУСЫ -->
+    <h2><span class="section-icon">🌿</span> 3. Глаголы вкусов и предпочтений</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Глагол</th>
+                <th style="width: 30%;">Значение</th>
+                <th>Особенности / Комментарий</th>
+                <th class="checkbox-cell">✔️</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Gustar</td>
+                <td>нравиться</td>
+                <td><em>Me gusta / Me gustan</em></td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Encantar</td>
+                <td>очень нравиться</td>
+                <td><em>Me encanta / Me encantan</em></td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Interesar</td>
+                <td>интересовать</td>
+                <td><em>Me interesa</em></td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Preferir</td>
+                <td>предпочитать</td>
+                <td><em>Prefiero...</em> (e→ie)</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Querer</td>
+                <td>хотеть</td>
+                <td><em>Quiero...</em> (e→ie)</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 4. МОДАЛЬНЫЕ -->
+    <h2><span class="section-icon">🌿</span> 4. Модальные и вспомогательные глаголы</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Глагол</th>
+                <th style="width: 30%;">Значение</th>
+                <th>Особенности / Комментарий</th>
+                <th class="checkbox-cell">✔️</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ir</td>
+                <td>идти</td>
+                <td><em>Voy a estudiar</em> (собираться что-то делать)</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Poder</td>
+                <td>мочь</td>
+                <td><em>Puedo...</em> (o→ue)</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Deber</td>
+                <td>быть должным</td>
+                <td><em>Debo...</em></td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Hacer</td>
+                <td>делать</td>
+                <td><em>Hago...</em> (неправильный в 1 л. ед.ч.)</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Poner</td>
+                <td>класть</td>
+                <td><em>Pongo...</em> (неправильный в 1 л. ед.ч.)</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 5. ГОРОД И ПОКУПКИ -->
+    <h2><span class="section-icon">🌿</span> 5. Глаголы для ориентации и покупок</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Глагол</th>
+                <th style="width: 30%;">Значение</th>
+                <th>Особенности / Комментарий</th>
+                <th class="checkbox-cell">✔️</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ir</td>
+                <td>идти (куда-то)</td>
+                <td><em>Voy al centro</em></td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Venir</td>
+                <td>приходить</td>
+                <td><em>Vengo...</em> (неправильный)</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Coger</td>
+                <td>брать / садиться (на транспорт)</td>
+                <td><em>Cojo el autobús</em></td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Comprar</td>
+                <td>покупать</td>
+                <td>Правильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Costar</td>
+                <td>стоить</td>
+                <td><em>¿Cuánto cuesta?</em> (o→ue)</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Pagar</td>
+                <td>платить</td>
+                <td>Правильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Buscar</td>
+                <td>искать</td>
+                <td>Правильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Llevar</td>
+                <td>носить / нести</td>
+                <td>Правильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Necesitar</td>
+                <td>нуждаться</td>
+                <td>Правильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 6. НЕПРАВИЛЬНЫЕ -->
+    <h2><span class="section-icon">🌿</span> 6. Частотные неправильные глаголы (Presente)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 25%;">Инфинитив</th>
+                <th style="width: 25%;">1 л. ед.ч. (yo)</th>
+                <th>Тип неправильности</th>
+                <th class="checkbox-cell">✔️</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ser</td>
+                <td>soy</td>
+                <td>Полностью неправильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Estar</td>
+                <td>estoy</td>
+                <td>Ударение</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Ir</td>
+                <td>voy</td>
+                <td>Полностью неправильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Tener</td>
+                <td>tengo</td>
+                <td>-go</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Hacer</td>
+                <td>hago</td>
+                <td>-go</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Poner</td>
+                <td>pongo</td>
+                <td>-go</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Salir</td>
+                <td>salgo</td>
+                <td>-go</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Venir</td>
+                <td>vengo</td>
+                <td>-go</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Conocer</td>
+                <td>conozco</td>
+                <td>-zc-</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Saber</td>
+                <td>sé</td>
+                <td>Полностью неправильный</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Decir</td>
+                <td>digo</td>
+                <td>-go / e→i</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Poder</td>
+                <td>puedo</td>
+                <td>o→ue</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Querer</td>
+                <td>quiero</td>
+                <td>e→ie</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Preferir</td>
+                <td>prefiero</td>
+                <td>e→ie</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Dormir</td>
+                <td>duermo</td>
+                <td>o→ue</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Jugar</td>
+                <td>juego</td>
+                <td>u→ue</td>
+                <td class="checkbox-cell"><input type="checkbox"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ПРИМЕЧАНИЕ -->
+    <div class="note-box">
+        <h3>💡 Рекомендации</h3>
+        <ul>
+            <li><strong>Приоритет:</strong> Ser, Estar, Tener, Ir, Gustar и возвратные глаголы рутины (убраны из списка, но их можно добавить отдельно, если нужно).</li>
+            <li><strong>Связь с темой «Одежда»:</strong> Из этого списка особенно полезны: <em>Llevar, Comprar, Costar, Preferir, Gustar, Querer</em>.</li>
+            <li><strong>Формат:</strong> Распечатайте этот чек-лист или откройте в браузере. Отмечайте глаголы по мере их автоматизации в речи.</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        Чек-лист глаголов уровня A1
+    </div>
+</div>
+
+<script>
+    // Логика для подсветки отмеченных строк
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const row = this.closest('tr');
+            if (this.checked) {
+                row.classList.add('checked-row');
+            } else {
+                row.classList.remove('checked-row');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
